@@ -40,10 +40,6 @@ public class dag_Reader {
         level = Integer.parseInt(l.getAttribute("number"));
 
 
-        // Extract the schedulers that will be used
-        NodeList schedList = doc.getElementsByTagName("schedule");
-
-
 
 
 
