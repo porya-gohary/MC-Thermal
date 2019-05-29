@@ -15,6 +15,8 @@ import org.w3c.dom.Element;
 
 public class dag_Reader {
     File xml;
+    int core;
+    int level;
     public dag_Reader(File input) throws ParserConfigurationException, IOException, SAXException {
         xml=input;
         readXML();
@@ -30,7 +32,19 @@ public class dag_Reader {
         // Extract number of cores
         NodeList cList = doc.getElementsByTagName("cores");
         Element c = (Element) cList.item(0);
-        //setNbCores(Integer.parseInt(c.getAttribute("number")));
+        core = Integer.parseInt(c.getAttribute("number"));
+
+        // Extract number of levels
+        NodeList lList = doc.getElementsByTagName("levels");
+        Element l = (Element) lList.item(0);
+        level = Integer.parseInt(l.getAttribute("number"));
+
+
+        // Extract the schedulers that will be used
+        NodeList schedList = doc.getElementsByTagName("schedule");
+
+
+
 
 
     }
