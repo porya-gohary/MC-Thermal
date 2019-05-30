@@ -32,7 +32,7 @@ public class dag_Reader {
         Element c = (Element) cList.item(0);
         //setNbCores(Integer.parseInt(c.getAttribute("number")));
 
-
+        //HELLO
     }
 
 }
