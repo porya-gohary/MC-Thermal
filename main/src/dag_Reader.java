@@ -6,6 +6,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.w3c.dom.Document;
@@ -34,6 +35,7 @@ public class dag_Reader {
     private Set<McDAG> dags;
     public dag_Reader(File input) throws ParserConfigurationException, IOException, SAXException {
         xml=input;
+        dags = new HashSet<McDAG>();
         readXML();
 
 
