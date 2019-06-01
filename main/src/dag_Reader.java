@@ -174,6 +174,26 @@ public class dag_Reader {
 
     }
 
+    // A Recursive Method For Finding Longest Path To Leaves for Vertex
+    public int LPtoLeaves(Vertex vertex){
+        int LPL=0;
+        if(vertex.isExitNode()){
+            if(vertex.getWcet(0)>vertex.getWcet(1)){
+                return vertex.getWcet(0);
+            }else
+                return vertex.getWcet(1);
+        }
+
+        for (Edge e : vertex.getSndEdges()){
+//            if(LPtoLeaves(e.getDest())>LPL) LPL=LPtoLeaves(e.getDest());
+
+
+
+        }
+
+        return 0;
+    }
+
     /* Getters and setters */
 
     public File getInputFile() {
