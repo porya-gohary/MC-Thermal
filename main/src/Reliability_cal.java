@@ -61,7 +61,7 @@ public class Reliability_cal {
                 line = reader.readLine();
             }
             reader.close();
-            System.out.println(rel_f.toString());
+            System.out.println("...................");
         } catch (IOException e) {
             e.printStackTrace();
         }

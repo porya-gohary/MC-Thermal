@@ -37,7 +37,15 @@ public class dag_Reader {
         xml=input;
         dags = new HashSet<McDAG>();
         readXML();
-
+        McDAG dag=dags.iterator().next();
+        for (Vertex a : dag.getVertices()) {
+            System.out.print(a.getName());
+            System.out.print(" >>>> ");
+            for (Edge e : a.getSndEdges()){
+                System.out.print(e.getDest().getName()+"   ");
+            }
+            System.out.println();
+        }
 
     }
     public void readXML() throws ParserConfigurationException, IOException, SAXException {
