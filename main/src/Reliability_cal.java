@@ -86,20 +86,27 @@ public class Reliability_cal {
 
     public void cal(){
         rou_min=v_min/v_max;
+       // double R_max=landa0*pow(10,(d/(1-rou_min)));
         for(double v_i:v){
             rou=v_i/v_max;
             t_i=t_min/rou;
             landa=(landa0*pow(10, ((d*(1-rou))/(1-rou_min))));
             landa=(-1)*landa;
-            double r=exp((landa*t_i/rou));
+            double r=exp((landa*t_i));
             R_1=pow(r,(ceil(n/2)));
-            for (int l = 0; l < (floor(n/2)); l++) {
-                R_2+=combinations((int) n,l)*(pow((1-r),l))*(pow(r,(n-l)));
+//            for (int l = 1; l <= (floor(n/2)); l++) {
+//                R_2+=combinations((int) n,l)*(pow((1-r),l))*(pow(r,(n-l)));
+//            }
+            for (int k = 1; k <= (floor(n/2)); k++) {
+                for (int j = 1; j <= k; j++) {
+                    R_2+=combinations((int) ceil(n/2),j)*(pow((1-r),j))*(pow(r,(ceil(n/2)-j)))*combinations((int) floor(n/2),k-j)
+                    *(pow((1-landa0),(k-j)))*(pow(landa0,(floor(n/2)-(k-j))));
+                }
             }
 
             System.out.println("Reliability For " + v_i + " v =  "+(R_1+R_2)+" ");
-            System.out.println("Reliability For " + v_i + " v =  "+(R_1)+" ");
-            System.out.println("Reliability For " + v_i + " v =  "+(R_2)+" ");
+            System.out.println("Reliability [R(1)] For " + v_i + " v =  "+(R_1)+" ");
+            System.out.println("Reliability [R(2)] For " + v_i + " v =  "+(R_2)+" ");
             System.out.println("---------------------------");
             R_1=0;
             R_2=0;
@@ -108,7 +115,7 @@ public class Reliability_cal {
     }
 
     private int combinations(int n, int k){
-        return factorial(n) / (factorial (k) * factorial (n-k));
+        return (factorial(n) / (factorial (k) * factorial (n-k)));
     }
     private int factorial(int n){
         if (n == 0)
