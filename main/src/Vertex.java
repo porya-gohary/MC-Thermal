@@ -33,6 +33,7 @@ public abstract class Vertex {
 	
 	private Set<Edge> rcvEdges;
 	private Set<Edge> sndEdges;
+	private int LPL;
 
 	
 	public Vertex (int id, String name, int nbLevels) {
@@ -256,5 +257,13 @@ public abstract class Vertex {
 
 	public void setCpFromNode(int cpFromNode[]) {
 		this.cpFromNode = cpFromNode;
+	}
+
+	public void setLPL(int LPL) {
+		this.LPL = LPL;
+	}
+
+	public int getLPL() {
+		return LPL;
 	}
 }

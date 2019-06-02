@@ -33,21 +33,37 @@ public class dag_Reader {
     private int nbLevels;
 
     private Set<McDAG> dags;
+
     public dag_Reader(File input) throws ParserConfigurationException, IOException, SAXException {
-        xml=input;
+
+        xml = input;
         dags = new HashSet<McDAG>();
         readXML();
-        McDAG dag=dags.iterator().next();
+        McDAG dag = dags.iterator().next();
         for (Vertex a : dag.getVertices()) {
             System.out.print(a.getName());
             System.out.print(" >>>> ");
-            for (Edge e : a.getSndEdges()){
-                System.out.print(e.getDest().getName()+"   ");
+            for (Edge e : a.getSndEdges()) {
+                System.out.print(e.getDest().getName() + "   ");
             }
             System.out.println();
         }
+        System.out.println("..................");
 
+        for (Vertex a : dag.getVertices()) {
+            a.setLPL(LPtoLeaves(a));
+        }
+        for (Vertex a : dag.getVertices()) {
+            System.out.print(a.getName());
+            System.out.print(" -----> ");
+            System.out.println(a.getLPL());
+
+
+        }
     }
+
+
+
     public void readXML() throws ParserConfigurationException, IOException, SAXException {
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -180,18 +196,21 @@ public class dag_Reader {
         if(vertex.isExitNode()){
             if(vertex.getWcet(0)>vertex.getWcet(1)){
                 return vertex.getWcet(0);
-            }else
+            }else {
                 return vertex.getWcet(1);
+            }
         }
 
         for (Edge e : vertex.getSndEdges()){
-//            if(LPtoLeaves(e.getDest())>LPL) LPL=LPtoLeaves(e.getDest());
-
-
-
+            if(LPtoLeaves(e.getDest())>LPL) LPL=LPtoLeaves(e.getDest());
+        }
+        if(vertex.getWcet(0)>vertex.getWcet(1)){
+            LPL+=vertex.getWcet(0);
+        }else{
+            LPL+=vertex.getWcet(1);
         }
 
-        return 0;
+        return LPL;
     }
 
     /* Getters and setters */
