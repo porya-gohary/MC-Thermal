@@ -96,7 +96,11 @@ public class Reliability_cal {
             for (int l = 0; l < (floor(n/2)); l++) {
                 R_2+=combinations((int) n,l)*(pow((1-r),l))*(pow(r,(n-l)));
             }
+
             System.out.println("Reliability For " + v_i + " v =  "+(R_1+R_2)+" ");
+            System.out.println("Reliability For " + v_i + " v =  "+(R_1)+" ");
+            System.out.println("Reliability For " + v_i + " v =  "+(R_2)+" ");
+            System.out.println("---------------------------");
             R_1=0;
             R_2=0;
         }
