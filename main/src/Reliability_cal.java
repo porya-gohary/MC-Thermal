@@ -56,6 +56,7 @@ public class Reliability_cal {
         Rel = rel;
         this.v=v;
         cal();
+        Read_file();
     }
 
 //    public Reliability_cal() {
@@ -67,8 +68,10 @@ public class Reliability_cal {
         rel_f=new ArrayList<>();
         BufferedReader reader;
         try {
-            reader = new BufferedReader(new FileReader(
-                    "C:\\Users\\PC Khafan\\Desktop\\MC-Thermal\\rel.txt"));
+            //reader = new BufferedReader(new FileReader(
+                    //"C:\\Users\\PC Khafan\\Desktop\\MC-Thermal\\rel.txt"));
+            reader=new BufferedReader(new FileReader(Rel));
+
             String line = reader.readLine();
 
             while (line != null) {
@@ -99,8 +102,9 @@ public class Reliability_cal {
 //            }
             for (int k = 1; k <= (floor(n/2)); k++) {
                 for (int j = 1; j <= k; j++) {
-                    R_2+=combinations((int) ceil(n/2),j)*(pow((1-r),j))*(pow(r,(ceil(n/2)-j)))*combinations((int) floor(n/2),k-j)
-                    *(pow((1-landa0),(k-j)))*(pow(landa0,(floor(n/2)-(k-j))));
+                    double r_max=exp(-landa0*t_min);
+                    R_2+=combinations(((int) ceil(n/2)),j) * (pow((1-r),j))*(pow(r,(ceil(n/2)-j)))*combinations((int) floor(n/2),k-j)
+                    *(pow((1-r_max),(k-j)))*(pow(r_max,(floor(n/2)-(k-j))));
                 }
             }
 
