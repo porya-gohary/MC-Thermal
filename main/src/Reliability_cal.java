@@ -25,7 +25,7 @@ public class Reliability_cal {
     double t_i;
     //minimum Reliability For each Task
     File Rel;
-    ArrayList<Float> rel_f;
+    ArrayList<Double> rel_f;
     //Minimum Voltage
     double v_min;
 
@@ -42,9 +42,13 @@ public class Reliability_cal {
 
     //Number Of Copy For Each Task
     double n;
+    McDAG dag;
+
+    String v_name;
 
 
-    public Reliability_cal(int n,double landa0, double d,  double v_max, double v_min, double t_min, File rel, double [] v) {
+
+    public Reliability_cal(int n,double landa0, double d,  double v_max, double v_min, File rel, double [] v,McDAG dag) {
         this.n=n;
         this.landa0 = landa0;
         this.d = d;
@@ -52,36 +56,37 @@ public class Reliability_cal {
         this.v_max = v_max;
         this.v_min = v_min;
 
-        this.t_min = t_min;
         Rel = rel;
         this.v=v;
-        cal();
+        this.dag=dag;
+        //cal();
         Read_file();
     }
 
-//    public Reliability_cal() {
-//        Read_file();
-//    }
 
+    //Read Reliability From File And Set it on Every Vertices
     public void Read_file (){
-        //Read Reliability From File
+
         rel_f=new ArrayList<>();
         BufferedReader reader;
         try {
-            //reader = new BufferedReader(new FileReader(
-                    //"C:\\Users\\PC Khafan\\Desktop\\MC-Thermal\\rel.txt"));
+
             reader=new BufferedReader(new FileReader(Rel));
 
             String line = reader.readLine();
+            int i=0;
+            while (dag.getVertices().size()!= i) {
+                rel_f.add(Double.parseDouble(line));
+//                System.out.println(line);
+                String s="D0N"+i;
+                dag.getNodebyName(s).setReliability(Double.parseDouble(line));
 
-            while (line != null) {
-                rel_f.add(Float.parseFloat(line));
-                System.out.println(line);
-                // read next line
+                i++;
                 line = reader.readLine();
             }
             reader.close();
-            System.out.println("...................");
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -89,7 +94,7 @@ public class Reliability_cal {
 
     public void cal(){
         rou_min=v_min/v_max;
-       // double R_max=landa0*pow(10,(d/(1-rou_min)));
+
         for(double v_i:v){
             rou=v_i/v_max;
             t_i=t_min/rou;
@@ -100,27 +105,37 @@ public class Reliability_cal {
 //            for (int l = 1; l <= (floor(n/2)); l++) {
 //                R_2+=combinations((int) n,l)*(pow((1-r),l))*(pow(r,(n-l)));
 //            }
+            double r_max=exp(-landa0*t_min);
             for (int k = 1; k <= (floor(n/2)); k++) {
                 for (int j = 1; j <= k; j++) {
-                    double r_max=exp(-landa0*t_min);
                     R_2+=combinations(((int) ceil(n/2)),j) * (pow((1-r),j))*(pow(r,(ceil(n/2)-j)))*combinations((int) floor(n/2),k-j)
                     *(pow((1-r_max),(k-j)))*(pow(r_max,(floor(n/2)-(k-j))));
                 }
             }
-
-            System.out.println("Reliability For " + v_i + " v =  "+(R_1+R_2)+" ");
-            System.out.println("Reliability [R(1)] For " + v_i + " v =  "+(R_1)+" ");
-            System.out.println("Reliability [R(2)] For " + v_i + " v =  "+(R_2)+" ");
-            System.out.println("---------------------------");
+            if((R_1+R_2)>= dag.getNodebyName(v_name).getReliability()){
+                dag.getNodebyName(v_name).setMin_voltage(v_i);
+                System.out.println("Task "+ v_name +" Voltage= " + v_i + " v  and R =  "+(R_1+R_2)+" ");
+                System.out.println("---------------------------");
+                R_1=0;
+                R_2=0;
+                return;
+            }
             R_1=0;
             R_2=0;
+//            System.out.println("Task "+ v_name +" Voltage=" + v_i + " v  and R =  "+(R_1+R_2)+" ");
+           // System.out.println("Reliability [R(1)] For " + v_i + " v =  "+(R_1)+" ");
+           // System.out.println("Reliability [R(2)] For " + v_i + " v =  "+(R_2)+" ");
+
+
         }
 
     }
 
+    //Simple Function For Calculating Combination of Two Number
     private int combinations(int n, int k){
         return (factorial(n) / (factorial (k) * factorial (n-k)));
     }
+    //Function For Calculating Factorial
     private int factorial(int n){
         if (n == 0)
             return 1;
@@ -129,4 +144,11 @@ public class Reliability_cal {
     }
 
 
+    public void setV_name(String v_name) {
+        this.v_name = v_name;
+    }
+
+    public void setT_min(double t_min) {
+        this.t_min = t_min;
+    }
 }

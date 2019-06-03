@@ -33,33 +33,36 @@ public class dag_Reader {
     private int nbLevels;
 
     private Set<McDAG> dags;
+    private McDAG dag;
 
     public dag_Reader(File input) throws ParserConfigurationException, IOException, SAXException {
 
         xml = input;
         dags = new HashSet<McDAG>();
         readXML();
-        McDAG dag = dags.iterator().next();
-        for (Vertex a : dag.getVertices()) {
-            System.out.print(a.getName());
-            System.out.print(" >>>> ");
-            for (Edge e : a.getSndEdges()) {
-                System.out.print(e.getDest().getName() + "   ");
-            }
-            System.out.println();
-        }
+        dag = dags.iterator().next();
+        System.out.println("Number Of Tasks in Graph =  "+dag.getVertices().size());
+
+//        for (Vertex a : dag.getVertices()) {
+//            System.out.print(a.getName());
+//            System.out.print(" >>>> ");
+//            for (Edge e : a.getSndEdges()) {
+//                System.out.print(e.getDest().getName() + "   ");
+//            }
+//            System.out.println();
+//        }
         System.out.println("..................");
 
         for (Vertex a : dag.getVertices()) {
             a.setLPL(LPtoLeaves(a));
         }
-        for (Vertex a : dag.getVertices()) {
-            System.out.print(a.getName());
-            System.out.print(" -----> ");
-            System.out.println(a.getLPL());
-
-
-        }
+//        for (Vertex a : dag.getVertices()) {
+//            System.out.print(a.getName());
+//            System.out.print(" -----> ");
+//            System.out.println(a.getLPL());
+//
+//
+//        }
     }
 
 
@@ -319,4 +322,11 @@ public class dag_Reader {
         this.sched = sched;
     }
 
+    public void setDag(McDAG dag) {
+        this.dag = dag;
+    }
+
+    public McDAG getDag() {
+        return dag;
+    }
 }

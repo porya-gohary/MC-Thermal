@@ -34,6 +34,9 @@ public abstract class Vertex {
 	private Set<Edge> rcvEdges;
 	private Set<Edge> sndEdges;
 	private int LPL;
+	private Double reliability;
+	private Double min_voltage;
+	private int TSP_Active;
 
 	
 	public Vertex (int id, String name, int nbLevels) {
@@ -47,8 +50,7 @@ public abstract class Vertex {
 	
 	/**
 	 * Returns the jth Ci(J)
-	 * @param j
-	 * @return
+	 *
 	 */
 	public int getWcet (int level) {
 		return this.wcets[level];
@@ -68,9 +70,6 @@ public abstract class Vertex {
 	
 	/**
 	 * Calculates the critical Path from a given node
-	 * @param n
-	 * @param mode
-	 * @return
 	 */
 	public int CPfromNode (short mode) {
 		
@@ -113,9 +112,7 @@ public abstract class Vertex {
 	
 	/**
 	 * Calculates the critical Path from a given node
-	 * @param n
-	 * @param mode
-	 * @return
+
 	 */
 	public int CPfromNode (int level) {
 		
@@ -266,4 +263,24 @@ public abstract class Vertex {
 	public int getLPL() {
 		return LPL;
 	}
+
+	public void setReliability(Double reliability) {
+		this.reliability = reliability;
+	}
+
+	public Double getReliability() {
+		return reliability;
+	}
+
+	public Double getMin_voltage() {
+		return min_voltage;
+	}
+
+	public void setMin_voltage(Double min_voltage) {
+		this.min_voltage = min_voltage;
+	}
+
+	public int getTSP_Active() {return TSP_Active;	}
+
+	public void setTSP_Active(int TSP_Active) {	this.TSP_Active = TSP_Active;}
 }
