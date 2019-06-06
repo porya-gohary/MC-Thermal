@@ -16,7 +16,7 @@ public class main {
 
         File file=new File("test.xml");
         dag_Reader dr=new dag_Reader(file);
-        dr.readXML();
+        //dr.readXML();
         Reliability_cal rc=new Reliability_cal(3,0.000001,3,1.26,0.912,rel,v,dr.getDag());
 
         File tsp_input=new File("TSP.txt");
