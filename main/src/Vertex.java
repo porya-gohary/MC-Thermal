@@ -1,6 +1,6 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2018 Roberto Medina
- * Written by Roberto Medina (rmedina@telecom-paristech.fr)
+ * Copyright (c) 2019 Porya Gohary
+ * Written by Porya Gohary
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-public abstract class Vertex {
+public abstract class Vertex implements Comparable<Vertex>{
 	
 	public static final short LO = 0;
 	public static final short HI = 1;
@@ -37,6 +37,11 @@ public abstract class Vertex {
 	private Double reliability;
 	private Double min_voltage;
 	private int TSP_Active;
+	//Safe Start Time
+	private int SST;
+	//Scheduled
+	private int scheduled=0;
+
 
 	
 	public Vertex (int id, String name, int nbLevels) {
@@ -203,6 +208,18 @@ public abstract class Vertex {
 		}
 		return true;
 	}
+
+	public int compareTo(Vertex obj)
+	{
+		// compareTo returns a negative number if this is less than obj,
+		// a positive number if this is greater than obj,
+		// and 0 if they are equal.
+		return this.getLPL() - obj.getLPL();
+	}
+
+	public int getbigWCET(){
+		return (this.getWcet(0) > this.getWcet(1)) ? this.getWcet(0) : this.getWcet(1);
+	}
 	
 	/*
 	 * Getters and setters
@@ -283,4 +300,20 @@ public abstract class Vertex {
 	public int getTSP_Active() {return TSP_Active;	}
 
 	public void setTSP_Active(int TSP_Active) {	this.TSP_Active = TSP_Active;}
+
+	public void setSST(int SST) {
+		this.SST = SST;
+	}
+
+	public int getSST() {
+		return SST;
+	}
+
+	public int getScheduled() {
+		return scheduled;
+	}
+
+	public void setScheduled(int scheduled) {
+		this.scheduled = scheduled;
+	}
 }

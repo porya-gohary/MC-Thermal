@@ -1,6 +1,8 @@
 public class CPU {
     //Core of CPU   [#Core Number] [#Time]
     private String[][] core;
+    //Power Trace of Cores
+    private double [][] power;
     //Deadline of System
     private int deadline;
     //Number of Core in CPU
@@ -10,6 +12,7 @@ public class CPU {
         this.deadline = deadline;
         this.n_Cores = n_Cores;
         core=new String[n_Cores][deadline];
+        power=new double [n_Cores][deadline];
     }
     //GET Running Task in specific Time
     public String getRunningTask(int Core,int Time){
@@ -39,5 +42,14 @@ public class CPU {
 
     public int getDeadline() {
         return deadline;
+    }
+
+    public void instatiate_power(double min_power){
+        for (int i = 0; i < deadline; i++) {
+            for (int j = 0; j < n_Cores; j++) {
+                power[j][i]=min_power;
+            }
+
+        }
     }
 }

@@ -46,6 +46,7 @@ public class TSP {
             }else{
                 //if DAG is Infeasible for this configuration
                 System.err.println(a.getName()+"  ⚠ ⚠ Infeasible!");
+                System.exit(1);
             }
 
         }

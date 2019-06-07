@@ -62,6 +62,6 @@
             <port dstActor="D0N4" name="p9" srcActor="D0N2"/>
         </ports>
     </mcdag>
-    <cores number="2"/>
+    <cores number="4"/>
     <levels number="2"/>
 </mcsystem>
