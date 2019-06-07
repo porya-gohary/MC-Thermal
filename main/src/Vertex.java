@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2019 Porya Gohary
- * Written by Porya Gohary
+ * Written by Porya Gohary (Email: gohary@ce.sharif.edu)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -315,5 +315,9 @@ public abstract class Vertex implements Comparable<Vertex>{
 
 	public void setScheduled(int scheduled) {
 		this.scheduled = scheduled;
+	}
+
+	public boolean check_runnable(){
+		return true;
 	}
 }
