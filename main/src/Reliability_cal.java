@@ -48,7 +48,7 @@ public class Reliability_cal {
 
 
 
-    public Reliability_cal(int n,double landa0, double d,  double v_max, double v_min, File rel, double [] v,McDAG dag) {
+    public Reliability_cal(double n,double landa0, double d,  double v_max, double v_min, File rel, double [] v,McDAG dag) {
         this.n=n;
         this.landa0 = landa0;
         this.d = d;

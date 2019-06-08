@@ -9,6 +9,9 @@ import java.io.IOException;
 public class main {
     public static void main(String args[]) throws IOException, SAXException, ParserConfigurationException {
         File rel= new File("rel.txt");
+        double n=5;
+        int deadline=100;
+        int n_core=4;
         double v[]={0.912,0.9125,0.95,0.987,1.025,1.065,1.1,1.13,1.16,1.212,1.26};
 
        // rc.cal();
@@ -17,7 +20,7 @@ public class main {
         File file=new File("test.xml");
         dag_Reader dr=new dag_Reader(file);
         //dr.readXML();
-        Reliability_cal rc=new Reliability_cal(5,0.000001,3,1.26,0.912,rel,v,dr.getDag());
+        Reliability_cal rc=new Reliability_cal(n,0.000001,3,1.26,0.912,rel,v,dr.getDag());
 
         File tsp_input=new File("TSP.txt");
         TSP tsp=new TSP(tsp_input,dr.getNbCores(),v,dr.getDag());
@@ -41,10 +44,9 @@ public class main {
         }
 
         System.out.println("------------> SAFE START TIME <----------");
-        Vertex v2[] = new Vertex[0];
-        //Safe_Start_Time ss=new Safe_Start_Time(dr.getDag().getVertices().toArray(v2));
-        Safe_Start_Time ss=new Safe_Start_Time(dr.getDag().getVertices().stream().toArray(Vertex[]::new));
+        Safe_Start_Time ss=new Safe_Start_Time(dr.getDag().getVertices().stream().toArray(Vertex[]::new),n,deadline,n_core);
         ss.sort_vertex();
+        ss.scheduling();
     }
 
 }

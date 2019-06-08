@@ -19,6 +19,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import static java.lang.Math.ceil;
+
 public abstract class Vertex implements Comparable<Vertex>{
 	
 	public static final short LO = 0;
@@ -41,6 +43,9 @@ public abstract class Vertex implements Comparable<Vertex>{
 	private int SST;
 	//Scheduled
 	private int scheduled=0;
+	private boolean running=false;
+
+	private boolean done=false;
 
 
 	
@@ -317,7 +322,41 @@ public abstract class Vertex implements Comparable<Vertex>{
 		this.scheduled = scheduled;
 	}
 
-	public boolean check_runnable(){
+	//Checking the execution of previous vertex
+	public boolean check_runnable(String[] running_Tasks,double n){
+	    //it's Determine that that Vertex is ROOT
+        if(this.getRcvEdges().size()==0) {
+            System.out.println(this.getName());
+            System.out.println(this.getRcvEdges().size());
+            System.out.println("<<<<<<<<------>>>>>>>>");
+            return true;
+        }
+        for (Edge e: this.getRcvEdges()){
+            //System.out.print(e.getSrc().getName()+"     ");
+            for (String t:running_Tasks){
+                if (e.getSrc().getName().equals(t)) return false;
+            }
+            if(e.getSrc().scheduled!=ceil(n/2)) return false;
+
+        }
+        System.out.println(this.getName());
+        System.out.println("<<<<<<<<------>>>>>>>>");
 		return true;
 	}
+
+    public boolean isRunning() {
+        return running;
+    }
+
+    public void setRunning(boolean running) {
+        this.running = running;
+    }
+
+    public boolean isDone() {
+        return done;
+    }
+
+    public void setDone(boolean done) {
+        this.done = done;
+    }
 }

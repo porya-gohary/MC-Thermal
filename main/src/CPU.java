@@ -52,4 +52,12 @@ public class CPU {
 
         }
     }
+
+    public String[] get_Running_Tasks(int Time){
+        String[] a=new String[n_Cores];
+        for (int i = 0; i < n_Cores; i++) {
+            a[i]=core[i][Time];
+        }
+        return a;
+    }
 }
