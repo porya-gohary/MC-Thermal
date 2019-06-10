@@ -1,3 +1,7 @@
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
 public class CPU {
     //Core of CPU   [#Core Number] [#Time]
     private String[][] core;
@@ -21,10 +25,19 @@ public class CPU {
 
     //If Time slot was free return true;
     public boolean CheckTimeSlot(int Core,int Start,int End){
+        if(Start > End) return false;
         for (int i = Start; i <= End ; i++) {
+            System.out.println("Check Time: "+Core+"  "+i);
             if(core[Core][i]!=null) return false;
         }
         return true;
+    }
+
+    //Set Task to Core
+    public void SetTaskOnCore(String Task,int Core,int Start,int End){
+        for (int i = Start; i <= End ; i++) {
+            core[Core][i]=Task;
+        }
     }
 
 
@@ -59,5 +72,18 @@ public class CPU {
             a[i]=core[i][Time];
         }
         return a;
+    }
+
+    public void debug() throws IOException {
+        BufferedWriter outputWriter = null;
+        outputWriter = new BufferedWriter(new FileWriter("SST.csv"));
+        for (int i = 0; i < getN_Cores(); i++) {
+            for (int j = 0; j < getDeadline(); j++) {
+                outputWriter.write(core[i][j]+",");
+            };
+            outputWriter.write("\n");
+        }
+        outputWriter.flush();
+        outputWriter.close();
     }
 }

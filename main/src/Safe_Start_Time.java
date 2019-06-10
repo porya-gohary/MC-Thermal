@@ -1,3 +1,8 @@
+import com.sun.deploy.util.ArrayUtil;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 
@@ -15,6 +20,8 @@ public class Safe_Start_Time {
     //Vertex Array for Sorting Vertexes
     Vertex v[];
 
+    CPU cpu;
+
     public Safe_Start_Time(Vertex[] v,double n,int deadline,int n_core) {
         this.v = v;
         this.n=n;
@@ -24,23 +31,42 @@ public class Safe_Start_Time {
 
 
     public void scheduling(){
-        CPU cpu=new CPU(deadline,n_core);
+        cpu=new CPU(deadline,n_core);
         int j=0;
         int k=0;
         for(Vertex a: v){
-            j=0;
             if(a.getWcet(1)==0) continue;
             if(a.getScheduled()==ceil(n/2)) continue;
-            for (int i = (deadline-1); i >= 0; i--) {
-                if(!a.check_runnable(cpu.get_Running_Tasks(i),n)) continue;
-//                if(cpu.CheckTimeSlot(j,i-a.getWcet(0),i)){
+            for (int l = 0; l < ceil(n/2) ; l++) {
+                j=0;
+                for (int i = (deadline-1); i >= 0; i--) {
+                    if(!a.check_runnable(cpu.get_Running_Tasks(i),n)) continue;
+                    if(cpu.CheckTimeSlot(j,i-a.getWcet(0),i)){
+                        cpu.SetTaskOnCore(a.getName(),j,i-a.getWcet(0),i);
+                        a.setScheduled(a.getScheduled()+1);
+                        System.out.println(a.getName()+"   "+a.getScheduled());
+                        break;
 //                  ***********HERE NEED TO COMPLETE*****
-//                }
-                if (j<n_core)j++;
-                else {
-                    j=0;
+                    }
+                    if (j<(n_core-1)){
+                        j++;
+                        i++;
+                    }
+                    else {
+                        j=0;
+
+                    }
+                    if(i==0 && j==3) System.err.println(a.getName()+"  ⚠ ⚠ Infeasible!");
+                    //                  ***********HERE NEED TO COMPLETE*****
+
                 }
             }
+        }
+
+        try {
+            cpu.debug();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -51,6 +77,8 @@ public class Safe_Start_Time {
             System.out.println(a.getName()+"  ==>>  "+a.getLPL());
         }
     }
+
+
 
 
 }

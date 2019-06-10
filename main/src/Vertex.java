@@ -326,9 +326,9 @@ public abstract class Vertex implements Comparable<Vertex>{
 	public boolean check_runnable(String[] running_Tasks,double n){
 	    //it's Determine that that Vertex is ROOT
         if(this.getRcvEdges().size()==0) {
-            System.out.println(this.getName());
-            System.out.println(this.getRcvEdges().size());
-            System.out.println("<<<<<<<<------>>>>>>>>");
+//            System.out.println(this.getName());
+//            System.out.println(this.getRcvEdges().size());
+//            System.out.println("<<<<<<<<------>>>>>>>>");
             return true;
         }
         for (Edge e: this.getRcvEdges()){
@@ -339,8 +339,8 @@ public abstract class Vertex implements Comparable<Vertex>{
             if(e.getSrc().scheduled!=ceil(n/2)) return false;
 
         }
-        System.out.println(this.getName());
-        System.out.println("<<<<<<<<------>>>>>>>>");
+//        System.out.println(this.getName());
+//        System.out.println("<<<<<<<<------>>>>>>>>");
 		return true;
 	}
 
