@@ -344,6 +344,21 @@ public abstract class Vertex implements Comparable<Vertex>{
 		return true;
 	}
 
+	public boolean reverse_running(String[] running_Tasks,double n){
+		if(this.isExitNode()) return true;
+		for (Edge e: this.getSndEdges()){
+			//System.out.print(e.getSrc().getName()+"     ");
+			if(!e.getDest().isHighCr()) continue;
+			for (String t:running_Tasks){
+				if (e.getDest().getName().equals(t)) return false;
+			}
+			if(e.getDest().scheduled!=ceil(n/2)) return false;
+
+		}
+
+		return true;
+	}
+
     public boolean isRunning() {
         return running;
     }
@@ -359,4 +374,8 @@ public abstract class Vertex implements Comparable<Vertex>{
     public void setDone(boolean done) {
         this.done = done;
     }
+
+    public boolean isHighCr(){
+		return this.getWcet(1) != 0;
+	}
 }
