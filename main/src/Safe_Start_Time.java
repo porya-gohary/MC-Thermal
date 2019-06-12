@@ -54,8 +54,10 @@ public class Safe_Start_Time {
                     j=0;
                     for (int i = (deadline-1); i >= 0; i--) {
                         // ***********HERE NEED TO CHECKING NUMBER OF ACTIVE CORE*****
+
                         if(!a.reverse_running(cpu.get_Running_Tasks(i),n)) continue;
-                        if(cpu.CheckTimeSlot(j,i-a.getWcet(0),i)){
+                        if(cpu.CheckTimeSlot(j,i-a.getWcet(0),i) && (cpu.maxCoreInterval(i-a.getWcet(0),i)>=a.getTSP_Active()) &&
+                                (cpu.numberOfRunningTasksInterval(i-a.getWcet(0),i)<a.getTSP_Active())){
                             cpu.SetTaskOnCore(a.getName(),j,i-a.getWcet(0),i);
                             a.setScheduled(a.getScheduled()+1);
                             System.out.println(a.getName()+"   "+a.getScheduled());

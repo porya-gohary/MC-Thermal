@@ -115,6 +115,24 @@ public class CPU {
         }
         return r;
     }
+
+    //Return Number Of Running Tasks
+    public int numberOfRunningTasksInterval(int Start, int End){
+        int r=0;
+        for (int i = Start; i <= End ; i++) {
+            if(this.numberOfRunningTasks(i)>r) r=this.numberOfRunningTasks(i);
+        }
+        return r;
+    }
+
+    //Return Max Core Can Use in specific Interval  [Start Time , End Time]
+    public int maxCoreInterval(int Start,int End){
+        int max = n_Cores;
+        for (int i = Start; i <= End ; i++) {
+            if(this.max_core(i)<max) max =this.max_core(i);
+        }
+        return max;
+    }
     //Write Scheduling In File for Debugging
     public void debug() throws IOException {
         BufferedWriter outputWriter = null;

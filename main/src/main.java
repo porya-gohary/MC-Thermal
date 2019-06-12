@@ -26,25 +26,24 @@ public class main {
         TSP tsp=new TSP(tsp_input,dr.getNbCores(),v,dr.getDag());
 
 
-        System.out.println("------------> RELIABILITY AND VOLTAGE OF EACH TASKS <----------");
+       // ------------> RELIABILITY AND VOLTAGE OF EACH TASKS <----------
         for (Vertex a : dr.getDag().getVertices()) {
             double WCET= (a.getWcet(0) > a.getWcet(1)) ? a.getWcet(0) : a.getWcet(1);
             rc.setT_min(WCET);
             rc.setV_name(a.getName());
             rc.cal();
         }
-        System.out.println("------------> MAX ACTIVE CORE FOR EACH TASKS <----------");
+        //------------> MAX ACTIVE CORE FOR EACH TASKS <----------
         tsp.read_TSP_file();
         tsp.cal_TSP_core();
-        for (Vertex a : dr.getDag().getVertices()) {
-            System.out.println(a.getName()+"    "+a.getTSP_Active());
-            System.out.println("_____________________");
-        }
 
-        System.out.println("------------> SAFE START TIME <----------");
+        //------------> SAFE START TIME <----------
         Safe_Start_Time ss=new Safe_Start_Time(dr.getDag().getVertices().stream().toArray(Vertex[]::new),dr.getDag(),n,deadline,n_core);
         ss.sort_vertex();
         ss.scheduling();
+        for (Vertex a : dr.getDag().getVertices()) {
+            a.debug();
+        }
     }
 
 }

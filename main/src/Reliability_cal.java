@@ -130,8 +130,8 @@ public class Reliability_cal {
             }
             if((R_1+R_2)>= dag.getNodebyName(v_name).getReliability()){
                 dag.getNodebyName(v_name).setMin_voltage(v_i);
-                System.out.println("Task "+ v_name +" Voltage= " + v_i + " v  and R =  "+(R_1+R_2)+" ");
-                System.out.println("---------------------------");
+//                System.out.println("Task "+ v_name +" Voltage= " + v_i + " v  and R =  "+(R_1+R_2)+" ");
+//                System.out.println("---------------------------");
                 R_1=0;
                 R_2=0;
                 return;
@@ -158,7 +158,6 @@ public class Reliability_cal {
         else
             return(n * factorial(n-1));
     }
-
 
     public void setV_name(String v_name) {
         this.v_name = v_name;

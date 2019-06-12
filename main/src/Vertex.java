@@ -378,4 +378,12 @@ public abstract class Vertex implements Comparable<Vertex>{
     public boolean isHighCr(){
 		return this.getWcet(1) != 0;
 	}
+
+	public void debug(){
+		System.out.println("---------> DEBUG MODE <---------");
+		System.out.println("              " + this.getName());
+		System.out.println("Reliability= "+this.getReliability()+"   Min.Voltage= "+this.getMin_voltage());
+		System.out.println("Max. Active Core= "+this.getTSP_Active());
+
+	}
 }
