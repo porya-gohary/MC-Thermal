@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2019 Porya Gohary
+ * Copyright © 2019 Porya Gohary
  * Written by Porya Gohary (Email: gohary@ce.sharif.edu)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
