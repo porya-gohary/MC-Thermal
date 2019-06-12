@@ -17,6 +17,7 @@
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class CPU {
     //Core of CPU   [#Core] [#Time]
@@ -131,8 +132,18 @@ public class CPU {
         for (int i = Start; i <= End ; i++) {
             if(this.max_core(i)<max) max =this.max_core(i);
         }
+
         return max;
     }
+
+    public int getSafeTime(String task){
+        int SST=deadline;
+        for (int i = 0; i < n_Cores ; i++) {
+            if(Arrays.asList(core[i]).indexOf(task) < SST && Arrays.asList(core[i]).indexOf(task)!= -1) SST= Arrays.asList(core[i]).indexOf(task);
+        }
+        return SST;
+    }
+
     //Write Scheduling In File for Debugging
     public void debug() throws IOException {
         BufferedWriter outputWriter = null;

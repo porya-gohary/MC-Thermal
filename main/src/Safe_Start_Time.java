@@ -80,11 +80,13 @@ public class Safe_Start_Time {
             }
 
         }
+
         try {
             cpu.debug();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
     public void sort_vertex() {
@@ -93,6 +95,19 @@ public class Safe_Start_Time {
         for(Vertex a:v){
             System.out.println(a.getName()+"  ==>>  "+a.getLPL());
         }
+    }
+
+    //Set Safe Start Time (It Must Call After Scheduling Method)
+    public void setSafeStartTime(){
+        for(Vertex a: mcDAG.getVertices()){
+            if(!a.isHighCr()) continue;
+            if (cpu.getSafeTime(a.getName())== deadline) {
+                System.err.println(a.getName()+"  ⚠ ⚠ Infeasible!");
+                System.exit(1);
+            }
+            a.setSST(cpu.getSafeTime(a.getName()));
+        }
+
     }
 
 

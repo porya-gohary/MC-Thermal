@@ -41,9 +41,13 @@ public class main {
         Safe_Start_Time ss=new Safe_Start_Time(dr.getDag().getVertices().stream().toArray(Vertex[]::new),dr.getDag(),n,deadline,n_core);
         ss.sort_vertex();
         ss.scheduling();
+        ss.setSafeStartTime();
         for (Vertex a : dr.getDag().getVertices()) {
             a.debug();
         }
+
+
+
     }
 
 }

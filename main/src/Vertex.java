@@ -384,6 +384,7 @@ public abstract class Vertex implements Comparable<Vertex>{
 		System.out.println("              " + this.getName());
 		System.out.println("Reliability= "+this.getReliability()+"   Min.Voltage= "+this.getMin_voltage());
 		System.out.println("Max. Active Core= "+this.getTSP_Active());
+		System.out.println("Safe Start Time= "+this.getSST());
 
 	}
 }
