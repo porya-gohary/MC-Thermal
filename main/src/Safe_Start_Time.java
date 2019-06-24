@@ -15,6 +15,7 @@
  * limitations under the License.
  *******************************************************************************/
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.Arrays;
 import static java.lang.Math.ceil;
 
@@ -56,9 +57,9 @@ public class Safe_Start_Time {
                         // ***********HERE NEED TO CHECKING NUMBER OF ACTIVE CORE*****
 
                         if(!a.reverse_running(cpu.get_Running_Tasks(i),n)) continue;
-                        if(cpu.CheckTimeSlot(j,i-a.getWcet(0),i) && (cpu.maxCoreInterval(i-a.getWcet(0),i)>=a.getTSP_Active()) &&
-                                (cpu.numberOfRunningTasksInterval(i-a.getWcet(0),i)<a.getTSP_Active())){
-                            cpu.SetTaskOnCore(a.getName(),j,i-a.getWcet(0),i);
+                        if(cpu.CheckTimeSlot(j,i-a.getWcet(0)+1,i) && (cpu.maxCoreInterval(i-a.getWcet(0)+1,i)>=a.getTSP_Active()) &&
+                                (cpu.numberOfRunningTasksInterval(i-a.getWcet(0)+1,i)<a.getTSP_Active())){
+                            cpu.SetTaskOnCore(a.getName(),j,i-a.getWcet(0)+1,i);
                             a.setScheduled(a.getScheduled()+1);
                             System.out.println(a.getName()+"   "+a.getScheduled());
                             break;
@@ -82,7 +83,7 @@ public class Safe_Start_Time {
         }
 
         try {
-            cpu.debug();
+            cpu.debug("mainSCH");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -94,6 +95,42 @@ public class Safe_Start_Time {
         //Show Sorted Vortex Array
         for(Vertex a:v){
             System.out.println(a.getName()+"  ==>>  "+a.getLPL());
+        }
+    }
+    
+    public int starttime(int core){
+        for (int i = 0; i < deadline; i++) {
+            if(cpu.getRunningTask(core,i)!=null){
+                return i;
+            }
+        }
+        return 0;
+    }
+
+    //Shift Running Tasks For adding Overrun and Faults
+    public void Task_shifter(int shiftTime ,int amount ) {
+        for (int i = 0; i < n_core; i++) {
+            for (int j = starttime(i); j < shiftTime ; j++) {
+                try {
+                    cpu.SetTask(i, j - amount, cpu.getRunningTask(i, j));
+                }catch(Exception ex)
+                {
+                    System.err.println(cpu.getRunningTask(i, j)+"  ⚠ ⚠ Infeasible!");
+                    System.exit(1);
+                }
+            }
+            for (int j = shiftTime -amount; j < shiftTime; j++) {
+                cpu.SetTask(i, j , null);
+            }
+        }
+    }
+
+    public void overrun(){
+        Task_shifter(120,10);
+        try {
+            cpu.debug("Shift");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

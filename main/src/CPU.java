@@ -145,9 +145,9 @@ public class CPU {
     }
 
     //Write Scheduling In File for Debugging
-    public void debug() throws IOException {
+    public void debug(String Filename) throws IOException {
         BufferedWriter outputWriter = null;
-        outputWriter = new BufferedWriter(new FileWriter("SST.csv"));
+        outputWriter = new BufferedWriter(new FileWriter(Filename+".csv"));
         for (int i = 0; i < getN_Cores(); i++) {
             for (int j = 0; j < getDeadline(); j++) {
                 outputWriter.write(core[i][j]+",");
@@ -156,6 +156,10 @@ public class CPU {
         }
         outputWriter.flush();
         outputWriter.close();
+    }
+
+    public void SetTask(int core_number , int time ,String task){
+        core[core_number][time]=task;
     }
 
 
