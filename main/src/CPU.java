@@ -40,7 +40,9 @@ public class CPU {
     }
     //GET Running Task in specific Time
     public String getRunningTask(int Core,int Time){
-        return core[Core][Time];
+        return (core[Core][Time] == null) ? null : core[Core][Time].split(" R")[0];
+//        System.out.println(core[Core][Time].split(" R")[0]);
+//        return core[Core][Time];
     }
 
     //If Time slot was free return true;

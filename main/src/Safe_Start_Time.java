@@ -59,7 +59,7 @@ public class Safe_Start_Time {
                         if(!a.reverse_running(cpu.get_Running_Tasks(i),n)) continue;
                         if(cpu.CheckTimeSlot(j,i-a.getWcet(0)+1,i) && (cpu.maxCoreInterval(i-a.getWcet(0)+1,i)>=a.getTSP_Active()) &&
                                 (cpu.numberOfRunningTasksInterval(i-a.getWcet(0)+1,i)<a.getTSP_Active())){
-                            cpu.SetTaskOnCore(a.getName(),j,i-a.getWcet(0)+1,i);
+                            cpu.SetTaskOnCore(a.getName()+" R"+l,j,i-a.getWcet(0)+1,i);
                             a.setScheduled(a.getScheduled()+1);
                             System.out.println(a.getName()+"   "+a.getScheduled());
                             break;
@@ -126,6 +126,10 @@ public class Safe_Start_Time {
     }
 
     public void overrun(){
+        for(Vertex a: mcDAG.getVertices()){
+            if(!a.isHighCr()) continue;
+
+        }
         Task_shifter(120,10);
         try {
             cpu.debug("Shift");

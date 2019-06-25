@@ -42,7 +42,7 @@ public class main {
         ss.sort_vertex();
         ss.scheduling();
         ss.overrun();
-        ss.setSafeStartTime();
+        //ss.setSafeStartTime();
         for (Vertex a : dr.getDag().getVertices()) {
             a.debug();
         }
