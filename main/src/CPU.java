@@ -45,6 +45,11 @@ public class CPU {
 //        return core[Core][Time];
     }
 
+    //GET Running Task in specific Time
+    public String getRunningTaskWithReplica(int Core,int Time){
+        return core[Core][Time];
+    }
+
     //If Time slot was free return true;
     public boolean CheckTimeSlot(int Core,int Start,int End){
         if(Start > End) return false;
@@ -59,8 +64,13 @@ public class CPU {
     //Set Task to Core
     public void SetTaskOnCore(String Task,int Core,int Start,int End){
         System.out.println(Task+"  "+ Start+"  "+End);
-        for (int i = Start; i <= End ; i++) {
-            core[Core][i]=Task;
+        try {
+            for (int i = Start; i <= End; i++) {
+                core[Core][i] = Task;
+            }
+        }catch(Exception e){
+            System.err.println(Task+"  ⚠ ⚠ Infeasible!");
+            System.exit(1);
         }
     }
 
@@ -140,6 +150,7 @@ public class CPU {
 
     public int getSafeTime(String task){
         int SST=deadline;
+//        System.out.println("++++>>"+task);
         for (int i = 0; i < n_Cores ; i++) {
             if(Arrays.asList(core[i]).indexOf(task) < SST && Arrays.asList(core[i]).indexOf(task)!= -1) SST= Arrays.asList(core[i]).indexOf(task);
         }
@@ -161,7 +172,21 @@ public class CPU {
     }
 
     public void SetTask(int core_number , int time ,String task){
-        core[core_number][time]=task;
+        try {
+            core[core_number][time]=task;
+
+        }catch (Exception e){
+            System.out.println("Core  "+core_number+"  Time "+time);
+        }
+    }
+
+    //Return Start Time of a Specific Replica of Tasks
+    public int getStartTime(String Task){
+        for (int i = 0; i < n_Cores; i++) {
+            if(Arrays.asList(core[i]).indexOf(Task)!= -1)
+                return Arrays.asList(core[i]).indexOf(Task);
+        }
+        return -1;
     }
 
 

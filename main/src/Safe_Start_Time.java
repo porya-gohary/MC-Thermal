@@ -112,10 +112,10 @@ public class Safe_Start_Time {
         for (int i = 0; i < n_core; i++) {
             for (int j = starttime(i); j < shiftTime ; j++) {
                 try {
-                    cpu.SetTask(i, j - amount, cpu.getRunningTask(i, j));
+                    cpu.SetTask(i, j - amount, cpu.getRunningTaskWithReplica(i, j));
                 }catch(Exception ex)
                 {
-                    System.err.println(cpu.getRunningTask(i, j)+"  ⚠ ⚠ Infeasible!");
+                    System.err.println(cpu.getRunningTaskWithReplica(i, j)+"  ⚠ ⚠ Infeasible!");
                     System.exit(1);
                 }
             }
@@ -128,9 +128,14 @@ public class Safe_Start_Time {
     public void overrun(){
         for(Vertex a: mcDAG.getVertices()){
             if(!a.isHighCr()) continue;
+            for (int i = 0; i < ceil(n/2); i++) {
+                int t=cpu.getStartTime(a.getName()+" R"+i);
+                Task_shifter(t,a.getWcet(1)-a.getWcet(0));
+                cpu.SetTaskOnCore(a.getName()+" OV"+i,1,t-(a.getWcet(1)-a.getWcet(0)),t-1);
+            }
 
         }
-        Task_shifter(120,10);
+        //Task_shifter(120,10);
         try {
             cpu.debug("Shift");
         } catch (IOException e) {
@@ -142,11 +147,11 @@ public class Safe_Start_Time {
     public void setSafeStartTime(){
         for(Vertex a: mcDAG.getVertices()){
             if(!a.isHighCr()) continue;
-            if (cpu.getSafeTime(a.getName())== deadline) {
+            if (cpu.getSafeTime(a.getName()+" OV"+((int)ceil(n/2)-1))== deadline) {
                 System.err.println(a.getName()+"  ⚠ ⚠ Infeasible!");
                 System.exit(1);
             }
-            a.setSST(cpu.getSafeTime(a.getName()));
+            a.setSST(cpu.getSafeTime(a.getName()+" OV"+((int)ceil(n/2)-1)));
         }
 
     }
