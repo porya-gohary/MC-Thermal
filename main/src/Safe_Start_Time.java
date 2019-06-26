@@ -17,7 +17,8 @@
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.Arrays;
-import static java.lang.Math.ceil;
+
+import static java.lang.Math.*;
 
 public class Safe_Start_Time {
     //Deadline
@@ -125,6 +126,7 @@ public class Safe_Start_Time {
         }
     }
 
+    //Add Overrun of Tasks To Safe Start Time
     public void overrun(){
         for(Vertex a: mcDAG.getVertices()){
             if(!a.isHighCr()) continue;
@@ -135,9 +137,31 @@ public class Safe_Start_Time {
             }
 
         }
-        //Task_shifter(120,10);
+
         try {
-            cpu.debug("Shift");
+            cpu.debug("With_Overrun");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void inject_fault(){
+        for(Vertex a: mcDAG.getVertices()){
+            if(!a.isHighCr()) continue;
+            int t=cpu.getStartTime(a.getName()+" OV"+(int)(ceil(n/2)-1));
+            System.out.println((a.getName()+" OV"+(int)(ceil(n/2)-1))+"  "+t);
+            int min= (a.getTSP_Active()<floor(n/2)) ? a.getTSP_Active() : (int) floor(n / 2);
+            for (int i = 0; i < (int)floor(n/2)/min; i++) {
+                Task_shifter(t,a.getWcet(1));
+                for (int j = 0; j < min; j++) {
+                    cpu.SetTaskOnCore(a.getName()+" F"+j,j,t-(a.getWcet(1)),t-1);
+                }
+                t=t-a.getWcet(1);
+            }
+
+        }
+        try {
+            cpu.debug("With_Fault");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -147,11 +171,11 @@ public class Safe_Start_Time {
     public void setSafeStartTime(){
         for(Vertex a: mcDAG.getVertices()){
             if(!a.isHighCr()) continue;
-            if (cpu.getSafeTime(a.getName()+" OV"+((int)ceil(n/2)-1))== deadline) {
+            if (cpu.getSafeTime(a.getName())== deadline) {
                 System.err.println(a.getName()+"  ⚠ ⚠ Infeasible!");
                 System.exit(1);
             }
-            a.setSST(cpu.getSafeTime(a.getName()+" OV"+((int)ceil(n/2)-1)));
+            a.setSST(cpu.getSafeTime(a.getName()));
         }
 
     }

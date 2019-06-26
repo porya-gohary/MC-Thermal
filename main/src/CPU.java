@@ -152,7 +152,15 @@ public class CPU {
         int SST=deadline;
 //        System.out.println("++++>>"+task);
         for (int i = 0; i < n_Cores ; i++) {
-            if(Arrays.asList(core[i]).indexOf(task) < SST && Arrays.asList(core[i]).indexOf(task)!= -1) SST= Arrays.asList(core[i]).indexOf(task);
+            for (int j = 0; j < deadline; j++) {
+               // System.out.println(i+"   "+j+"  "+core[i][j]);
+                if(core[i][j]!=null) {
+                    if (core[i][j].startsWith(task) && j < SST) {
+                        SST = j;
+                    }
+                }
+            }
+            //if(Arrays.asList(core[i]).indexOf(task) < SST && Arrays.asList(core[i]).indexOf(task)!= -1) SST= Arrays.asList(core[i]).indexOf(task);
         }
         return SST;
     }
