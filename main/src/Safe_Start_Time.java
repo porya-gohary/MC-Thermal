@@ -32,15 +32,18 @@ public class Safe_Start_Time {
     //Vertex Array for Sorting Vertexes
     Vertex v[];
 
+    double max_voltage;
+
     CPU cpu;
 
 
-    public Safe_Start_Time(Vertex[] v,McDAG mcDAG,double n,int deadline,int n_core) {
+    public Safe_Start_Time(Vertex[] v,McDAG mcDAG,double n,int deadline,int n_core,double max_vlotage) {
         this.v = v;
         this.n=n;
         this.deadline=deadline;
         this.n_core=n_core;
         this.mcDAG=mcDAG;
+        this.max_voltage=max_vlotage;
     }
 
 
@@ -58,9 +61,9 @@ public class Safe_Start_Time {
                         // ***********HERE NEED TO CHECKING NUMBER OF ACTIVE CORE*****
 
                         if(!a.reverse_running(cpu.get_Running_Tasks(i),n)) continue;
-                        if(cpu.CheckTimeSlot(j,i-a.getWcet(0)+1,i) && (cpu.maxCoreInterval(i-a.getWcet(0)+1,i)>=a.getTSP_Active()) &&
-                                (cpu.numberOfRunningTasksInterval(i-a.getWcet(0)+1,i)<a.getTSP_Active())){
-                            cpu.SetTaskOnCore(a.getName()+" R"+l,j,i-a.getWcet(0)+1,i);
+                        if(cpu.CheckTimeSlot(j,i-a.getRunningTimeLO(max_voltage,a.getMin_voltage())+1,i) && (cpu.maxCoreInterval(i-a.getRunningTimeLO(max_voltage,a.getMin_voltage())+1,i)>=a.getTSP_Active()) &&
+                                (cpu.numberOfRunningTasksInterval(i-a.getRunningTimeLO(max_voltage,a.getMin_voltage())+1,i)<a.getTSP_Active())){
+                            cpu.SetTaskOnCore(a.getName()+" R"+l,j,i-a.getRunningTimeLO(max_voltage,a.getMin_voltage())+1,i);
                             a.setScheduled(a.getScheduled()+1);
                             System.out.println(a.getName()+"   "+a.getScheduled());
                             break;
@@ -132,8 +135,8 @@ public class Safe_Start_Time {
             if(!a.isHighCr()) continue;
             for (int i = 0; i < ceil(n/2); i++) {
                 int t=cpu.getStartTime(a.getName()+" R"+i);
-                Task_shifter(t,a.getWcet(1)-a.getWcet(0));
-                cpu.SetTaskOnCore(a.getName()+" OV"+i,1,t-(a.getWcet(1)-a.getWcet(0)),t-1);
+                Task_shifter(t,a.getRunningTimeHI(max_voltage,a.getMin_voltage())-a.getRunningTimeLO(max_voltage,a.getMin_voltage()));
+                cpu.SetTaskOnCore(a.getName()+" OV"+i,1,t-(a.getRunningTimeHI(max_voltage,a.getMin_voltage())-a.getRunningTimeLO(max_voltage,a.getMin_voltage())),t-1);
             }
 
         }
@@ -152,11 +155,11 @@ public class Safe_Start_Time {
             System.out.println((a.getName()+" OV"+(int)(ceil(n/2)-1))+"  "+t);
             int min= (a.getTSP_Active()<floor(n/2)) ? a.getTSP_Active() : (int) floor(n / 2);
             for (int i = 0; i < (int)floor(n/2)/min; i++) {
-                Task_shifter(t,a.getWcet(1));
+                Task_shifter(t,a.getRunningTimeHI(max_voltage,a.getMin_voltage()));
                 for (int j = 0; j < min; j++) {
-                    cpu.SetTaskOnCore(a.getName()+" F"+j,j,t-(a.getWcet(1)),t-1);
+                    cpu.SetTaskOnCore(a.getName()+" F"+j,j,t-(a.getRunningTimeHI(max_voltage,a.getMin_voltage())),t-1);
                 }
-                t=t-a.getWcet(1);
+                t=t-a.getRunningTimeHI(max_voltage,a.getMin_voltage());
             }
 
         }
@@ -171,7 +174,7 @@ public class Safe_Start_Time {
     public void setSafeStartTime(){
         for(Vertex a: mcDAG.getVertices()){
             if(!a.isHighCr()) continue;
-            if (cpu.getSafeTime(a.getName())== deadline) {
+            if (cpu.getSafeTime(a.getName())== deadline || cpu.getSafeTime(a.getName())<= 0) {
                 System.err.println(a.getName()+"  ⚠ ⚠ Infeasible!");
                 System.exit(1);
             }

@@ -379,6 +379,14 @@ public abstract class Vertex implements Comparable<Vertex>{
 		return this.getWcet(1) != 0;
 	}
 
+	public int getRunningTimeLO(double maxVoltage, double currentVoltage){
+		return (int) (getWcet(0)*maxVoltage/currentVoltage);
+	}
+
+	public int getRunningTimeHI(double maxVoltage, double currentVoltage){
+		return (int) (getWcet(1)*maxVoltage/currentVoltage);
+	}
+
 	public void debug(){
 		System.out.println("---------> DEBUG MODE <---------");
 		System.out.println("              " + this.getName());

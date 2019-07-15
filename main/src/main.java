@@ -4,13 +4,15 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 
 public class main {
     public static void main(String args[]) throws IOException, SAXException, ParserConfigurationException {
         File rel= new File("rel.txt");
         double n=5;
-        int deadline=600;
+        int deadline=690;
         int n_core=4;
         double v[]={0.912,0.9125,0.95,0.987,1.025,1.065,1.1,1.13,1.16,1.212,1.26};
 
@@ -38,7 +40,7 @@ public class main {
         tsp.cal_TSP_core();
 
         //------------> SAFE START TIME <----------
-        Safe_Start_Time ss=new Safe_Start_Time(dr.getDag().getVertices().stream().toArray(Vertex[]::new),dr.getDag(),n,deadline,n_core);
+        Safe_Start_Time ss=new Safe_Start_Time(dr.getDag().getVertices().stream().toArray(Vertex[]::new),dr.getDag(),n,deadline,n_core, v[v.length-1]);
         ss.sort_vertex();
         ss.scheduling();
         ss.overrun();
@@ -47,6 +49,9 @@ public class main {
         for (Vertex a : dr.getDag().getVertices()) {
             a.debug();
         }
+
+        //------------> Main Scheduling <----------
+
 
 
 
