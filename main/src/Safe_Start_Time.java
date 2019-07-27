@@ -135,8 +135,8 @@ public class Safe_Start_Time {
             if(!a.isHighCr()) continue;
             for (int i = 0; i < ceil(n/2); i++) {
                 int t=cpu.getStartTime(a.getName()+" R"+i);
-                Task_shifter(t,a.getRunningTimeHI(max_voltage,a.getMin_voltage())-a.getRunningTimeLO(max_voltage,a.getMin_voltage()));
-                cpu.SetTaskOnCore(a.getName()+" OV"+i,1,t-(a.getRunningTimeHI(max_voltage,a.getMin_voltage())-a.getRunningTimeLO(max_voltage,a.getMin_voltage())),t-1);
+                Task_shifter(t,a.getRunningTimeHI(max_voltage,max_voltage)-a.getRunningTimeLO(max_voltage,max_voltage));
+                cpu.SetTaskOnCore(a.getName()+" OV"+i,1,t-(a.getRunningTimeHI(max_voltage,max_voltage)-a.getRunningTimeLO(max_voltage,max_voltage)),t-1);
             }
 
         }
@@ -155,11 +155,11 @@ public class Safe_Start_Time {
             System.out.println((a.getName()+" OV"+(int)(ceil(n/2)-1))+"  "+t);
             int min= (a.getTSP_Active()<floor(n/2)) ? a.getTSP_Active() : (int) floor(n / 2);
             for (int i = 0; i < (int)floor(n/2)/min; i++) {
-                Task_shifter(t,a.getRunningTimeHI(max_voltage,a.getMin_voltage()));
+                Task_shifter(t,a.getRunningTimeHI(max_voltage,max_voltage));
                 for (int j = 0; j < min; j++) {
-                    cpu.SetTaskOnCore(a.getName()+" F"+j,j,t-(a.getRunningTimeHI(max_voltage,a.getMin_voltage())),t-1);
+                    cpu.SetTaskOnCore(a.getName()+" F"+j,j,t-(a.getRunningTimeHI(max_voltage,max_voltage)),t-1);
                 }
-                t=t-a.getRunningTimeHI(max_voltage,a.getMin_voltage());
+                t=t-a.getRunningTimeHI(max_voltage,max_voltage);
             }
 
         }

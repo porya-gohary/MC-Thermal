@@ -51,8 +51,9 @@ public class main {
         }
 
         //------------> Main Scheduling <----------
-
-
+        System.out.println("------------> Main Scheduling <----------");
+        mainScheduling mainScheduling=new mainScheduling(dr.getDag().getVertices().stream().toArray(Vertex[]::new),dr.getDag(),n,deadline,n_core, v[v.length-1]);
+        mainScheduling.sort_vertex();
 
 
     }
