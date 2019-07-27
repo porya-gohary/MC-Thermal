@@ -40,20 +40,24 @@ public class main {
         tsp.cal_TSP_core();
 
         //------------> SAFE START TIME <----------
-        Safe_Start_Time ss=new Safe_Start_Time(dr.getDag().getVertices().stream().toArray(Vertex[]::new),dr.getDag(),n,deadline,n_core, v[v.length-1]);
+
+        Safe_Start_Time ss=new Safe_Start_Time(dr.getDag().getVertices().stream().toArray(Vertex[]::new).clone(),dr.getDag(),n,deadline,n_core, v[v.length-1]);
         ss.sort_vertex();
         ss.scheduling();
         ss.overrun();
         ss.inject_fault();
         ss.setSafeStartTime();
+
         for (Vertex a : dr.getDag().getVertices()) {
             a.debug();
         }
 
         //------------> Main Scheduling <----------
         System.out.println("------------> Main Scheduling <----------");
-        mainScheduling mainScheduling=new mainScheduling(dr.getDag().getVertices().stream().toArray(Vertex[]::new),dr.getDag(),n,deadline,n_core, v[v.length-1]);
+        mainScheduling mainScheduling=new mainScheduling(dr.getDag().getVertices().stream().toArray(Vertex[]::new).clone(),dr.getDag(),n,deadline,n_core, v[v.length-1]);
+        mainScheduling.clean_sch();
         mainScheduling.sort_vertex();
+        mainScheduling.mScheduling();
 
 
     }

@@ -21,7 +21,7 @@ import java.util.Set;
 
 import static java.lang.Math.ceil;
 
-public abstract class Vertex implements Comparable<Vertex>{
+public abstract class Vertex implements Comparable<Vertex>, Cloneable{
 	
 	public static final short LO = 0;
 	public static final short HI = 1;
@@ -394,5 +394,9 @@ public abstract class Vertex implements Comparable<Vertex>{
 		System.out.println("Max. Active Core= "+this.getTSP_Active());
 		System.out.println("Safe Start Time= "+this.getSST());
 
+	}
+
+	protected Object clone() throws CloneNotSupportedException {
+		return super.clone();
 	}
 }

@@ -37,13 +37,13 @@ public class Safe_Start_Time {
     CPU cpu;
 
 
-    public Safe_Start_Time(Vertex[] v,McDAG mcDAG,double n,int deadline,int n_core,double max_vlotage) {
+    public Safe_Start_Time(Vertex[] v,McDAG mcDAG,double n,int deadline,int n_core,double max_voltage) {
         this.v = v;
         this.n=n;
         this.deadline=deadline;
         this.n_core=n_core;
         this.mcDAG=mcDAG;
-        this.max_voltage=max_vlotage;
+        this.max_voltage=max_voltage;
     }
 
 
@@ -87,7 +87,7 @@ public class Safe_Start_Time {
         }
 
         try {
-            cpu.debug("mainSCH");
+            cpu.debug("main_SST_SCH");
         } catch (IOException e) {
             e.printStackTrace();
         }

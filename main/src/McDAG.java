@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-public class McDAG {
+public class McDAG implements Cloneable {
 
     private int id;
     private Set<Vertex> nodes;
@@ -246,5 +246,8 @@ public class McDAG {
 
     public void setLevels(int levels) {
         this.levels = levels;
+    }
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }
