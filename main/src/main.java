@@ -58,6 +58,7 @@ public class main {
         mainScheduling.clean_sch();
         mainScheduling.sort_vertex();
         mainScheduling.mScheduling();
+        mainScheduling.inject_fault(2);
 
 
     }

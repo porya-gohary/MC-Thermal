@@ -190,11 +190,30 @@ public class CPU {
 
     //Return Start Time of a Specific Replica of Tasks
     public int getStartTime(String Task){
+        int s=deadline;
         for (int i = 0; i < n_Cores; i++) {
             if(Arrays.asList(core[i]).indexOf(Task)!= -1)
-                return Arrays.asList(core[i]).indexOf(Task);
+                if(Arrays.asList(core[i]).indexOf(Task)<s)
+                    s=Arrays.asList(core[i]).indexOf(Task);
         }
-        return -1;
+        return s;
+
+    }
+
+
+    //Return End Time of a Specific Replica of Tasks
+    public int getEndTime(String Task){
+        int e=-1;
+        System.out.println(Task);
+        for (int i = 0; i < n_Cores; i++) {
+            if(Arrays.asList(core[i]).lastIndexOf(Task) != -1) {
+                if (Arrays.asList(core[i]).lastIndexOf(Task) > e) {
+                    e = Arrays.asList(core[i]).lastIndexOf(Task);
+                }
+            }
+        }
+        System.out.println("   >>> "+e);
+        return e;
     }
 
 

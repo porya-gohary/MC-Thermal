@@ -47,6 +47,8 @@ public abstract class Vertex implements Comparable<Vertex>, Cloneable{
 
 	private boolean done=false;
 
+	private int injected_fault=0;
+
 
 	
 	public Vertex (int id, String name, int nbLevels) {
@@ -398,5 +400,14 @@ public abstract class Vertex implements Comparable<Vertex>, Cloneable{
 
 	protected Object clone() throws CloneNotSupportedException {
 		return super.clone();
+	}
+
+
+	public int getInjected_fault() {
+		return injected_fault;
+	}
+
+	public void setInjected_fault(int injected_fault) {
+		this.injected_fault = injected_fault;
 	}
 }

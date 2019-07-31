@@ -182,7 +182,10 @@ public class McDAG implements Cloneable {
     }
 
 
+
+
     public Set<Vertex> getNodes_HI() {
+
         return nodesHI;
     }
 
