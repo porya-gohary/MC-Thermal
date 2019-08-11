@@ -33,16 +33,18 @@ public class mainScheduling {
     Vertex v[];
 
     double max_voltage;
+    int max_freq;
 
     CPU cpu;
 
-    public mainScheduling(Vertex[] v,McDAG mcDAG,double n,int deadline,int n_core,double max_voltage) {
+    public mainScheduling(Vertex[] v,McDAG mcDAG,double n,int deadline,int n_core,double max_voltage, int max_freq) {
         this.deadline = deadline;
         this.n_core = n_core;
         this.n = n;
         this.mcDAG = mcDAG;
         this.v = v;
         this.max_voltage = max_voltage;
+        this.max_freq=max_freq;
     }
 
     public void mScheduling(){
@@ -58,9 +60,9 @@ public class mainScheduling {
                         j=0;
                         for (int i = 0; i < deadline; i++) {
                             if(!a.check_runnable(cpu.get_Running_Tasks(i),n)) continue;
-                            if(cpu.CheckTimeSlot(j, i,i+a.getRunningTimeLO(max_voltage,a.getMin_voltage())-1) && (cpu.maxCoreInterval(i,i+a.getRunningTimeLO(max_voltage,a.getMin_voltage())-1)>=a.getTSP_Active()) &&
-                                    (cpu.numberOfRunningTasksInterval(i,i+a.getRunningTimeLO(max_voltage,a.getMin_voltage())-1)<a.getTSP_Active())){
-                                cpu.SetTaskOnCore(a.getName()+" R"+l,j,i,i+a.getRunningTimeLO(max_voltage,a.getMin_voltage())-1);
+                            if(cpu.CheckTimeSlot(j, i,i+a.getRunningTimeLO(max_freq,a.getMin_freq())-1) && (cpu.maxCoreInterval(i,i+a.getRunningTimeLO(max_freq,a.getMin_freq())-1)>=a.getTSP_Active()) &&
+                                    (cpu.numberOfRunningTasksInterval(i,i+a.getRunningTimeLO(max_freq,a.getMin_freq())-1)<a.getTSP_Active())){
+                                cpu.SetTaskOnCore(a.getName()+" R"+l,j,i,i+a.getRunningTimeLO(max_freq,a.getMin_freq())-1);
                                 a.setScheduled(a.getScheduled()+1);
                                 System.out.println(a.getName()+"   "+a.getScheduled());
                                 break;
@@ -81,9 +83,9 @@ public class mainScheduling {
                     if(a.getScheduled()==1) continue;
                     for (int i = 0; i < deadline; i++) {
                         if (!a.check_runnable(cpu.get_Running_Tasks(i), n)) continue;
-                        if (cpu.CheckTimeSlot(j, i, i + a.getRunningTimeLO(max_voltage, a.getMin_voltage())) && (cpu.maxCoreInterval(i, i + a.getRunningTimeLO(max_voltage, a.getMin_voltage())) >= a.getTSP_Active()) &&
-                                (cpu.numberOfRunningTasksInterval(i, i + a.getRunningTimeLO(max_voltage, a.getMin_voltage())) < a.getTSP_Active())) {
-                            cpu.SetTaskOnCore(a.getName() + " R0", j, i, i + a.getRunningTimeLO(max_voltage, a.getMin_voltage()));
+                        if (cpu.CheckTimeSlot(j, i, i + a.getRunningTimeLO(max_freq, a.getMin_freq())) && (cpu.maxCoreInterval(i, i + a.getRunningTimeLO(max_freq, a.getMin_freq())) >= a.getTSP_Active()) &&
+                                (cpu.numberOfRunningTasksInterval(i, i + a.getRunningTimeLO(max_freq, a.getMin_freq())) < a.getTSP_Active())) {
+                            cpu.SetTaskOnCore(a.getName() + " R0", j, i, i + a.getRunningTimeLO(max_freq, a.getMin_freq()));
                             a.setScheduled(a.getScheduled() + 1);
                             System.out.println(a.getName() + "   " + a.getScheduled());
                             break;
@@ -148,10 +150,11 @@ public class mainScheduling {
                 return i;
             }
         }
-        return deadline;
+        return 0;
     }
 
     public void Task_Shifter(int shiftTime ,int amount ){
+        System.out.println("TASK SHIFTER  "+ shiftTime+"  > > "+amount);
         for (int i = 0; i < n_core; i++) {
             for (int j = Endtime(i); j > (shiftTime) ; j--) {
                 try {

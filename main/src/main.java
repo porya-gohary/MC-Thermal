@@ -12,20 +12,23 @@ public class main {
     public static void main(String args[]) throws IOException, SAXException, ParserConfigurationException {
         File rel= new File("rel.txt");
         double n=5;
-        int deadline=690;
+        int deadline=750;
         int n_core=4;
-        double v[]={0.912,0.9125,0.95,0.987,1.025,1.065,1.1,1.13,1.16,1.212,1.26};
+        //double v[]={0.912,0.9125,0.95,0.987,1.025,1.065,1.1,1.13,1.16,1.212,1.26};
+        double v[]={1.023,1.062,1.115,1.3};
+        int freq[]={1200,1400,1600,2000};
 
        // rc.cal();
 
 
         File file=new File("test.xml");
         dag_Reader dr=new dag_Reader(file);
+
         //dr.readXML();
-        Reliability_cal rc=new Reliability_cal(n,0.000001,3,1.26,0.912,rel,v,dr.getDag());
+        Reliability_cal rc=new Reliability_cal(n,0.000001,3,v[v.length-1],v[0],rel,v,dr.getDag());
 
         File tsp_input=new File("TSP.txt");
-        TSP tsp=new TSP(tsp_input,dr.getNbCores(),v,dr.getDag());
+        TSP tsp=new TSP(tsp_input,dr.getNbCores(),v,freq,dr.getDag());
 
 
        // ------------> RELIABILITY AND VOLTAGE OF EACH TASKS <----------
@@ -41,7 +44,7 @@ public class main {
 
         //------------> SAFE START TIME <----------
 
-        Safe_Start_Time ss=new Safe_Start_Time(dr.getDag().getVertices().stream().toArray(Vertex[]::new).clone(),dr.getDag(),n,deadline,n_core, v[v.length-1]);
+        Safe_Start_Time ss=new Safe_Start_Time(dr.getDag().getVertices().stream().toArray(Vertex[]::new).clone(),dr.getDag(),n,deadline,n_core, v[v.length-1], freq[freq.length-1]);
         ss.sort_vertex();
         ss.scheduling();
         ss.overrun();
@@ -54,7 +57,7 @@ public class main {
 
         //------------> Main Scheduling <----------
         System.out.println("------------> Main Scheduling <----------");
-        mainScheduling mainScheduling=new mainScheduling(dr.getDag().getVertices().stream().toArray(Vertex[]::new).clone(),dr.getDag(),n,deadline,n_core, v[v.length-1]);
+        mainScheduling mainScheduling=new mainScheduling(dr.getDag().getVertices().stream().toArray(Vertex[]::new).clone(),dr.getDag(),n,deadline,n_core, v[v.length-1],freq[freq.length-1]);
         mainScheduling.clean_sch();
         mainScheduling.sort_vertex();
         mainScheduling.mScheduling();

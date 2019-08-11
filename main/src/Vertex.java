@@ -38,6 +38,7 @@ public abstract class Vertex implements Comparable<Vertex>, Cloneable{
 	private int LPL;
 	private Double reliability;
 	private Double min_voltage;
+	private int min_freq;
 	private int TSP_Active;
 	//Safe Start Time
 	private int SST;
@@ -381,18 +382,28 @@ public abstract class Vertex implements Comparable<Vertex>, Cloneable{
 		return this.getWcet(1) != 0;
 	}
 
-	public int getRunningTimeLO(double maxVoltage, double currentVoltage){
-		return (int) (getWcet(0)*maxVoltage/currentVoltage);
+	public int getRunningTimeLO(double maxFreq, double currentfreq){
+		return (int) (getWcet(0)*maxFreq/currentfreq);
 	}
 
-	public int getRunningTimeHI(double maxVoltage, double currentVoltage){
-		return (int) (getWcet(1)*maxVoltage/currentVoltage);
+
+	public int getRunningTimeHI(double maxFreq, double currentfreq){
+		return (int) (getWcet(1)*maxFreq/currentfreq);
+	}
+
+	public int getMin_freq() {
+		return min_freq;
+	}
+
+	public void setMin_freq(int min_freq) {
+		this.min_freq = min_freq;
 	}
 
 	public void debug(){
 		System.out.println("---------> DEBUG MODE <---------");
 		System.out.println("              " + this.getName());
 		System.out.println("Reliability= "+this.getReliability()+"   Min.Voltage= "+this.getMin_voltage());
+		System.out.println("Min. Freq.= "+this.getMin_freq());
 		System.out.println("Max. Active Core= "+this.getTSP_Active());
 		System.out.println("Safe Start Time= "+this.getSST());
 

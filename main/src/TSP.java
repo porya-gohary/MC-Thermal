@@ -14,7 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
+import com.sun.deploy.util.ArrayUtil;
+
 import java.io.*;
+import java.util.Arrays;
 
 public class TSP {
 
@@ -28,12 +31,15 @@ public class TSP {
     double [] v;
     //Voltages in File
     double [] TSP_v;
+    //All possible Freq;
+    int [] freq;
 
-    public TSP(File file,int number_of_core, double [] v ,McDAG dag) {
+    public TSP(File file,int number_of_core, double [] v, int [] freq ,McDAG dag) {
         this.file=file;
         this.dag=dag;
         this.number_of_core=number_of_core;
         this.v=v;
+        this.freq=freq;
         TSP_v=new double[number_of_core];
     }
 
@@ -56,6 +62,13 @@ public class TSP {
                 for (int i = (number_of_core-1); i >= 0; i--) {
                     if(a.getMin_voltage()<= TSP_v[i]) {
                         a.setTSP_Active(i+1);
+                        //a.setMin_freq(freq[Arrays.asList(v).indexOf(a.getMin_voltage())]);
+                        for (int j = 0; j < v.length; j++) {
+                            if(v[j]==a.getMin_voltage()){
+                                //System.out.println(freq[j]);
+                                a.setMin_freq(freq[j]);
+                            }
+                        }
                         break;
                     }
                 }

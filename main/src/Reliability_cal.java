@@ -139,8 +139,8 @@ public class Reliability_cal {
             R_1=0;
             R_2=0;
 //            System.out.println("Task "+ v_name +" Voltage=" + v_i + " v  and R =  "+(R_1+R_2)+" ");
-           // System.out.println("Reliability [R(1)] For " + v_i + " v =  "+(R_1)+" ");
-           // System.out.println("Reliability [R(2)] For " + v_i + " v =  "+(R_2)+" ");
+//           System.out.println("Reliability [R(1)] For " + v_i + " v =  "+(R_1)+" ");
+//           System.out.println("Reliability [R(2)] For " + v_i + " v =  "+(R_2)+" ");
 
 
         }

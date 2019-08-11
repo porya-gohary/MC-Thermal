@@ -47,6 +47,7 @@ public class CPU {
 
     //GET Running Task in specific Time
     public String getRunningTaskWithReplica(int Core,int Time){
+       // System.out.println("GET Running Task in specific Time "+Core + "   "+ Time);
         return core[Core][Time];
     }
 
