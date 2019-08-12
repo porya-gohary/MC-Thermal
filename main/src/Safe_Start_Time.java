@@ -36,9 +36,10 @@ public class Safe_Start_Time {
     int max_freq;
 
     CPU cpu;
+    int max_freq_cores;
 
 
-    public Safe_Start_Time(Vertex[] v,McDAG mcDAG,double n,int deadline,int n_core,double max_voltage, int max_freq) {
+    public Safe_Start_Time(Vertex[] v,McDAG mcDAG,double n,int deadline,int n_core,double max_voltage, int max_freq, int max_freq_cores) {
         this.v = v;
         this.n=n;
         this.deadline=deadline;
@@ -46,6 +47,7 @@ public class Safe_Start_Time {
         this.mcDAG=mcDAG;
         this.max_voltage=max_voltage;
         this.max_freq=max_freq;
+        this.max_freq_cores=max_freq_cores;
     }
 
 
@@ -155,11 +157,13 @@ public class Safe_Start_Time {
             if(!a.isHighCr()) continue;
             int t=cpu.getStartTime(a.getName()+" OV"+(int)(ceil(n/2)-1));
             System.out.println((a.getName()+" OV"+(int)(ceil(n/2)-1))+"  "+t);
-            int min= (a.getTSP_Active()<floor(n/2)) ? a.getTSP_Active() : (int) floor(n / 2);
+            int min= (max_freq_cores<floor(n/2)) ? max_freq_cores : (int) floor(n / 2);
+            int b=0;
             for (int i = 0; i < (int)floor(n/2)/min; i++) {
                 Task_shifter(t,a.getRunningTimeHI(max_freq,max_freq));
                 for (int j = 0; j < min; j++) {
-                    cpu.SetTaskOnCore(a.getName()+" F"+j,j,t-(a.getRunningTimeHI(max_freq,max_freq)),t-1);
+                    cpu.SetTaskOnCore(a.getName()+" F"+b,j,t-(a.getRunningTimeHI(max_freq,max_freq)),t-1);
+                    b++;
                 }
                 t=t-a.getRunningTimeHI(max_freq,max_freq);
             }

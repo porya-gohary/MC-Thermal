@@ -34,10 +34,10 @@ public class mainScheduling {
 
     double max_voltage;
     int max_freq;
-
+    int max_freq_cores;
     CPU cpu;
 
-    public mainScheduling(Vertex[] v,McDAG mcDAG,double n,int deadline,int n_core,double max_voltage, int max_freq) {
+    public mainScheduling(Vertex[] v,McDAG mcDAG,double n,int deadline,int n_core,double max_voltage, int max_freq, int max_freq_cores) {
         this.deadline = deadline;
         this.n_core = n_core;
         this.n = n;
@@ -45,6 +45,7 @@ public class mainScheduling {
         this.v = v;
         this.max_voltage = max_voltage;
         this.max_freq=max_freq;
+        this.max_freq_cores=max_freq_cores;
     }
 
     public void mScheduling(){
@@ -130,10 +131,21 @@ public class mainScheduling {
 
             System.out.println("↯↯ Fault injected To  "+HIv[f].getName());
             mcDAG.getNodebyName(HIv[f].getName()).setInjected_fault(mcDAG.getNodebyName(HIv[f].getName()).getInjected_fault()+1);
+
             int t=cpu.getEndTime(HIv[f].getName()+" R"+(int)(ceil(n/2)-1));
-            Task_Shifter(t,(int) (HIv[f].getWcet(0)*floor(n/2)));
-            for (int j = 0; j < floor(n/2); j++) {
-                cpu.SetTaskOnCore(HIv[f].getName()+" F"+j,1,t+1+(j*(HIv[f].getWcet(0))),t+((j+1)*(HIv[f].getWcet(0))));
+//            Task_Shifter(t,(int) (HIv[f].getWcet(0)*floor(n/2)));
+//            for (int j = 0; j < floor(n/2); j++) {
+//                cpu.SetTaskOnCore(HIv[f].getName()+" F"+j,1,t+1+(j*(HIv[f].getWcet(0))),t+((j+1)*(HIv[f].getWcet(0))));
+//            }
+            int min= (max_freq_cores<floor(n/2)) ? max_freq_cores : (int) floor(n / 2);
+            int b=0;
+            for (int k = 0; k < (int)floor(n/2)/min; k++) {
+                Task_Shifter(t,HIv[f].getRunningTimeLO(max_freq,max_freq));
+                for (int j = 0; j < min; j++) {
+                    cpu.SetTaskOnCore(HIv[f].getName()+" F"+b,j,t+1,t+(HIv[f].getRunningTimeLO(max_freq,max_freq)));
+                    b++;
+                }
+                t=t+HIv[f].getRunningTimeLO(max_freq,max_freq);
             }
         }
 
