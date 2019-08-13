@@ -114,6 +114,7 @@ public class mainScheduling {
         }
     }
 
+    // a Function for inject fault to tasks
     public void inject_fault(int number_of_fault){
         Set<Vertex> nodesHI=new HashSet<Vertex>();
         for(Vertex a:mcDAG.getVertices()){
@@ -156,6 +157,36 @@ public class mainScheduling {
         }
     }
 
+    public void overrun(int number_of_overrun){
+        Random overrun= new Random();
+        int o = 0;
+        String ov_name;
+        ArrayList <String> ov=new ArrayList<String>();
+        for (int i = 0; i < number_of_overrun; i++) {
+            do{
+                o=overrun.nextInt(n_core);
+            }while(Endtime(o)==0);
+            //System.out.println("|||| OV-CORE ||||| "+o+"  "+ Endtime(o));
+            do{
+                ov_name=cpu.getRunningTaskWithReplica(o,overrun.nextInt(Endtime(o)));
+            }while(ov_name==null || mcDAG.getNodebyName(ov_name.split(" ")[0]).getWcet(1)==0);
+            ov.add(ov_name);
+            int t=cpu.getEndTime(ov_name);
+            System.out.println("|||| OV |||||   "+ov_name+"  Core: "+o);
+            Vertex v=mcDAG.getNodebyName(ov_name.split(" ")[0]);
+
+            //System.out.println("*****   "+v.getWcet(1));
+            Task_Shifter(t,v.getRunningTimeHI(max_freq,max_freq)-v.getRunningTimeLO(max_freq,max_freq));
+            cpu.SetTaskOnCore(v.getName()+" OV",1,t+1,t+(v.getRunningTimeHI(max_freq,max_freq)-v.getRunningTimeLO(max_freq,max_freq)));
+        }
+        try {
+            cpu.debug("mainSCH+Fault+Overrun");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //a function for determine end time in each core
     public int Endtime(int core){
         for (int i = deadline-1; i >= 0; i--) {
             if(cpu.getRunningTask(core,i)!=null){

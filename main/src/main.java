@@ -63,6 +63,7 @@ public class main {
         mainScheduling.sort_vertex();
         mainScheduling.mScheduling();
         mainScheduling.inject_fault(2);
+        mainScheduling.overrun(2);
 
 
     }
