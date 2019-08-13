@@ -66,9 +66,6 @@ public class dag_Reader {
 //        }
         System.out.println("..................");
 
-        for (Vertex a : dag.getVertices()) {
-            a.setLPL(LPtoLeaves(a));
-        }
 //        for (Vertex a : dag.getVertices()) {
 //            System.out.print(a.getName());
 //            System.out.print(" -----> ");
@@ -77,6 +74,8 @@ public class dag_Reader {
 //
 //        }
     }
+
+
 
 
 
@@ -206,28 +205,7 @@ public class dag_Reader {
 
     }
 
-    // A Recursive Method For Finding Longest Path To Leaves for Vertex
-    public int LPtoLeaves(Vertex vertex){
-        int LPL=0;
-        if(vertex.isExitNode()){
-            if(vertex.getWcet(0)>vertex.getWcet(1)){
-                return vertex.getWcet(0);
-            }else {
-                return vertex.getWcet(1);
-            }
-        }
 
-        for (Edge e : vertex.getSndEdges()){
-            if(LPtoLeaves(e.getDest())>LPL) LPL=LPtoLeaves(e.getDest());
-        }
-        if(vertex.getWcet(0)>vertex.getWcet(1)){
-            LPL+=vertex.getWcet(0);
-        }else{
-            LPL+=vertex.getWcet(1);
-        }
-
-        return LPL;
-    }
 
     /* Getters and setters */
 

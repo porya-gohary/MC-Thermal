@@ -50,6 +50,9 @@ public abstract class Vertex implements Comparable<Vertex>, Cloneable{
 
 	private int injected_fault=0;
 
+	private String HI_name;
+	private String LO_name;
+
 
 	
 	public Vertex (int id, String name, int nbLevels) {
@@ -421,4 +424,25 @@ public abstract class Vertex implements Comparable<Vertex>, Cloneable{
 	public void setInjected_fault(int injected_fault) {
 		this.injected_fault = injected_fault;
 	}
+
+
+	//Benchmark NAME
+	public String getHI_name() {
+		return HI_name;
+	}
+
+	public void setHI_name(String HI_name) {
+		this.HI_name = HI_name;
+	}
+
+	public String getLO_name() {
+		return LO_name;
+	}
+
+	public void setLO_name(String LO_name) {
+		this.LO_name = LO_name;
+	}
+
+	public void setWCET_LO(int WCET) {this.wcets[0]=WCET;}
+	public void setWCET_HI(int WCET) {this.wcets[1]=WCET;}
 }
