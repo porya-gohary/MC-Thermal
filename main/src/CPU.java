@@ -14,11 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.Arrays;
 
+@SuppressWarnings("ALL")
 public class CPU {
     //Core of CPU   [#Core] [#Time]
     private String[][] core;
@@ -30,6 +29,12 @@ public class CPU {
     private int n_Cores;
     //MC-DAG
     McDAG mcDAG;
+
+    //Max. Freq.
+    int max_freq=2000;
+
+    //Location of Power Trace
+    String location="D:\\Dars\\Arshad\\My Work\\MC-Thermal2\\MiBench\\";
 
     public CPU( int deadline, int n_Cores,McDAG mcDAG) {
         this.deadline = deadline;
@@ -72,6 +77,80 @@ public class CPU {
         }catch(Exception e){
             System.err.println(Task+"  ⚠ ⚠ Infeasible!");
             System.exit(1);
+        }
+
+        // For Not Mapping Power for Safe Start Time Class
+        StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
+        //System.out.println(stackTraceElements[2].getClassName());
+        if(!stackTraceElements[2].getClassName().equals("Safe_Start_Time")) {
+            try {
+                this.setPower(Task, Start, Core);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    // A function For Mapping Power Of Benchmarks
+    public void setPower(String Task, int Start, int Core) throws IOException {
+        if(Task.contains("F")||Task.contains("O")){
+            String t=Task.split(" ")[0];
+            Vertex v=mcDAG.getNodebyName(t);
+            //Faulty Task Power
+            if(Task.contains("F")){
+                String LO=v.getLO_name();
+                Double r[]=new Double[v.getWcet(0)];
+
+                BufferedReader reader;
+                File file=new File(location+max_freq+"\\"+LO+".txt");
+                reader=new BufferedReader(new FileReader(file));
+                int i=0;
+                String line = reader.readLine();
+                while (line != null) {
+                    r[i]=Double.parseDouble(line);
+                    line = reader.readLine();
+                    i++;
+                }
+                int l=0;
+                for (int k = Start; k < Start+r.length; k++) {
+                    power[Core][k] = r[l];
+                    l++;
+                }
+                System.out.println("P START  :: "+Start+"   "+(Start+r.length));
+                System.out.println("<POWER> "+v.getName()+"  "+v.getLO_name()+"   "+v.getWcet(0));
+                for (int j = 0; j < r.length ; j++) {
+                    System.out.print(r[j]+",");
+                }
+                System.out.println();
+                //Overrun Power
+            }else if(Task.contains("O")){
+                String HI=v.getHI_name();
+                Double r[]=new Double[v.getWcet(1)-v.getWcet(0)];
+                BufferedReader reader;
+                File file=new File(location+max_freq+"\\"+HI+".txt");
+                reader=new BufferedReader(new FileReader(file));
+                int i=0;
+                String line = reader.readLine();
+                while (line != null) {
+                    r[i]=Double.parseDouble(line);
+                    line = reader.readLine();
+                    i++;
+                }
+                int l=0;
+                for (int k = Start; k < Start+r.length; k++) {
+                    power[Core][k] = r[l];
+                    l++;
+                }
+                System.out.println("P START  :: "+Start+"   "+(Start+r.length));
+                System.out.println("<POWER> "+v.getName()+"  "+v.getHI_name()+"   "+(v.getWcet(1)-v.getWcet(0)));
+                for (int j = 0; j < r.length ; j++) {
+                    System.out.print(r[j]+",");
+                }
+                System.out.println();
+
+
+            }
+
         }
     }
 
@@ -185,7 +264,9 @@ public class CPU {
             core[core_number][time]=task;
 
         }catch (Exception e){
-            System.out.println("Core  "+core_number+"  Time "+time);
+            System.err.println(task+"  ⚠ ⚠ Infeasible!");
+            //System.out.println("Core  "+core_number+"  Time "+time);
+            System.exit(1);
         }
     }
 

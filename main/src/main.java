@@ -22,7 +22,7 @@ public class main {
         int max_freq_cores=1;
 
         String benchmark[]={"Basicmath", "Bitcount","Dijkstra","FFT","JPEG", "Patricia","Qsort","Sha","Stringsearch","Susan"};
-        int benchmark_time[]={157,26,34,162,29,88,26,14,9,21};
+        int benchmark_time[]={156,25,33,160,28,87,25,13,8,20};
 
 
         File file=new File("test.xml");

@@ -223,4 +223,7 @@ public class mainScheduling {
             System.out.println(a.getName()+"  ==>>  "+a.getLPL()+"    -=>  "+a.getScheduled());
         }
     }
+    public CPU getCpu(){
+        return cpu;
+    }
 }
