@@ -42,6 +42,9 @@ public class CPU {
         this.mcDAG=mcDAG;
         core=new String[n_Cores][deadline];
         power=new double [n_Cores][deadline];
+        for (int i = 0; i < n_Cores; i++) {
+            Arrays.fill(power[i], 0.5);
+        }
     }
     //GET Running Task in specific Time
     public String getRunningTask(int Core,int Time){
@@ -93,9 +96,9 @@ public class CPU {
 
     // A function For Mapping Power Of Benchmarks
     public void setPower(String Task, int Start, int Core) throws IOException {
+        String t=Task.split(" ")[0];
+        Vertex v=mcDAG.getNodebyName(t);
         if(Task.contains("F")||Task.contains("O")){
-            String t=Task.split(" ")[0];
-            Vertex v=mcDAG.getNodebyName(t);
             //Faulty Task Power
             if(Task.contains("F")){
                 String LO=v.getLO_name();
@@ -116,12 +119,12 @@ public class CPU {
                     power[Core][k] = r[l];
                     l++;
                 }
-                System.out.println("P START  :: "+Start+"   "+(Start+r.length));
-                System.out.println("<POWER> "+v.getName()+"  "+v.getLO_name()+"   "+v.getWcet(0));
-                for (int j = 0; j < r.length ; j++) {
-                    System.out.print(r[j]+",");
-                }
-                System.out.println();
+//                System.out.println("P START  :: "+Start+"   "+(Start+r.length));
+//                System.out.println("<POWER> "+v.getName()+"  "+v.getLO_name()+"   "+v.getWcet(0));
+//                for (int j = 0; j < r.length ; j++) {
+//                    System.out.print(r[j]+",");
+//                }
+//                System.out.println();
                 //Overrun Power
             }else if(Task.contains("O")){
                 String HI=v.getHI_name();
@@ -141,14 +144,35 @@ public class CPU {
                     power[Core][k] = r[l];
                     l++;
                 }
-                System.out.println("P START  :: "+Start+"   "+(Start+r.length));
-                System.out.println("<POWER> "+v.getName()+"  "+v.getHI_name()+"   "+(v.getWcet(1)-v.getWcet(0)));
-                for (int j = 0; j < r.length ; j++) {
-                    System.out.print(r[j]+",");
-                }
-                System.out.println();
+//                System.out.println("P START  :: "+Start+"   "+(Start+r.length));
+//                System.out.println("<POWER> "+v.getName()+"  "+v.getHI_name()+"   "+(v.getWcet(1)-v.getWcet(0)));
+//                for (int j = 0; j < r.length ; j++) {
+//                    System.out.print(r[j]+",");
+//                }
+               // System.out.println();
 
 
+            }
+
+        }else{
+            String LO=v.getLO_name();
+            Double r[]=new Double[(v.getWcet(0)*max_freq/v.getMin_freq())];
+            BufferedReader reader;
+            File file=new File(location+v.getMin_freq()+"\\"+LO+".txt");
+            reader=new BufferedReader(new FileReader(file));
+            int i=0;
+            String line = reader.readLine();
+//            System.out.println("P START  :: "+Start+"   "+(Start+r.length));
+//            System.out.println("<POWER> "+v.getName()+"  "+v.getLO_name()+"   "+v.getWcet(0)+"    "+v.getMin_freq());
+            while (line != null) {
+                r[i]=Double.parseDouble(line);
+                line = reader.readLine();
+                i++;
+            }
+            int l=0;
+            for (int k = Start; k < Start+r.length; k++) {
+                power[Core][k] = r[l];
+                l++;
             }
 
         }
@@ -259,6 +283,35 @@ public class CPU {
         outputWriter.close();
     }
 
+    public void Task_Shifter(int shiftTime ,int amount ){
+        System.out.println("TASK SHIFTER  "+ shiftTime+"  > > "+amount);
+        for (int i = 0; i < n_Cores; i++) {
+            for (int j = Endtime(i); j > (shiftTime) ; j--) {
+                try {
+                    this.SetTask(i, j + amount, this.getRunningTaskWithReplica(i, j));
+                    power[i][j + amount]=power[i][j];
+                }catch(Exception ex)
+                {
+                    System.err.println(this.getRunningTaskWithReplica(i, j)+"  ⚠ ⚠ Infeasible!");
+                    System.exit(1);
+                }
+            }
+            for (int j = shiftTime+1 ; j < shiftTime+amount+1; j++) {
+                this.SetTask(i, j , null);
+            }
+        }
+    }
+
+    //a function for determine end time in each core
+    public int Endtime(int core){
+        for (int i = deadline-1; i >= 0; i--) {
+            if(this.getRunningTask(core,i)!=null){
+                return i;
+            }
+        }
+        return 0;
+    }
+
     public void SetTask(int core_number , int time ,String task){
         try {
             core[core_number][time]=task;
@@ -284,7 +337,7 @@ public class CPU {
 
 
     //Return End Time of a Specific Replica of Tasks
-    public int getEndTime(String Task){
+    public int getEndTimeTask(String Task){
         int e=-1;
         System.out.println(Task);
         for (int i = 0; i < n_Cores; i++) {
@@ -296,6 +349,21 @@ public class CPU {
         }
         System.out.println("   >>> "+e);
         return e;
+    }
+
+    public void Save_Power(String Folder,String Filename) throws IOException {
+        BufferedWriter outputWriter = null;
+        File newFolder = new File(Folder);
+        newFolder.mkdir();
+        for (int i = 0; i < getN_Cores(); i++) {
+            outputWriter = new BufferedWriter(new FileWriter(Folder+"\\"+Filename+"_Core_"+i+".txt"));
+            for (int j = 0; j < getDeadline(); j++) {
+                outputWriter.write(power[i][j]+"\n");
+            };
+            outputWriter.flush();
+            outputWriter.close();
+
+        }
     }
 
 

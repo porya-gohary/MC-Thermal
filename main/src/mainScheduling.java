@@ -103,6 +103,7 @@ public class mainScheduling {
         }
         try {
             cpu.debug("mainSCH");
+            cpu.Save_Power("1","mainSCH");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -133,7 +134,7 @@ public class mainScheduling {
             System.out.println("↯↯ Fault injected To  "+HIv[f].getName());
             mcDAG.getNodebyName(HIv[f].getName()).setInjected_fault(mcDAG.getNodebyName(HIv[f].getName()).getInjected_fault()+1);
 
-            int t=cpu.getEndTime(HIv[f].getName()+" R"+(int)(ceil(n/2)-1));
+            int t=cpu.getEndTimeTask(HIv[f].getName()+" R"+(int)(ceil(n/2)-1));
 //            Task_Shifter(t,(int) (HIv[f].getWcet(0)*floor(n/2)));
 //            for (int j = 0; j < floor(n/2); j++) {
 //                cpu.SetTaskOnCore(HIv[f].getName()+" F"+j,1,t+1+(j*(HIv[f].getWcet(0))),t+((j+1)*(HIv[f].getWcet(0))));
@@ -141,7 +142,7 @@ public class mainScheduling {
             int min= (max_freq_cores<floor(n/2)) ? max_freq_cores : (int) floor(n / 2);
             int b=0;
             for (int k = 0; k < (int)floor(n/2)/min; k++) {
-                Task_Shifter(t,HIv[f].getRunningTimeLO(max_freq,max_freq));
+                cpu.Task_Shifter(t,HIv[f].getRunningTimeLO(max_freq,max_freq));
                 for (int j = 0; j < min; j++) {
                     cpu.SetTaskOnCore(HIv[f].getName()+" F"+b,j,t+1,t+(HIv[f].getRunningTimeLO(max_freq,max_freq)));
                     b++;
@@ -152,6 +153,7 @@ public class mainScheduling {
 
         try {
             cpu.debug("mainSCH+Fault");
+            cpu.Save_Power("1","mainSCH+Fault");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -165,54 +167,31 @@ public class mainScheduling {
         for (int i = 0; i < number_of_overrun; i++) {
             do{
                 o=overrun.nextInt(n_core);
-            }while(Endtime(o)==0);
+            }while(cpu.Endtime(o)==0);
             //System.out.println("|||| OV-CORE ||||| "+o+"  "+ Endtime(o));
             do{
-                ov_name=cpu.getRunningTaskWithReplica(o,overrun.nextInt(Endtime(o)));
+                ov_name=cpu.getRunningTaskWithReplica(o,overrun.nextInt(cpu.Endtime(o)));
             }while(ov_name==null || mcDAG.getNodebyName(ov_name.split(" ")[0]).getWcet(1)==0);
             ov.add(ov_name);
-            int t=cpu.getEndTime(ov_name);
+            int t=cpu.getEndTimeTask(ov_name);
             System.out.println("|||| OV |||||   "+ov_name+"  Core: "+o);
             Vertex v=mcDAG.getNodebyName(ov_name.split(" ")[0]);
 
             //System.out.println("*****   "+v.getWcet(1));
-            Task_Shifter(t,v.getRunningTimeHI(max_freq,max_freq)-v.getRunningTimeLO(max_freq,max_freq));
+            cpu.Task_Shifter(t,v.getRunningTimeHI(max_freq,max_freq)-v.getRunningTimeLO(max_freq,max_freq));
             cpu.SetTaskOnCore(v.getName()+" OV",1,t+1,t+(v.getRunningTimeHI(max_freq,max_freq)-v.getRunningTimeLO(max_freq,max_freq)));
         }
         try {
             cpu.debug("mainSCH+Fault+Overrun");
+            cpu.Save_Power("1","mainSCH+Fault+Overrun");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    //a function for determine end time in each core
-    public int Endtime(int core){
-        for (int i = deadline-1; i >= 0; i--) {
-            if(cpu.getRunningTask(core,i)!=null){
-                return i;
-            }
-        }
-        return 0;
-    }
 
-    public void Task_Shifter(int shiftTime ,int amount ){
-        System.out.println("TASK SHIFTER  "+ shiftTime+"  > > "+amount);
-        for (int i = 0; i < n_core; i++) {
-            for (int j = Endtime(i); j > (shiftTime) ; j--) {
-                try {
-                    cpu.SetTask(i, j + amount, cpu.getRunningTaskWithReplica(i, j));
-                }catch(Exception ex)
-                {
-                    System.err.println(cpu.getRunningTaskWithReplica(i, j)+"  ⚠ ⚠ Infeasible!");
-                    System.exit(1);
-                }
-            }
-            for (int j = shiftTime+1 ; j < shiftTime+amount+1; j++) {
-                cpu.SetTask(i, j , null);
-            }
-        }
-    }
+
+
 
     public void sort_vertex() {
         Arrays.sort(v);
