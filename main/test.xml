@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<mcsystem>
+    <mcdag deadline="100" name="genned-0-ed-45.0-0">
+        <actor name="D0N7">
+            <wcet number="0">19</wcet>
+            <wcet number="1">0</wcet>
+            <rank>3</rank>
+            <fprob>0.0</fprob>
+        </actor>
+        <actor name="D0N6">
+            <wcet number="0">6</wcet>
+            <wcet number="1">0</wcet>
+            <rank>3</rank>
+            <fprob>0.0</fprob>
+        </actor>
+        <actor name="D0N0">
+            <wcet number="0">11</wcet>
+            <wcet number="1">19</wcet>
+            <rank>0</rank>
+            <fprob>0.0</fprob>
+        </actor>
+        <actor name="D0N1">
+            <wcet number="0">8</wcet>
+            <wcet number="1">51</wcet>
+            <rank>0</rank>
+            <fprob>0.0</fprob>
+        </actor>
+        <actor name="D0N3">
+            <wcet number="0">58</wcet>
+            <wcet number="1">59</wcet>
+            <rank>1</rank>
+            <fprob>0.0</fprob>
+        </actor>
+        <actor name="D0N4">
+            <wcet number="0">19</wcet>
+            <wcet number="1">0</wcet>
+            <rank>2</rank>
+            <fprob>0.0</fprob>
+        </actor>
+        <actor name="D0N5">
+            <wcet number="0">39</wcet>
+            <wcet number="1">0</wcet>
+            <rank>2</rank>
+            <fprob>0.0</fprob>
+        </actor>
+        <actor name="D0N2">
+            <wcet number="0">40</wcet>
+            <wcet number="1">71</wcet>
+            <rank>0</rank>
+            <fprob>0.0</fprob>
+        </actor>
+        <ports>
+            <port dstActor="D0N3" name="p0" srcActor="D0N0"/>
+            <port dstActor="D0N7" name="p1" srcActor="D0N0"/>
+            <port dstActor="D0N6" name="p2" srcActor="D0N0"/>
+            <port dstActor="D0N5" name="p3" srcActor="D0N1"/>
+            <port dstActor="D0N7" name="p4" srcActor="D0N3"/>
+            <port dstActor="D0N6" name="p5" srcActor="D0N3"/>
+            <port dstActor="D0N6" name="p6" srcActor="D0N4"/>
+            <port dstActor="D0N7" name="p7" srcActor="D0N5"/>
+            <port dstActor="D0N6" name="p8" srcActor="D0N5"/>
+            <port dstActor="D0N4" name="p9" srcActor="D0N2"/>
+        </ports>
+    </mcdag>
+    <cores number="2"/>
+    <levels number="2"/>
+</mcsystem>
