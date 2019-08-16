@@ -61,8 +61,9 @@ public class CPU {
 
     //If Time slot was free return true;
     public boolean CheckTimeSlot(int Core,int Start,int End){
+        if(Core>(n_Cores-1)) return false;
         if(Start > End) return false;
-        if(Start<0 || End >deadline || Start >deadline) return false;
+        if(Start<0 || End >=deadline || Start >=deadline) return false;
         for (int i = Start; i <= End ; i++) {
 //            System.out.println("Check Time: "+Core+"  "+i);
             if(core[Core][i]!=null) return false;
@@ -98,7 +99,44 @@ public class CPU {
     public void setPower(String Task, int Start, int Core) throws IOException {
         String t=Task.split(" ")[0];
         Vertex v=mcDAG.getNodebyName(t);
-        if(Task.contains("F")||Task.contains("O")){
+        if(Task.contains("CR")){
+            String LO=v.getLO_name();
+            Double r[]=new Double[v.getWcet(0)];
+            BufferedReader reader;
+            File file=new File(location+max_freq+"\\"+LO+".txt");
+            reader=new BufferedReader(new FileReader(file));
+            int i=0;
+            String line = reader.readLine();
+            while (line != null) {
+                r[i]=Double.parseDouble(line);
+                line = reader.readLine();
+                i++;
+            }
+            int l=0;
+            for (int k = Start; k < Start+r.length; k++) {
+                power[Core][k] = r[l];
+                l++;
+            }
+        }else if(Task.contains("CO")){
+            String HI=v.getHI_name();
+            Double r[]=new Double[v.getWcet(1)-v.getWcet(0)];
+            BufferedReader reader;
+            File file=new File(location+max_freq+"\\"+HI+".txt");
+            reader=new BufferedReader(new FileReader(file));
+            int i=0;
+            String line = reader.readLine();
+            while (line != null) {
+                r[i]=Double.parseDouble(line);
+                line = reader.readLine();
+                i++;
+            }
+            int l=0;
+            for (int k = Start; k < Start+r.length; k++) {
+                power[Core][k] = r[l];
+                l++;
+            }
+
+        }else if(Task.contains("F")||Task.contains("O")){
             //Faulty Task Power
             if(Task.contains("F")){
                 String LO=v.getLO_name();
@@ -220,7 +258,8 @@ public class CPU {
     public String[] get_Running_Tasks(int Time){
         String[] a=new String[n_Cores];
         for (int i = 0; i < n_Cores; i++) {
-            a[i]=core[i][Time];
+            if(core[i][Time]!=null)
+                a[i]=core[i][Time].split(" ")[0];
         }
         return a;
     }

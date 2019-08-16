@@ -19,13 +19,22 @@ public class benchmark_mapping {
         int t1=0;
         int t2=0;
         for (Vertex a : dag.getVertices()){
-            t1=rn.nextInt(benchmark.length);
-            a.setLO_name(benchmark[t1]);
-            a.setWCET_LO(benchmark_time[t1]);
-            System.out.println("%%%% >> "+benchmark_time[t1]);
-            t2=rn.nextInt(benchmark.length);
-            a.setHI_name(benchmark[t2]);
-            a.setWCET_HI(benchmark_time[t2]+a.getWcet(0));
+            if(a.isHighCr()){
+                t1=rn.nextInt(benchmark.length);
+                a.setLO_name(benchmark[t1]);
+                a.setWCET_LO(benchmark_time[t1]);
+                System.out.println("%%%% >> "+benchmark_time[t1]);
+                t2=rn.nextInt(benchmark.length);
+                a.setHI_name(benchmark[t2]);
+                a.setWCET_HI(benchmark_time[t2]+a.getWcet(0));
+            }else{
+                t1=rn.nextInt(benchmark.length);
+                a.setLO_name(benchmark[t1]);
+                a.setWCET_LO(benchmark_time[t1]);
+                a.setHI_name(null);
+                a.setWCET_HI(0);
+            }
+
 
 
         }
