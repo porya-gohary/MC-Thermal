@@ -61,6 +61,13 @@ public class mainScheduling {
                         j=0;
                         for (int i = 0; i < deadline; i++) {
                             if(!a.check_runnable(cpu.get_Running_Tasks(i),n)) continue;
+                            boolean CPU_runnable=true;
+                            for(Edge e: a.getRcvEdges()){
+                                if(cpu.getEndTimeTask(e.getSrc().getName()+" R"+(int)(ceil(n/2)-1))>i){
+                                    CPU_runnable=false;
+                                }
+                            }
+                            if(!CPU_runnable) continue;
                             if(cpu.CheckTimeSlot(j, i,i+a.getRunningTimeLO(max_freq,a.getMin_freq())-1) && (cpu.maxCoreInterval(i,i+a.getRunningTimeLO(max_freq,a.getMin_freq())-1)>=a.getTSP_Active()) &&
                                     (cpu.numberOfRunningTasksInterval(i,i+a.getRunningTimeLO(max_freq,a.getMin_freq())-1)<a.getTSP_Active())){
                                 cpu.SetTaskOnCore(a.getName()+" R"+l,j,i,i+a.getRunningTimeLO(max_freq,a.getMin_freq())-1);
@@ -76,6 +83,7 @@ public class mainScheduling {
                                 j = 0;
                             }
                         }
+                        if(a.getScheduled()==(int)(ceil(n/2))) break;
                             
                         
                     }

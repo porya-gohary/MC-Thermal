@@ -54,7 +54,7 @@ public class main {
 //                benchmark_time,max_freq_cores,n);
 //        proposedMethod.start();
         //deadline=900;
-        ClassicNMR NMR=new ClassicNMR(dag,8,deadline,benchmark,benchmark_time,3);
+        ClassicNMR NMR=new ClassicNMR(dag,8,deadline,benchmark,benchmark_time,3,2);
 
 
     }
