@@ -180,11 +180,12 @@ public class mainScheduling {
         String ov_name;
         ArrayList <String> ov=new ArrayList<String>();
         for (int i = 0; i < number_of_overrun; i++) {
-            do{
-                o=overrun.nextInt(n_core);
-            }while(cpu.Endtime(o)==0);
+
             //System.out.println("|||| OV-CORE ||||| "+o+"  "+ Endtime(o));
             do{
+                do{
+                    o=overrun.nextInt(n_core);
+                }while(cpu.Endtime(o)==0);
                 ov_name=cpu.getRunningTaskWithReplica(o,overrun.nextInt(cpu.Endtime(o)));
             }while(ov_name==null || mcDAG.getNodebyName(ov_name.split(" ")[0]).getWcet(1)==0);
             ov.add(ov_name);

@@ -50,11 +50,12 @@ public class main {
 
         System.out.println("Deadline= "+deadline);
         //   --->>>>  PROPOSED METHOD
-        ProposedMethod proposedMethod=new ProposedMethod(landa0,d,v,freq,tsp_name,dag,n_core,deadline,rel_name,benchmark,
+       ProposedMethod proposedMethod=new ProposedMethod(landa0,d,v,freq,tsp_name,dag,n_core,deadline,rel_name,benchmark,
                 benchmark_time,max_freq_cores,n);
         proposedMethod.start();
         //deadline=900;
         ClassicNMR NMR=new ClassicNMR(dag,8,deadline,benchmark,benchmark_time,3,2);
+        Medina medina=new Medina(dag,n_core,deadline,benchmark,benchmark_time,2);
 
 
     }

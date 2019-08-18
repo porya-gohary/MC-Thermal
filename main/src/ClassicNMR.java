@@ -118,10 +118,9 @@ public class ClassicNMR {
         ArrayList<String> ov=new ArrayList<String>();
         for (int i = 0; i < n_overrun; i++) {
             do{
-                o=overrun.nextInt(n_core);
-            }while(cpu.Endtime(o)==0);
-
-            do{
+                do{
+                    o=overrun.nextInt(n_core);
+                }while(cpu.Endtime(o)==0);
                 ov_name=cpu.getRunningTaskWithReplica(o,overrun.nextInt(cpu.Endtime(o)));
             }while(ov_name==null || dag.getNodebyName(ov_name.split(" ")[0]).getWcet(1)==0 || ov_name.contains("CO"));
             ov.add(ov_name);

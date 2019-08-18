@@ -349,7 +349,9 @@ public abstract class Vertex implements Comparable<Vertex>, Cloneable{
 				//System.out.println(stackTraceElements[2].getClassName());
 				if (stackTraceElements[2].getClassName().equals("ClassicNMR")) {
 					if (e.getSrc().scheduled != n) return false;
-				} else {
+				} else if(stackTraceElements[2].getClassName().equals("Medina")) {
+					if (e.getSrc().scheduled != 1) return false;
+				}else{
 					if (e.getSrc().scheduled != ceil(n / 2)) return false;
 				}
 			}else{
