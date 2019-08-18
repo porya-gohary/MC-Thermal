@@ -12,7 +12,7 @@ public class main {
     public static void main(String args[]) throws IOException, SAXException, ParserConfigurationException {
         double n=5;
         int deadline=900;
-        int n_core=4;
+        int n_core=8;
         McDAG dag;
 
         //Dag XML Name
@@ -31,7 +31,7 @@ public class main {
         //Possible Frequencies
         int freq[]={1200,1400,1600,2000};
         //number of cores that can work with max freq in same time
-        int max_freq_cores=1;
+        int max_freq_cores=2;
         //Benchmarks Name
         String benchmark[]={"Basicmath", "Bitcount","Dijkstra","FFT","JPEG", "Patricia","Qsort","Sha","Stringsearch","Susan"};
         int benchmark_time[]={156,25,33,160,28,87,25,13,8,20};
@@ -48,11 +48,11 @@ public class main {
 
         //dr.readXML();
 
-
+        System.out.println("Deadline= "+deadline);
         //   --->>>>  PROPOSED METHOD
-//        ProposedMethod proposedMethod=new ProposedMethod(landa0,d,v,freq,tsp_name,dag,n_core,deadline,rel_name,benchmark,
-//                benchmark_time,max_freq_cores,n);
-//        proposedMethod.start();
+        ProposedMethod proposedMethod=new ProposedMethod(landa0,d,v,freq,tsp_name,dag,n_core,deadline,rel_name,benchmark,
+                benchmark_time,max_freq_cores,n);
+        proposedMethod.start();
         //deadline=900;
         ClassicNMR NMR=new ClassicNMR(dag,8,deadline,benchmark,benchmark_time,3,2);
 

@@ -61,6 +61,7 @@ public class Safe_Start_Time {
                 if(a.getScheduled()==ceil(n/2)) continue;
                 for (int l = 0; l < ceil(n/2) ; l++) {
                     j=0;
+                    System.out.println(a.getName()+"   "+a.getWcet(1));
                     for (int i = (deadline-1); i >= 0; i--) {
                         // ***********HERE NEED TO CHECKING NUMBER OF ACTIVE CORE*****
 
@@ -85,6 +86,7 @@ public class Safe_Start_Time {
                         //                  ***********HERE NEED TO COMPLETE*****
 
                     }
+                    if(a.getScheduled()==(int)(ceil(n/2))) break;
                 }
             }
 
@@ -112,14 +114,16 @@ public class Safe_Start_Time {
                 return i;
             }
         }
-        return 0;
+        return -1;
     }
 
     //Shift Running Tasks For adding Overrun and Faults
     public void Task_shifter(int shiftTime ,int amount ) {
         for (int i = 0; i < n_core; i++) {
+            if(starttime(i)==-1)continue;
             for (int j = starttime(i); j < shiftTime ; j++) {
                 try {
+                    //System.out.println("Shift::: "+shiftTime+"   ///  "+amount+" \\\\  "+ starttime(i));
                     cpu.SetTask(i, j - amount, cpu.getRunningTaskWithReplica(i, j));
                 }catch(Exception ex)
                 {
