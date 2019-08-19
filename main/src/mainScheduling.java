@@ -48,7 +48,7 @@ public class mainScheduling {
         this.max_freq_cores=max_freq_cores;
     }
 
-    public void mScheduling(){
+    public void mScheduling() throws Exception {
         cpu=new CPU(deadline,n_core,mcDAG);
         int j=0;
         for (int x = 0; x < v.length; x++) {
@@ -72,7 +72,7 @@ public class mainScheduling {
                                     (cpu.numberOfRunningTasksInterval(i,i+a.getRunningTimeLO(max_freq,a.getMin_freq())-1)<a.getTSP_Active())){
                                 cpu.SetTaskOnCore(a.getName()+" R"+l,j,i,i+a.getRunningTimeLO(max_freq,a.getMin_freq())-1);
                                 a.setScheduled(a.getScheduled()+1);
-                                System.out.println(a.getName()+"   "+a.getScheduled());
+                                //System.out.println(a.getName()+"   "+a.getScheduled());
                                 break;
                             }
                             if (j<(n_core-1)){
@@ -103,7 +103,7 @@ public class mainScheduling {
                                 (cpu.numberOfRunningTasksInterval(i, i + a.getRunningTimeLO(max_freq, a.getMin_freq())) < a.getTSP_Active())) {
                             cpu.SetTaskOnCore(a.getName() + " R0", j, i, i + a.getRunningTimeLO(max_freq, a.getMin_freq()));
                             a.setScheduled(a.getScheduled() + 1);
-                            System.out.println(a.getName() + "   " + a.getScheduled());
+                            //System.out.println(a.getName() + "   " + a.getScheduled());
                             break;
                         }
                         if (j < (n_core - 1)) {
@@ -131,7 +131,7 @@ public class mainScheduling {
     }
 
     // a Function for inject fault to tasks
-    public void inject_fault(int number_of_fault){
+    public void inject_fault(int number_of_fault) throws Exception {
         Set<Vertex> nodesHI=new HashSet<Vertex>();
         for(Vertex a:mcDAG.getVertices()){
             if (a.getWcet(1)!=0)
@@ -174,7 +174,7 @@ public class mainScheduling {
         }
     }
 
-    public void overrun(int number_of_overrun){
+    public void overrun(int number_of_overrun) throws Exception {
         Random overrun= new Random();
         int o = 0;
         String ov_name;
@@ -209,10 +209,6 @@ public class mainScheduling {
         Arrays.sort(v);
         Collections.reverse(Arrays.asList(v));
         //Show Sorted Vortex Array
-
-        for(Vertex a:v){
-            System.out.println(a.getName()+"  ==>>  "+a.getLPL()+"    -=>  "+a.getScheduled());
-        }
     }
     public CPU getCpu(){
         return cpu;

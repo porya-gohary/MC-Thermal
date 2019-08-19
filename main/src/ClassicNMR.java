@@ -18,7 +18,7 @@ public class ClassicNMR {
     int n_overrun=0;
     CPU cpu;
 
-    public ClassicNMR(McDAG dag, int n_core, int deadline, String[] benchmark, int[] benchmark_time, double n,int n_overrun ) {
+    public ClassicNMR(McDAG dag, int n_core, int deadline, String[] benchmark, int[] benchmark_time, double n,int n_overrun ) throws Exception {
         this.dag = dag;
         this.n_core = n_core;
         this.deadline = deadline;
@@ -34,7 +34,7 @@ public class ClassicNMR {
         this.mScheduling();
     }
 
-    public void check_feasible(){
+    public void check_feasible() throws Exception {
         cpu=new CPU(deadline,n_core,dag);
         int j=0;
         for (int x = 0; x < v.length; x++) {
@@ -73,7 +73,7 @@ public class ClassicNMR {
                                     cpu.SetTaskOnCore(a.getName() + " CR" + k, (j+k), i, i + a.getWcet(0) - 1);
                                     cpu.SetTaskOnCore(a.getName() + " CO" + k, (j+k), i +a.getWcet(0),i+ a.getWcet(1)-1);
                                     a.setScheduled(a.getScheduled() + 1);
-                                    System.out.println(a.getScheduled()+"   "+n+"   > "+k);
+                                    //System.out.println(a.getScheduled()+"   "+n+"   > "+k);
                                 }
                                 break;
                             }
@@ -108,10 +108,17 @@ public class ClassicNMR {
 
             }
         }
+        for(Vertex a: v){
+            if(a.isHighCr()) {
+                if(a.getScheduled()<n) throw new Exception("Infeasible!");
+            }else{
+                if(a.getScheduled()!=1) throw new Exception("Infeasible!");
+            }
+        }
 
     }
 
-    public void mScheduling(){
+    public void mScheduling() throws Exception {
         Random overrun= new Random();
         int o = 0;
         String ov_name;
@@ -124,7 +131,7 @@ public class ClassicNMR {
                 ov_name=cpu.getRunningTaskWithReplica(o,overrun.nextInt(cpu.Endtime(o)));
             }while(ov_name==null || dag.getNodebyName(ov_name.split(" ")[0]).getWcet(1)==0 || ov_name.contains("CO"));
             ov.add(ov_name);
-            //System.out.println("|||| OV |||||   "+ov_name+"  Core: "+o);
+            System.out.println("|||| OV |||||   "+ov_name+"  Core: "+o);
         }
 
         cpu=new CPU(deadline,n_core,dag);
@@ -175,7 +182,7 @@ public class ClassicNMR {
                                         cpu.SetTaskOnCore(a.getName() + " CR" + k, (j + k), i, i + a.getWcet(0) - 1);
                                         cpu.SetTaskOnCore(a.getName() + " CO" + k, (j + k), i + a.getWcet(0), i + a.getWcet(1) - 1);
                                         a.setScheduled(a.getScheduled() + 1);
-                                        System.out.println(a.getScheduled() + "   " + n + "   > " + k);
+                                        //System.out.println(a.getScheduled() + "   " + n + "   > " + k);
                                     }else{
                                         cpu.SetTaskOnCore(a.getName() + " CR" + k, (j + k), i, i + a.getWcet(0) - 1);
                                         a.setScheduled(a.getScheduled() + 1);

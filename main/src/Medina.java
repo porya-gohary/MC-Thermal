@@ -15,7 +15,7 @@ public class Medina {
     int n_overrun = 0;
     CPU cpu;
 
-    public Medina(McDAG dag, int n_core, int deadline, String[] benchmark, int[] benchmark_time, int n_overrun) {
+    public Medina(McDAG dag, int n_core, int deadline, String[] benchmark, int[] benchmark_time, int n_overrun) throws Exception {
         this.dag = dag;
         this.n_core = n_core;
         this.deadline = deadline;
@@ -32,7 +32,7 @@ public class Medina {
 
     }
 
-    public void check_feasible() {
+    public void check_feasible() throws Exception {
         cpu = new CPU(deadline, n_core, dag);
         int j = 0;
         for (int x = 0; x < v.length; x++) {
@@ -104,6 +104,13 @@ public class Medina {
 
             }
         }
+        for(Vertex a: v){
+            if(a.isHighCr()) {
+                if(a.getScheduled()<n) throw new Exception("Infeasible!");
+            }else{
+                if(a.getScheduled()!=1) throw new Exception("Infeasible!");
+            }
+        }
 //        try {
 //            cpu.debug("Med-mainSCH");
 //            cpu.Save_Power("1", "Med-mainSCH");
@@ -113,7 +120,7 @@ public class Medina {
 
     }
 
-    public void mScheduling() {
+    public void mScheduling() throws Exception {
         Random overrun = new Random();
         int o = 0;
         String ov_name;
@@ -137,7 +144,7 @@ public class Medina {
                 if (a.isHighCr()) {
 
                     if (a.getScheduled() == 1) continue;
-                    System.out.println("SCH  "+a.getScheduled()+"   "+ n);
+                    //System.out.println("SCH  "+a.getScheduled()+"   "+ n);
 
                     j = 0;
                     for (int i = 0; i < deadline; i++) {

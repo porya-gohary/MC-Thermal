@@ -108,7 +108,7 @@ public class Reliability_cal {
         }
     }
 
-    public void cal(){
+    public void cal() throws Exception {
         rou_min=v_min/v_max;
 
         for(double v_i:v){
@@ -144,6 +144,9 @@ public class Reliability_cal {
 
 
         }
+        System.err.println(v_name+" Reliability ⚠ ⚠ Infeasible!");
+        //System.out.println("Core  "+core_number+"  Time "+time);
+        throw new Exception("Infeasible!");
 
     }
 

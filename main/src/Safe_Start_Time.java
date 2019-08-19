@@ -51,7 +51,7 @@ public class Safe_Start_Time {
     }
 
 
-    public void scheduling(){
+    public void scheduling() throws Exception {
         cpu=new CPU(deadline,n_core,mcDAG);
         int j=0;
         int k=0;
@@ -118,7 +118,7 @@ public class Safe_Start_Time {
     }
 
     //Shift Running Tasks For adding Overrun and Faults
-    public void Task_shifter(int shiftTime ,int amount ) {
+    public void Task_shifter(int shiftTime ,int amount ) throws Exception {
         for (int i = 0; i < n_core; i++) {
             if(starttime(i)==-1)continue;
             for (int j = starttime(i); j < shiftTime ; j++) {
@@ -128,7 +128,8 @@ public class Safe_Start_Time {
                 }catch(Exception ex)
                 {
                     System.err.println(cpu.getRunningTaskWithReplica(i, j)+"  ⚠ ⚠ Infeasible!");
-                    System.exit(1);
+                    throw new Exception("Infeasible!");
+                    //System.exit(1);
                 }
             }
             for (int j = shiftTime -amount; j < shiftTime; j++) {
@@ -138,7 +139,7 @@ public class Safe_Start_Time {
     }
 
     //Add Overrun of Tasks To Safe Start Time
-    public void overrun(){
+    public void overrun() throws Exception {
         for(Vertex a: mcDAG.getVertices()){
             if(!a.isHighCr()) continue;
             for (int i = 0; i < ceil(n/2); i++) {
@@ -156,7 +157,7 @@ public class Safe_Start_Time {
         }
     }
 
-    public void inject_fault(){
+    public void inject_fault() throws Exception {
         for(Vertex a: mcDAG.getVertices()){
             if(!a.isHighCr()) continue;
             int t=cpu.getStartTime(a.getName()+" OV"+(int)(ceil(n/2)-1));
@@ -181,12 +182,13 @@ public class Safe_Start_Time {
     }
 
     //Set Safe Start Time (It Must Call After Scheduling Method)
-    public void setSafeStartTime(){
+    public void setSafeStartTime() throws Exception {
         for(Vertex a: mcDAG.getVertices()){
             if(!a.isHighCr()) continue;
             if (cpu.getSafeTime(a.getName())== deadline || cpu.getSafeTime(a.getName())<= 0) {
                 System.err.println(a.getName()+"  ⚠ ⚠ Infeasible!");
-                System.exit(1);
+                throw new Exception("Infeasible!");
+                //System.exit(1);
             }
             a.setSST(cpu.getSafeTime(a.getName()));
         }

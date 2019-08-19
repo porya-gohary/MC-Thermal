@@ -72,15 +72,16 @@ public class CPU {
     }
 
     //Set Task to Core
-    public void SetTaskOnCore(String Task,int Core,int Start,int End){
-        System.out.println(Task+"  "+ Start+"  "+End);
+    public void SetTaskOnCore(String Task,int Core,int Start,int End) throws Exception {
+       // System.out.println(Task+"  "+ Start+"  "+End);
         try {
             for (int i = Start; i <= End; i++) {
                 core[Core][i] = Task;
             }
         }catch(Exception e){
             System.err.println(Task+"  ⚠ ⚠ Infeasible!");
-            System.exit(1);
+            throw new Exception("Infeasible!");
+            //System.exit(1);
         }
 
         // For Not Mapping Power for Safe Start Time Class
@@ -322,8 +323,8 @@ public class CPU {
         outputWriter.close();
     }
 
-    public void Task_Shifter(int shiftTime ,int amount ){
-        System.out.println("TASK SHIFTER  "+ shiftTime+"  > > "+amount);
+    public void Task_Shifter(int shiftTime ,int amount ) throws Exception {
+       // System.out.println("TASK SHIFTER  "+ shiftTime+"  > > "+amount);
         for (int i = 0; i < n_Cores; i++) {
             for (int j = Endtime(i); j > (shiftTime) ; j--) {
                 try {
@@ -332,7 +333,8 @@ public class CPU {
                 }catch(Exception ex)
                 {
                     System.err.println(this.getRunningTaskWithReplica(i, j)+"  ⚠ ⚠ Infeasible!");
-                    System.exit(1);
+                    throw new Exception("Infeasible!");
+                   // System.exit(1);
                 }
             }
             for (int j = shiftTime+1 ; j < shiftTime+amount+1; j++) {
@@ -351,14 +353,15 @@ public class CPU {
         return 0;
     }
 
-    public void SetTask(int core_number , int time ,String task){
+    public void SetTask(int core_number , int time ,String task) throws Exception {
         try {
             core[core_number][time]=task;
 
         }catch (Exception e){
             System.err.println(task+"  ⚠ ⚠ Infeasible!");
             //System.out.println("Core  "+core_number+"  Time "+time);
-            System.exit(1);
+            throw new Exception("Infeasible!");
+            //System.exit(1);
         }
     }
 
@@ -378,7 +381,7 @@ public class CPU {
     //Return End Time of a Specific Replica of Tasks
     public int getEndTimeTask(String Task){
         int e=-1;
-        System.out.println(Task);
+        //System.out.println(Task);
         for (int i = 0; i < n_Cores; i++) {
             if(Arrays.asList(core[i]).lastIndexOf(Task) != -1) {
                 if (Arrays.asList(core[i]).lastIndexOf(Task) > e) {
@@ -386,7 +389,7 @@ public class CPU {
                 }
             }
         }
-        System.out.println("   >>> "+e);
+     //   System.out.println("   >>> "+e);
         return e;
     }
 

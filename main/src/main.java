@@ -10,9 +10,9 @@ import java.util.Arrays;
 
 public class main {
     public static void main(String args[]) throws IOException, SAXException, ParserConfigurationException {
-        double n=5;
+        double n=3;
         int deadline=900;
-        int n_core=8;
+        int n_core=4;
         McDAG dag;
 
         //Dag XML Name
@@ -48,14 +48,33 @@ public class main {
 
         //dr.readXML();
 
+       // deadline=900;
         System.out.println("Deadline= "+deadline);
         //   --->>>>  PROPOSED METHOD
+        System.out.println("------------> Proposed Method <----------");
        ProposedMethod proposedMethod=new ProposedMethod(landa0,d,v,freq,tsp_name,dag,n_core,deadline,rel_name,benchmark,
                 benchmark_time,max_freq_cores,n);
-        proposedMethod.start();
+        try {
+            proposedMethod.start();
+        } catch (Exception e) {
+            System.out.println("[ PROPOSED METHOD ] Infeasible!   "+ xml_name);
+            e.printStackTrace();
+        }
         //deadline=900;
-        ClassicNMR NMR=new ClassicNMR(dag,8,deadline,benchmark,benchmark_time,3,2);
-        Medina medina=new Medina(dag,n_core,deadline,benchmark,benchmark_time,2);
+        System.out.println("------------> Classic NMR <----------");
+        try {
+            ClassicNMR NMR=new ClassicNMR(dag,n_core,deadline,benchmark,benchmark_time,3,1);
+        } catch (Exception e) {
+            System.out.println("[ CLASSIC NMR ] Infeasible!   "+ xml_name);
+            e.printStackTrace();
+        }
+        System.out.println("------------> Medina 2017 Method <----------");
+        try {
+            Medina medina=new Medina(dag,n_core,deadline,benchmark,benchmark_time,2);
+        } catch (Exception e) {
+            System.out.println("[ MEDINA 2017 ] Infeasible!   "+ xml_name);
+            e.printStackTrace();
+        }
 
 
     }
