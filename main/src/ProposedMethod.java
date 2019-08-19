@@ -23,8 +23,12 @@ public class ProposedMethod {
     int max_freq_cores;
     double n;
 
+    int n_overrun;
+    int n_fault;
+
     public ProposedMethod(double landa0, int d, double[] v, int[] freq, String TSP_File_name, McDAG dag, int n_core,
-                          int deadline, String rel_name, String[] benchmark, int[] benchmark_time, int max_freq_cores, double n) {
+                          int deadline, String rel_name, String[] benchmark, int[] benchmark_time, int max_freq_cores,
+                          int n_overrun,int n_fault,double n) {
         this.landa0 = landa0;
         this.d = d;
         this.v = v;
@@ -38,6 +42,8 @@ public class ProposedMethod {
         this.benchmark_time = benchmark_time;
         this.max_freq_cores = max_freq_cores;
         this.n = n;
+        this.n_overrun=n_overrun;
+        this.n_fault=n_fault;
     }
 
     public void start() throws Exception {
@@ -82,8 +88,8 @@ public class ProposedMethod {
         mainScheduling.clean_sch();
         mainScheduling.sort_vertex();
         mainScheduling.mScheduling();
-        mainScheduling.inject_fault(2);
-        mainScheduling.overrun(2);
+        mainScheduling.inject_fault(n_fault);
+        mainScheduling.overrun(n_overrun);
 
     }
 

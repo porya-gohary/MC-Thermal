@@ -25,6 +25,10 @@ public class main {
         double landa0=0.000001;
         int d=3;
 
+        int n_overrun=2;
+        int n_fault=2;
+
+
 
         //double v[]={0.912,0.9125,0.95,0.987,1.025,1.065,1.1,1.13,1.16,1.212,1.26};
         double v[]={1.023,1.062,1.115,1.3};
@@ -53,24 +57,23 @@ public class main {
         //   --->>>>  PROPOSED METHOD
         System.out.println("------------> Proposed Method <----------");
        ProposedMethod proposedMethod=new ProposedMethod(landa0,d,v,freq,tsp_name,dag,n_core,deadline,rel_name,benchmark,
-                benchmark_time,max_freq_cores,n);
+                benchmark_time,max_freq_cores,n_overrun,n_fault,n);
         try {
             proposedMethod.start();
         } catch (Exception e) {
             System.out.println("[ PROPOSED METHOD ] Infeasible!   "+ xml_name);
             e.printStackTrace();
         }
-        //deadline=900;
         System.out.println("------------> Classic NMR <----------");
         try {
-            ClassicNMR NMR=new ClassicNMR(dag,n_core,deadline,benchmark,benchmark_time,3,1);
+            ClassicNMR NMR=new ClassicNMR(dag,n_core,deadline,benchmark,benchmark_time,n,n_overrun);
         } catch (Exception e) {
             System.out.println("[ CLASSIC NMR ] Infeasible!   "+ xml_name);
             e.printStackTrace();
         }
         System.out.println("------------> Medina 2017 Method <----------");
         try {
-            Medina medina=new Medina(dag,n_core,deadline,benchmark,benchmark_time,2);
+            Medina medina=new Medina(dag,n_core,deadline,benchmark,benchmark_time,n_overrun);
         } catch (Exception e) {
             System.out.println("[ MEDINA 2017 ] Infeasible!   "+ xml_name);
             e.printStackTrace();
