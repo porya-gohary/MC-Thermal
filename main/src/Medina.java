@@ -14,14 +14,16 @@ public class Medina {
     Vertex v[];
     int n_overrun = 0;
     CPU cpu;
+    String xml_name;
 
-    public Medina(McDAG dag, int n_core, int deadline, String[] benchmark, int[] benchmark_time, int n_overrun) throws Exception {
+    public Medina(McDAG dag, int n_core, int deadline, String[] benchmark, int[] benchmark_time, int n_overrun,String xml_name) throws Exception {
         this.dag = dag;
         this.n_core = n_core;
         this.deadline = deadline;
         this.benchmark = benchmark;
         this.benchmark_time = benchmark_time;
         this.n_overrun = n_overrun;
+        this.xml_name=xml_name;
         v = dag.getVertices().toArray(new Vertex[0]);
 
         this.sort_vertex();
@@ -29,6 +31,7 @@ public class Medina {
         this.check_feasible();
         this.clean_sch();
         this.mScheduling();
+        cpu.power_results();
 
     }
 

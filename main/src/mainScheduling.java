@@ -36,8 +36,9 @@ public class mainScheduling {
     int max_freq;
     int max_freq_cores;
     CPU cpu;
+    String xml_name;
 
-    public mainScheduling(Vertex[] v,McDAG mcDAG,double n,int deadline,int n_core,double max_voltage, int max_freq, int max_freq_cores) {
+    public mainScheduling(Vertex[] v,McDAG mcDAG,double n,int deadline,int n_core,double max_voltage, int max_freq, int max_freq_cores,String xml_name) {
         this.deadline = deadline;
         this.n_core = n_core;
         this.n = n;
@@ -46,6 +47,7 @@ public class mainScheduling {
         this.max_voltage = max_voltage;
         this.max_freq=max_freq;
         this.max_freq_cores=max_freq_cores;
+        this.xml_name=xml_name;
     }
 
     public void mScheduling() throws Exception {
@@ -118,7 +120,7 @@ public class mainScheduling {
         }
         try {
             cpu.debug("mainSCH");
-            cpu.Save_Power("1","mainSCH");
+            cpu.Save_Power(xml_name,"mainSCH");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -168,7 +170,7 @@ public class mainScheduling {
 
         try {
             cpu.debug("mainSCH+Fault");
-            cpu.Save_Power("1","mainSCH+Fault");
+            cpu.Save_Power(xml_name,"mainSCH+Fault");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -199,7 +201,7 @@ public class mainScheduling {
         }
         try {
             cpu.debug("mainSCH+Fault+Overrun");
-            cpu.Save_Power("1","mainSCH+Fault+Overrun");
+            cpu.Save_Power(xml_name,"mainSCH+Fault+Overrun");
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -408,5 +408,35 @@ public class CPU {
         }
     }
 
+    public void power_results(){
+        System.out.println("Avg. Power= "+ Avg_power());
+        System.out.println("Peak Power= "+Peak_power());
+    }
+    //Calculate Average Power Consumption of CPU
+    public double Avg_power(){
+        double p=0;
+        for (int i = 0; i < deadline; i++) {
+            for (int j = 0; j < n_Cores; j++) {
+                p+=power[j][i];
+            }
+        }
+        return (p/deadline);
+    }
+
+    //Calculate Peak Power of CPU
+    public double Peak_power(){
+        double max=0;
+        double p=0;
+        for (int i = 0; i < deadline; i++) {
+            p=0;
+            for (int j = 0; j < n_Cores; j++) {
+                p+=power[j][i];
+            }
+            if(p>max) max=p;
+        }
+        return max;
+    }
+
+
 
 }

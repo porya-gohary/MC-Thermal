@@ -17,8 +17,9 @@ public class ClassicNMR {
     Vertex v[];
     int n_overrun=0;
     CPU cpu;
+    String xml_name;
 
-    public ClassicNMR(McDAG dag, int n_core, int deadline, String[] benchmark, int[] benchmark_time, double n,int n_overrun ) throws Exception {
+    public ClassicNMR(McDAG dag, int n_core, int deadline, String[] benchmark, int[] benchmark_time, double n,int n_overrun,String xml_name ) throws Exception {
         this.dag = dag;
         this.n_core = n_core;
         this.deadline = deadline;
@@ -26,12 +27,14 @@ public class ClassicNMR {
         this.benchmark_time = benchmark_time;
         this.n = n;
         this.n_overrun=n_overrun;
+        this.xml_name=xml_name;
         v=dag.getVertices().toArray(new Vertex[0]);
         this.sort_vertex();
         this.clean_sch();
         this.check_feasible();
         this.clean_sch();
         this.mScheduling();
+        cpu.power_results();
     }
 
     public void check_feasible() throws Exception {
@@ -223,7 +226,7 @@ public class ClassicNMR {
         }
         try {
             cpu.debug("NMR-mainSCH");
-            cpu.Save_Power("1","NMR-mainSCH");
+            cpu.Save_Power(xml_name,"NMR-mainSCH");
         } catch (IOException e) {
             e.printStackTrace();
         }

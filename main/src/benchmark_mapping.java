@@ -49,8 +49,12 @@ public class benchmark_mapping {
     public int cal_deadline(double n){
         Vertex v[]=dag.getVertices().stream().toArray(Vertex[]::new).clone();
         Arrays.sort(v);
-
-        return (int) (v[v.length-1].getLPL()*3*n);
+        Random rn= new Random();
+        int m;
+        do {
+            m = rn.nextInt((int) n + 1);
+        }while(m==0);
+        return (int) (v[v.length-1].getLPL()*m*n);
     }
 
     // A Recursive Method For Finding Longest Path To Leaves for Vertex
