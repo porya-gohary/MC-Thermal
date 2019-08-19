@@ -131,7 +131,7 @@ public class Medina {
                     o = overrun.nextInt(n_core);
                 }while(cpu.Endtime(o) == 0);
                 ov_name = cpu.getRunningTaskWithReplica(o, overrun.nextInt(cpu.Endtime(o)));
-            } while (ov_name == null || dag.getNodebyName(ov_name.split(" ")[0]).getWcet(1) == 0 || ov_name.contains("CO"));
+            } while (ov_name == null || dag.getNodebyName(ov_name.split(" ")[0]).getWcet(1) == 0 || ov_name.contains("CO")||ov.contains(ov_name));
 
             ov.add(ov_name);
             //System.out.println("|||| OV |||||   "+ov_name+"  Core: "+o);
