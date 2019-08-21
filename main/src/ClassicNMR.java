@@ -6,7 +6,7 @@ import java.util.Random;
 
 import static java.lang.Math.ceil;
 
-public class ClassicNMR {
+public class ClassicNMR  {
 
     McDAG dag;
     int n_core;
@@ -34,7 +34,7 @@ public class ClassicNMR {
         this.check_feasible();
         this.clean_sch();
         this.mScheduling();
-        cpu.power_results();
+        //cpu.power_results();
     }
 
     public void check_feasible() throws Exception {

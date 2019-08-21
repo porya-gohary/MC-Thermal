@@ -26,6 +26,7 @@ public class ProposedMethod {
 
     int n_overrun;
     int n_fault;
+    mainScheduling mainScheduling;
 
     public ProposedMethod(double landa0, int d, double[] v, int[] freq, String TSP_File_name, McDAG dag, int n_core,
                           int deadline, String rel_name, String[] benchmark, int[] benchmark_time, int max_freq_cores,
@@ -86,14 +87,14 @@ public class ProposedMethod {
 
         //------------> Main Scheduling <----------
 
-        mainScheduling mainScheduling=new mainScheduling(dag.getVertices().stream().toArray(Vertex[]::new).clone(),dag,n,deadline,n_core, v[v.length-1],freq[freq.length-1], max_freq_cores,xml_name);
+        mainScheduling=new mainScheduling(dag.getVertices().stream().toArray(Vertex[]::new).clone(),dag,n,deadline,n_core, v[v.length-1],freq[freq.length-1], max_freq_cores,xml_name);
         mainScheduling.clean_sch();
         mainScheduling.sort_vertex();
         mainScheduling.mScheduling();
         mainScheduling.inject_fault(n_fault);
         mainScheduling.overrun(n_overrun);
 
-        mainScheduling.cpu.power_results();
+        //mainScheduling.cpu.power_results();
     }
 
     public void relibility_creator() throws IOException {

@@ -31,7 +31,7 @@ public class Medina {
         this.check_feasible();
         this.clean_sch();
         this.mScheduling();
-        cpu.power_results();
+        //cpu.power_results();
 
     }
 

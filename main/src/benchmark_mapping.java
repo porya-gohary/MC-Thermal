@@ -23,7 +23,7 @@ public class benchmark_mapping {
                 t1=rn.nextInt(benchmark.length);
                 a.setLO_name(benchmark[t1]);
                 a.setWCET_LO(benchmark_time[t1]);
-                System.out.println("%%%% >> "+benchmark_time[t1]);
+                //System.out.println("%%%% >> "+benchmark_time[t1]);
                 t2=rn.nextInt(benchmark.length);
                 a.setHI_name(benchmark[t2]);
                 a.setWCET_HI(benchmark_time[t2]+a.getWcet(0));

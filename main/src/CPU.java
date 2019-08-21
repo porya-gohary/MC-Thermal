@@ -408,9 +408,13 @@ public class CPU {
         }
     }
 
-    public void power_results(){
+    public double[] power_results(){
+        double p[]=new double[2];
+        p[0]=Avg_power();
+        p[1]=Peak_power();
         System.out.println("Avg. Power= "+ Avg_power());
         System.out.println("Peak Power= "+Peak_power());
+        return p;
     }
     //Calculate Average Power Consumption of CPU
     public double Avg_power(){
