@@ -227,7 +227,7 @@ public class Medina {
         }
         try {
             cpu.debug("Med-mainSCH");
-            cpu.Save_Power("1", "Med-mainSCH");
+            cpu.Save_Power(xml_name, "Med-mainSCH");
         } catch (IOException e) {
             e.printStackTrace();
         }

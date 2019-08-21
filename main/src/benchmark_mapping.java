@@ -52,9 +52,9 @@ public class benchmark_mapping {
         Random rn= new Random();
         int m;
         do {
-            m = rn.nextInt((int) n + 1);
+            m = rn.nextInt((int) (n *n*1.5));
         }while(m==0);
-        return (int) (v[v.length-1].getLPL()*m*n);
+        return (v[v.length-1].getLPL()*m);
     }
 
     // A Recursive Method For Finding Longest Path To Leaves for Vertex

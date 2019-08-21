@@ -25,9 +25,17 @@ public class main {
         double landa0=0.000001;
         int d=3;
 
-        int n_overrun=2;
-        int n_fault=2;
-        int n_DAGs=10;
+        //Number Of Overrun
+        int n_overrun=0;
+        //Number Of Fault
+        int n_fault=0;
+        //Number of DAG
+        int n_DAGs=70;
+
+        //Scheduling Results:
+        int PR_Sch;
+        int NMR_Sch;
+        int Med_Sch;
 
         //number of cores that can work with max freq in same time
         int max_freq_cores=1;
@@ -41,6 +49,9 @@ public class main {
         String benchmark[]={"Basicmath", "Bitcount","Dijkstra","FFT","JPEG", "Patricia","Qsort","Sha","Stringsearch","Susan"};
         int benchmark_time[]={156,25,33,160,28,87,25,13,8,20};
 
+        PR_Sch=n_DAGs;
+        NMR_Sch=n_DAGs;
+        Med_Sch=n_DAGs;
         for (int i = 1; i <=n_DAGs ; i++) {
             xml_name=i+"";
             System.out.println("------------> ::: DAG "+xml_name+" Start ::: <----------");
@@ -65,6 +76,7 @@ public class main {
                 proposedMethod.start();
             } catch (Exception e) {
                 System.out.println("[ PROPOSED METHOD ] Infeasible!   "+ xml_name);
+                PR_Sch--;
                 e.printStackTrace();
             }
             System.out.println("------------> Classic NMR <----------");
@@ -72,6 +84,7 @@ public class main {
                 ClassicNMR NMR=new ClassicNMR(dag,n_core,deadline,benchmark,benchmark_time,n,n_overrun,xml_name);
             } catch (Exception e) {
                 System.out.println("[ CLASSIC NMR ] Infeasible!   "+ xml_name);
+                NMR_Sch--;
                 e.printStackTrace();
             }
             System.out.println("------------> Medina 2017 Method <----------");
@@ -79,11 +92,15 @@ public class main {
                 Medina medina=new Medina(dag,n_core,deadline,benchmark,benchmark_time,n_overrun,xml_name);
             } catch (Exception e) {
                 System.out.println("[ MEDINA 2017 ] Infeasible!   "+ xml_name);
+                Med_Sch--;
                 e.printStackTrace();
             }
             System.out.println("------------> ::: DAG "+xml_name+" END ::: <----------");
         }
 
+        System.out.println("Proposed Method SCH: "+PR_Sch);
+        System.out.println("Classic NMR SCH:     "+NMR_Sch);
+        System.out.println("Medina 2017 SCH:     "+Med_Sch);
 
     }
 
