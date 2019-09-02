@@ -29,7 +29,7 @@ public class main {
         //Number Of Fault
         int n_fault=0;
         //Number of DAG
-        int n_DAGs=100;
+        int n_DAGs=70;
 
         //Scheduling Results:
         int PR_Sch;
@@ -74,6 +74,8 @@ public class main {
 
             //dr.readXML();
 
+            n_overrun= (int) (dag.getNodes_HI().size()*0.1);
+
             //deadline=700;
             System.out.println("Deadline= "+deadline);
             //   --->>>>  PROPOSED METHOD
@@ -110,6 +112,7 @@ public class main {
                 e.printStackTrace();
             }
             System.out.println("------------> Medina 2017 Method <----------");
+            outputWriter.write("------------> Medina 2017 Method <----------"+"\n");
             try {
                 Medina medina=new Medina(dag,n_core,deadline,benchmark,benchmark_time,n_overrun,xml_name);
                 outputWriter.write("Avg. Power= "+medina.cpu.power_results()[0]+"\n");

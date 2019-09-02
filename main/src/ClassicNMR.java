@@ -185,7 +185,7 @@ public class ClassicNMR  {
                                         cpu.SetTaskOnCore(a.getName() + " CR" + k, (j + k), i, i + a.getWcet(0) - 1);
                                         cpu.SetTaskOnCore(a.getName() + " CO" + k, (j + k), i + a.getWcet(0), i + a.getWcet(1) - 1);
                                         a.setScheduled(a.getScheduled() + 1);
-                                        //System.out.println(a.getScheduled() + "   " + n + "   > " + k);
+                                        System.out.println(a.getScheduled() + "   " + n + "   > " + k);
                                     }else{
                                         cpu.SetTaskOnCore(a.getName() + " CR" + k, (j + k), i, i + a.getWcet(0) - 1);
                                         a.setScheduled(a.getScheduled() + 1);

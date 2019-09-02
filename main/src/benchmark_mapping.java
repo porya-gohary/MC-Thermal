@@ -41,9 +41,20 @@ public class benchmark_mapping {
     }
 
     public void cal_LPL(){
-        for (Vertex a : dag.getVertices()) {
+        int t=1;
+        for (int i = dag.getVertices().size()-1; i >= 0; i--) {
+            Vertex a=dag.getNodebyName("D0N"+i);
+            System.out.print(t+"/"+dag.getVertices().size()+"  Calculating LPL: "+a.getName()+" ");
             a.setLPL(LPtoLeaves(a));
+            System.out.println(a.getLPL());
+            t++;
         }
+//        for (Vertex a : dag.getVertices()) {
+//            System.out.print(t+"/"+dag.getVertices().size()+"  Calculating LPL: "+a.getName()+" ");
+//            a.setLPL(LPtoLeaves(a));
+//            System.out.println(a.getLPL());
+//            t++;
+//        }
     }
 
     public int cal_deadline(double n){
@@ -52,7 +63,7 @@ public class benchmark_mapping {
         Random rn= new Random();
         int m;
         do {
-            m = rn.nextInt((int) (n *n*1.5));
+            m = rn.nextInt((int) (n *n*1.6));
         }while(m==0);
         return (v[v.length-1].getLPL()*m);
     }
@@ -62,14 +73,19 @@ public class benchmark_mapping {
         int LPL=0;
         if(vertex.isExitNode()){
             if(vertex.getWcet(0)>vertex.getWcet(1)){
+                //System.out.print("<->");
                 return vertex.getWcet(0);
             }else {
+               // System.out.print("<->");
                 return vertex.getWcet(1);
             }
         }
 
         for (Edge e : vertex.getSndEdges()){
-            if(LPtoLeaves(e.getDest())>LPL) LPL=LPtoLeaves(e.getDest());
+            if(e.getDest().getName().equals(e.getSrc().getName()))continue;
+            if(e.getDest().getLPL()>0){
+                if(e.getDest().getLPL()>LPL) LPL=e.getDest().getLPL();
+            }else if(LPtoLeaves(e.getDest())>LPL) LPL=LPtoLeaves(e.getDest());
         }
         if(vertex.getWcet(0)>vertex.getWcet(1)){
             LPL+=vertex.getWcet(0);
