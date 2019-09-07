@@ -36,7 +36,7 @@ public class main {
         double percent[]={0.0,0.25,0.5,0.75,1.0};
         double fault_pecent = 0.0;
         //Number of DAG
-        int n_DAGs = 1;
+        int n_DAGs =50;
         McDAG All_DAG[] = new McDAG[n_DAGs + 1];
         int All_deadline[]=new int [n_DAGs + 1];
         //Scheduling Results:

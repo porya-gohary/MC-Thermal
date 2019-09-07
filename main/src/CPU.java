@@ -339,6 +339,7 @@ public class CPU {
             }
             for (int j = shiftTime+1 ; j < shiftTime+amount+1; j++) {
                 this.SetTask(i, j , null);
+                power[i][j]=0.5;
             }
         }
     }
