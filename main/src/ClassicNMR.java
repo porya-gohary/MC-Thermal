@@ -16,10 +16,12 @@ public class ClassicNMR  {
     double n;
     Vertex v[];
     int n_overrun=0;
+
+    double overrun_percent;
     CPU cpu;
     String xml_name;
 
-    public ClassicNMR(McDAG dag, int n_core, int deadline, String[] benchmark, int[] benchmark_time, double n,int n_overrun,String xml_name ) throws Exception {
+    public ClassicNMR(McDAG dag, int n_core, int deadline, String[] benchmark, int[] benchmark_time, double n,int n_overrun,double overrun_percent,String xml_name ) throws Exception {
         this.dag = dag;
         this.n_core = n_core;
         this.deadline = deadline;
@@ -28,6 +30,7 @@ public class ClassicNMR  {
         this.n = n;
         this.n_overrun=n_overrun;
         this.xml_name=xml_name;
+        this.overrun_percent=overrun_percent;
         v=dag.getVertices().toArray(new Vertex[0]);
         this.sort_vertex();
         this.clean_sch();
@@ -189,6 +192,7 @@ public class ClassicNMR  {
                                     }else{
                                         cpu.SetTaskOnCore(a.getName() + " CR" + k, (j + k), i, i + a.getWcet(0) - 1);
                                         a.setScheduled(a.getScheduled() + 1);
+                                        System.out.println(a.getScheduled() + "   " + n + "   > " + k);
                                     }
                                 }
                                 break;
@@ -226,7 +230,7 @@ public class ClassicNMR  {
         }
         try {
             cpu.debug("NMR-mainSCH");
-            cpu.Save_Power(xml_name,"NMR-mainSCH");
+            cpu.Save_Power("OV"+overrun_percent+"F"+"0.0",xml_name,"NMR-mainSCH");
         } catch (IOException e) {
             e.printStackTrace();
         }

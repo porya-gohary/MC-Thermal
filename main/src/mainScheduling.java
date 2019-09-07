@@ -32,13 +32,21 @@ public class mainScheduling {
     //Vertex Array for Sorting Vertexes
     Vertex v[];
 
+    //Number Of Fault injected
+    int number_of_fault;
+
+    int number_of_overrun;
+
+    double overrun_percent;
+    double fault_percent;
+
     double max_voltage;
     int max_freq;
     int max_freq_cores;
     CPU cpu;
     String xml_name;
 
-    public mainScheduling(Vertex[] v,McDAG mcDAG,double n,int deadline,int n_core,double max_voltage, int max_freq, int max_freq_cores,String xml_name) {
+    public mainScheduling(Vertex[] v,McDAG mcDAG,double n,int deadline,int n_core,int number_of_overrun,int number_of_fault,double overrun_percent, double fault_percent,double max_voltage, int max_freq, int max_freq_cores,String xml_name) {
         this.deadline = deadline;
         this.n_core = n_core;
         this.n = n;
@@ -48,6 +56,11 @@ public class mainScheduling {
         this.max_freq=max_freq;
         this.max_freq_cores=max_freq_cores;
         this.xml_name=xml_name;
+        this.number_of_fault=number_of_fault;
+        this.number_of_overrun=number_of_overrun;
+        this.overrun_percent=overrun_percent;
+        this.fault_percent=fault_percent;
+
     }
 
     public void mScheduling() throws Exception {
@@ -120,7 +133,7 @@ public class mainScheduling {
         }
         try {
             cpu.debug("mainSCH");
-            cpu.Save_Power(xml_name,"mainSCH");
+            cpu.Save_Power("OV"+this.overrun_percent+"F"+this.fault_percent,xml_name,"mainSCH");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -134,6 +147,7 @@ public class mainScheduling {
 
     // a Function for inject fault to tasks
     public void inject_fault(int number_of_fault) throws Exception {
+
         Set<Vertex> nodesHI=new HashSet<Vertex>();
         for(Vertex a:mcDAG.getVertices()){
             if (a.getWcet(1)!=0)
@@ -170,7 +184,7 @@ public class mainScheduling {
 
         try {
             cpu.debug("mainSCH+Fault");
-            cpu.Save_Power(xml_name,"mainSCH+Fault");
+            cpu.Save_Power("OV"+this.overrun_percent+"F"+this.fault_percent,xml_name,"mainSCH+Fault");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -201,7 +215,7 @@ public class mainScheduling {
         }
         try {
             cpu.debug("mainSCH+Fault+Overrun");
-            cpu.Save_Power(xml_name,"mainSCH+Fault+Overrun");
+            cpu.Save_Power("OV"+this.overrun_percent+"F"+this.fault_percent,xml_name,"mainSCH+Fault+Overrun");
         } catch (IOException e) {
             e.printStackTrace();
         }

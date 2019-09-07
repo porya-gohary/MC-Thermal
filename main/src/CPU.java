@@ -34,7 +34,7 @@ public class CPU {
     int max_freq=2000;
 
     //Location of Power Trace
-    String location="D:\\Dars\\Arshad\\My Work\\MC-Thermal2\\MiBench\\";
+    String location="C:\\Users\\PC Khafan\\Desktop\\MC-Thermal\\MiBench\\";
 
     public CPU( int deadline, int n_Cores,McDAG mcDAG) {
         this.deadline = deadline;
@@ -393,12 +393,14 @@ public class CPU {
         return e;
     }
 
-    public void Save_Power(String Folder,String Filename) throws IOException {
+    public void Save_Power(String mFolder,String Folder,String Filename) throws IOException {
         BufferedWriter outputWriter = null;
-        File newFolder = new File(Folder);
+        File newFolder2 = new File(mFolder);
+        newFolder2.mkdir();
+        File newFolder = new File(mFolder+"\\"+Folder);
         newFolder.mkdir();
         for (int i = 0; i < getN_Cores(); i++) {
-            outputWriter = new BufferedWriter(new FileWriter(Folder+"\\"+Filename+"_Core_"+i+".txt"));
+            outputWriter = new BufferedWriter(new FileWriter(mFolder+"\\"+Folder+"\\"+Filename+"_Core_"+i+".txt"));
             for (int j = 0; j < getDeadline(); j++) {
                 outputWriter.write(power[i][j]+"\n");
             };

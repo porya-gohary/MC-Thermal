@@ -13,16 +13,19 @@ public class Medina {
     double n;
     Vertex v[];
     int n_overrun = 0;
+    double overrun_percent;
+
     CPU cpu;
     String xml_name;
 
-    public Medina(McDAG dag, int n_core, int deadline, String[] benchmark, int[] benchmark_time, int n_overrun,String xml_name) throws Exception {
+    public Medina(McDAG dag, int n_core, int deadline, String[] benchmark, int[] benchmark_time, int n_overrun,double overrun_percent,String xml_name) throws Exception {
         this.dag = dag;
         this.n_core = n_core;
         this.deadline = deadline;
         this.benchmark = benchmark;
         this.benchmark_time = benchmark_time;
         this.n_overrun = n_overrun;
+        this.overrun_percent=overrun_percent;
         this.xml_name=xml_name;
         v = dag.getVertices().toArray(new Vertex[0]);
 
@@ -114,16 +117,17 @@ public class Medina {
                 if(a.getScheduled()!=1) throw new Exception("Infeasible!");
             }
         }
-//        try {
-//            cpu.debug("Med-mainSCH");
-//            cpu.Save_Power("1", "Med-mainSCH");
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            cpu.debug("TMed-mainSCH");
+            //cpu.Save_Power("1", ,"Med-mainSCH");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
     public void mScheduling() throws Exception {
+//        System.out.println("|||||||>>> "+n_overrun);
         Random overrun = new Random();
         int o = 0;
         String ov_name;
@@ -137,7 +141,7 @@ public class Medina {
             } while (ov_name == null || dag.getNodebyName(ov_name.split(" ")[0]).getWcet(1) == 0 || ov_name.contains("CO")||ov.contains(ov_name));
 
             ov.add(ov_name);
-            //System.out.println("|||| OV |||||   "+ov_name+"  Core: "+o);
+//            System.out.println("|||| OV |||||   "+ov_name+"  Core: "+o);
         }
 
         cpu = new CPU(deadline, n_core, dag);
@@ -227,7 +231,7 @@ public class Medina {
         }
         try {
             cpu.debug("Med-mainSCH");
-            cpu.Save_Power(xml_name, "Med-mainSCH");
+            cpu.Save_Power("OV"+overrun_percent+"F"+"0.0",xml_name, "Med-mainSCH");
         } catch (IOException e) {
             e.printStackTrace();
         }

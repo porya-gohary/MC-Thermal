@@ -22,7 +22,10 @@ public class ProposedMethod {
     String benchmark[];
     int benchmark_time[];
     int max_freq_cores;
+
     double n;
+    double overrun_percent;
+    double fault_percent;
 
     int n_overrun;
     int n_fault;
@@ -30,7 +33,7 @@ public class ProposedMethod {
 
     public ProposedMethod(double landa0, int d, double[] v, int[] freq, String TSP_File_name, McDAG dag, int n_core,
                           int deadline, String rel_name, String[] benchmark, int[] benchmark_time, int max_freq_cores,
-                          int n_overrun,int n_fault,double n,String xml_name) {
+                          int n_overrun,int n_fault,double overrun_percent,double fault_percent,double n,String xml_name) {
         this.landa0 = landa0;
         this.d = d;
         this.v = v;
@@ -46,6 +49,8 @@ public class ProposedMethod {
         this.n = n;
         this.n_overrun=n_overrun;
         this.n_fault=n_fault;
+        this.overrun_percent=overrun_percent;
+        this.fault_percent=fault_percent;
         this.xml_name=xml_name;
     }
 
@@ -87,7 +92,7 @@ public class ProposedMethod {
 
         //------------> Main Scheduling <----------
 
-        mainScheduling=new mainScheduling(dag.getVertices().stream().toArray(Vertex[]::new).clone(),dag,n,deadline,n_core, v[v.length-1],freq[freq.length-1], max_freq_cores,xml_name);
+        mainScheduling=new mainScheduling(dag.getVertices().stream().toArray(Vertex[]::new).clone(),dag,n,deadline,n_core,n_overrun,n_fault,overrun_percent,fault_percent, v[v.length-1],freq[freq.length-1], max_freq_cores,xml_name);
         mainScheduling.clean_sch();
         mainScheduling.sort_vertex();
         mainScheduling.mScheduling();
