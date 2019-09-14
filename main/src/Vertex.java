@@ -222,6 +222,14 @@ public abstract class Vertex implements Comparable<Vertex>, Cloneable{
 
 	public int compareTo(Vertex obj)
 	{
+		StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
+		//System.out.println(stackTraceElements[2].getClassName());
+
+
+		if(stackTraceElements[6].getClassName().equals("Salehi")) {
+//			System.out.println("..........SALEHI..........");
+			return (this.getWcet(0)+this.getWcet(1)) -( obj.getWcet(0)+obj.getWcet(1));
+		}
 		// compareTo returns a negative number if this is less than obj,
 		// a positive number if this is greater than obj,
 		// and 0 if they are equal.

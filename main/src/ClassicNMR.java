@@ -55,10 +55,10 @@ public class ClassicNMR  {
                             if(!a.check_runnable(cpu.get_Running_Tasks(i),n)) continue;
                             boolean CPU_runnable=true;
                             for(Edge e: a.getRcvEdges()){
-                                if(cpu.getEndTimeTask(e.getSrc().getName()+" CR"+(int)(n))>i){
+                                if(cpu.getEndTimeTask(e.getSrc().getName()+" CR"+(int)(n-1))>i){
                                     CPU_runnable=false;
                                 }
-                                if((cpu.getEndTimeTask(e.getSrc().getName()+" CO"+(int)(n))>i) &&(cpu.getEndTimeTask(e.getSrc().getName()+" CO"+(int)(n))!=-1) ){
+                                if((cpu.getEndTimeTask(e.getSrc().getName()+" CO"+(int)(n-1))>i) &&(cpu.getEndTimeTask(e.getSrc().getName()+" CO"+(int)(n-1))!=-1) ){
                                     CPU_runnable=false;
                                 }
 
