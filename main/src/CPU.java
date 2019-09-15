@@ -80,6 +80,7 @@ public class CPU {
             }
         }catch(Exception e){
             System.err.println(Task+"  ⚠ ⚠ Infeasible!");
+            e.printStackTrace();
             throw new Exception("Infeasible!");
             //System.exit(1);
         }
@@ -120,6 +121,7 @@ public class CPU {
             }
         }else if(Task.contains("CO")){
             String HI=v.getHI_name();
+            //System.out.println(v.getWcet(1)-v.getWcet(0));
             Double r[]=new Double[v.getWcet(1)-v.getWcet(0)];
             BufferedReader reader;
             File file=new File(location+max_freq+"\\"+HI+".txt");
@@ -167,6 +169,7 @@ public class CPU {
                 //Overrun Power
             }else if(Task.contains("O")){
                 String HI=v.getHI_name();
+                //System.out.println(v.getName()+" <> "+HI+"    ### "+(v.getWcet(1)-v.getWcet(0)));
                 Double r[]=new Double[v.getWcet(1)-v.getWcet(0)];
                 BufferedReader reader;
                 File file=new File(location+max_freq+"\\"+HI+".txt");
