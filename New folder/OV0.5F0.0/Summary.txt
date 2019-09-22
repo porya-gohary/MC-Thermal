@@ -1,0 +1,825 @@
+>>>>>>>>>> ::: DAG 1 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+Avg. Power= 2.5982642342601916
+Peak Power= 7.228867
+------------> Classic NMR <----------
+Avg. Power= 2.9555599842962077
+Peak Power= 13.897051
+------------> Medina 2017 Method <----------
+Avg. Power= 2.480076703500936
+Peak Power= 13.638297999999999
+>>>>>>>>>>>>> ::: DAG 1 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 2 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+Avg. Power= 3.0845697926553712
+Peak Power= 7.012314
+------------> Classic NMR <----------
+Avg. Power= 3.863576930225984
+Peak Power= 13.768197
+------------> Medina 2017 Method <----------
+Avg. Power= 2.969616609322032
+Peak Power= 13.50264
+>>>>>>>>>>>>> ::: DAG 2 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 3 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   3
+------------> Classic NMR <----------
+Avg. Power= 4.626939755747112
+Peak Power= 13.943029000000001
+------------> Medina 2017 Method <----------
+Avg. Power= 3.375359864942527
+Peak Power= 13.845592
+>>>>>>>>>>>>> ::: DAG 3 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 4 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+Avg. Power= 2.340644859449194
+Peak Power= 7.012024
+------------> Classic NMR <----------
+Avg. Power= 2.4875974056663517
+Peak Power= 13.932419
+------------> Medina 2017 Method <----------
+Avg. Power= 2.284219600506489
+Peak Power= 13.549277
+>>>>>>>>>>>>> ::: DAG 4 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 5 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+Avg. Power= 2.4328947694182372
+Peak Power= 6.999366
+------------> Classic NMR <----------
+Avg. Power= 2.744097058569179
+Peak Power= 13.943761
+------------> Medina 2017 Method <----------
+Avg. Power= 2.407430305188679
+Peak Power= 13.387065
+>>>>>>>>>>>>> ::: DAG 5 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 6 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+Avg. Power= 2.7680072139756047
+Peak Power= 7.0878
+------------> Classic NMR <----------
+Avg. Power= 3.1648191813107283
+Peak Power= 13.947777
+------------> Medina 2017 Method <----------
+Avg. Power= 2.6719694444903856
+Peak Power= 13.617043
+>>>>>>>>>>>>> ::: DAG 6 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 7 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+Avg. Power= 2.997017630081301
+Peak Power= 7.103828
+------------> Classic NMR <----------
+Avg. Power= 3.2164997035907867
+Peak Power= 13.889403
+------------> Medina 2017 Method <----------
+Avg. Power= 3.1784282733739846
+Peak Power= 13.648644
+>>>>>>>>>>>>> ::: DAG 7 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 8 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   8
+------------> Classic NMR <----------
+Avg. Power= 4.062972335699798
+Peak Power= 13.652692000000002
+------------> Medina 2017 Method <----------
+Avg. Power= 3.351679757268421
+Peak Power= 13.715343
+>>>>>>>>>>>>> ::: DAG 8 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 9 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   9
+------------> Classic NMR <----------
+[ CLASSIC NMR ] Infeasible!   9
+------------> Medina 2017 Method <----------
+Avg. Power= 7.19928077266754
+Peak Power= 13.514584
+>>>>>>>>>>>>> ::: DAG 9 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 10 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+Avg. Power= 2.429186760559361
+Peak Power= 6.988851
+------------> Classic NMR <----------
+Avg. Power= 2.639801363299087
+Peak Power= 13.841174
+------------> Medina 2017 Method <----------
+Avg. Power= 2.421952982591323
+Peak Power= 13.396755
+>>>>>>>>>>>>> ::: DAG 10 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 11 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+Avg. Power= 2.673967954741384
+Peak Power= 7.2054480000000005
+------------> Classic NMR <----------
+Avg. Power= 2.925011687304073
+Peak Power= 13.959868
+------------> Medina 2017 Method <----------
+Avg. Power= 2.590601615791537
+Peak Power= 13.625701999999999
+>>>>>>>>>>>>> ::: DAG 11 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 12 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+Avg. Power= 3.897643395416676
+Peak Power= 7.09882
+------------> Classic NMR <----------
+Avg. Power= 5.144257828749985
+Peak Power= 13.905835
+------------> Medina 2017 Method <----------
+Avg. Power= 3.7192899541666655
+Peak Power= 13.630307
+>>>>>>>>>>>>> ::: DAG 12 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 13 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+Avg. Power= 2.9222680283894427
+Peak Power= 7.028548000000001
+------------> Classic NMR <----------
+Avg. Power= 3.4271181910827955
+Peak Power= 14.023078
+------------> Medina 2017 Method <----------
+Avg. Power= 2.7877327488626014
+Peak Power= 13.554950000000002
+>>>>>>>>>>>>> ::: DAG 13 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 14 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   14
+------------> Classic NMR <----------
+Avg. Power= 4.315057270293605
+Peak Power= 13.628858
+------------> Medina 2017 Method <----------
+Avg. Power= 3.201473949913644
+Peak Power= 13.702152
+>>>>>>>>>>>>> ::: DAG 14 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 15 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+Avg. Power= 2.3624237212955457
+Peak Power= 7.1292539999999995
+------------> Classic NMR <----------
+Avg. Power= 2.5707690464777295
+Peak Power= 14.024086
+------------> Medina 2017 Method <----------
+Avg. Power= 2.3780048001619427
+Peak Power= 13.673716
+>>>>>>>>>>>>> ::: DAG 15 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 16 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+Avg. Power= 2.7195360532371664
+Peak Power= 7.38554
+------------> Classic NMR <----------
+Avg. Power= 3.3161193728318685
+Peak Power= 13.908383
+------------> Medina 2017 Method <----------
+Avg. Power= 2.6363738622703075
+Peak Power= 13.604482
+>>>>>>>>>>>>> ::: DAG 16 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 17 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+Avg. Power= 3.2453469733713582
+Peak Power= 7.116978
+------------> Classic NMR <----------
+Avg. Power= 3.9932849809795523
+Peak Power= 13.975219000000001
+------------> Medina 2017 Method <----------
+Avg. Power= 3.134352414407988
+Peak Power= 13.524836
+>>>>>>>>>>>>> ::: DAG 17 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 18 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+Avg. Power= 2.7272338331665016
+Peak Power= 7.252204
+------------> Classic NMR <----------
+Avg. Power= 3.160211913913912
+Peak Power= 13.852093
+------------> Medina 2017 Method <----------
+Avg. Power= 2.665764949449448
+Peak Power= 13.544159999999998
+>>>>>>>>>>>>> ::: DAG 18 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 19 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   19
+------------> Classic NMR <----------
+[ CLASSIC NMR ] Infeasible!   19
+------------> Medina 2017 Method <----------
+Avg. Power= 8.391367323611101
+Peak Power= 13.94505
+>>>>>>>>>>>>> ::: DAG 19 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 20 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+Avg. Power= 2.5010592634603728
+Peak Power= 7.086994
+------------> Classic NMR <----------
+Avg. Power= 2.8862026649526045
+Peak Power= 14.021929
+------------> Medina 2017 Method <----------
+Avg. Power= 2.439886774148013
+Peak Power= 13.460718
+>>>>>>>>>>>>> ::: DAG 20 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 21 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+Avg. Power= 3.747638985062002
+Peak Power= 7.010372
+------------> Classic NMR <----------
+Avg. Power= 4.737719625140919
+Peak Power= 13.747167000000001
+------------> Medina 2017 Method <----------
+Avg. Power= 3.326971711950395
+Peak Power= 13.530946
+>>>>>>>>>>>>> ::: DAG 21 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 22 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+Avg. Power= 2.921717421786828
+Peak Power= 7.1292539999999995
+------------> Classic NMR <----------
+Avg. Power= 3.1167745493730377
+Peak Power= 14.001629000000001
+------------> Medina 2017 Method <----------
+Avg. Power= 2.714588647021942
+Peak Power= 13.466018
+>>>>>>>>>>>>> ::: DAG 22 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 23 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+Avg. Power= 2.3946521644316734
+Peak Power= 7.252286
+------------> Classic NMR <----------
+Avg. Power= 2.607753447637292
+Peak Power= 13.953628
+------------> Medina 2017 Method <----------
+Avg. Power= 2.373017124733929
+Peak Power= 13.892671000000002
+>>>>>>>>>>>>> ::: DAG 23 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 24 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   24
+------------> Classic NMR <----------
+Avg. Power= 6.0544546404429
+Peak Power= 13.90784
+------------> Medina 2017 Method <----------
+Avg. Power= 3.999590173659672
+Peak Power= 13.726399
+>>>>>>>>>>>>> ::: DAG 24 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 25 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+Avg. Power= 2.7475018480988256
+Peak Power= 7.2180599999999995
+------------> Classic NMR <----------
+Avg. Power= 3.3743367925110914
+Peak Power= 13.653823000000001
+------------> Medina 2017 Method <----------
+Avg. Power= 2.708691120054044
+Peak Power= 13.471874
+>>>>>>>>>>>>> ::: DAG 25 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 26 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+Avg. Power= 3.0972346344085993
+Peak Power= 7.041088
+------------> Classic NMR <----------
+Avg. Power= 3.7214048749999993
+Peak Power= 13.932419
+------------> Medina 2017 Method <----------
+Avg. Power= 2.895801554723501
+Peak Power= 13.457442
+>>>>>>>>>>>>> ::: DAG 26 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 27 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+Avg. Power= 2.678575550062418
+Peak Power= 6.954366
+------------> Classic NMR <----------
+Avg. Power= 3.027791248064917
+Peak Power= 14.043966000000001
+------------> Medina 2017 Method <----------
+Avg. Power= 2.5770489302122335
+Peak Power= 13.570566
+>>>>>>>>>>>>> ::: DAG 27 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 28 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+Avg. Power= 2.661881291246681
+Peak Power= 6.94052
+------------> Classic NMR <----------
+Avg. Power= 3.137865226790448
+Peak Power= 13.938373
+------------> Medina 2017 Method <----------
+Avg. Power= 2.5238948771883294
+Peak Power= 13.681304
+>>>>>>>>>>>>> ::: DAG 28 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 29 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+Avg. Power= 3.1964728748241806
+Peak Power= 7.105353999999999
+------------> Classic NMR <----------
+Avg. Power= 3.708528385724329
+Peak Power= 13.999289000000001
+------------> Medina 2017 Method <----------
+Avg. Power= 2.97961917422644
+Peak Power= 13.648923
+>>>>>>>>>>>>> ::: DAG 29 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 30 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+Avg. Power= 2.647657835703592
+Peak Power= 7.14202
+------------> Classic NMR <----------
+Avg. Power= 2.9322451349800365
+Peak Power= 14.06415
+------------> Medina 2017 Method <----------
+Avg. Power= 2.561655358782434
+Peak Power= 13.560550000000001
+>>>>>>>>>>>>> ::: DAG 30 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 31 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+Avg. Power= 3.0278116499999976
+Peak Power= 6.925068
+------------> Classic NMR <----------
+Avg. Power= 3.8954343775862097
+Peak Power= 13.904059
+------------> Medina 2017 Method <----------
+Avg. Power= 2.880941080000001
+Peak Power= 13.502215
+>>>>>>>>>>>>> ::: DAG 31 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 32 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   32
+------------> Classic NMR <----------
+[ CLASSIC NMR ] Infeasible!   32
+------------> Medina 2017 Method <----------
+Avg. Power= 7.177253735294122
+Peak Power= 13.469655
+>>>>>>>>>>>>> ::: DAG 32 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 33 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+Avg. Power= 2.4942029627249367
+Peak Power= 7.14654
+------------> Classic NMR <----------
+Avg. Power= 2.717558800128535
+Peak Power= 13.911267
+------------> Medina 2017 Method <----------
+Avg. Power= 2.447717232326479
+Peak Power= 13.630106000000001
+>>>>>>>>>>>>> ::: DAG 33 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 34 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+Avg. Power= 3.048248197695262
+Peak Power= 6.824241
+------------> Classic NMR <----------
+Avg. Power= 3.464619194622275
+Peak Power= 14.054052
+------------> Medina 2017 Method <----------
+Avg. Power= 2.7497939226632533
+Peak Power= 13.559787
+>>>>>>>>>>>>> ::: DAG 34 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 35 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+Avg. Power= 3.2933882188183836
+Peak Power= 7.44876
+------------> Classic NMR <----------
+Avg. Power= 4.172021834135671
+Peak Power= 13.736829
+------------> Medina 2017 Method <----------
+Avg. Power= 3.1128743995623633
+Peak Power= 13.592457
+>>>>>>>>>>>>> ::: DAG 35 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 36 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   36
+------------> Classic NMR <----------
+Avg. Power= 4.418433878899832
+Peak Power= 13.77631
+------------> Medina 2017 Method <----------
+Avg. Power= 3.345296318144501
+Peak Power= 13.383413000000001
+>>>>>>>>>>>>> ::: DAG 36 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 37 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+Avg. Power= 2.728267593694133
+Peak Power= 7.087047999999999
+------------> Classic NMR <----------
+Avg. Power= 3.322836211441572
+Peak Power= 14.001524
+------------> Medina 2017 Method <----------
+Avg. Power= 2.5970149327157475
+Peak Power= 13.59232
+>>>>>>>>>>>>> ::: DAG 37 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 38 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+Avg. Power= 2.622177050744132
+Peak Power= 7.086524
+------------> Classic NMR <----------
+Avg. Power= 3.1324002885063638
+Peak Power= 13.796626
+------------> Medina 2017 Method <----------
+Avg. Power= 2.5106900665232215
+Peak Power= 13.711216
+>>>>>>>>>>>>> ::: DAG 38 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 39 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   39
+------------> Classic NMR <----------
+Avg. Power= 6.062331180608365
+Peak Power= 14.150073
+------------> Medina 2017 Method <----------
+Avg. Power= 4.275913535171105
+Peak Power= 13.568211
+>>>>>>>>>>>>> ::: DAG 39 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 40 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   40
+------------> Classic NMR <----------
+Avg. Power= 4.772761385826784
+Peak Power= 14.186424
+------------> Medina 2017 Method <----------
+Avg. Power= 3.290019616797902
+Peak Power= 13.588640999999999
+>>>>>>>>>>>>> ::: DAG 40 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 41 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+Avg. Power= 3.0317625483717645
+Peak Power= 6.925046
+------------> Classic NMR <----------
+Avg. Power= 3.5334158466840977
+Peak Power= 13.697428
+------------> Medina 2017 Method <----------
+Avg. Power= 2.7806112039458046
+Peak Power= 13.243764
+>>>>>>>>>>>>> ::: DAG 41 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 42 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+Avg. Power= 2.7962239434087883
+Peak Power= 6.975131
+------------> Classic NMR <----------
+Avg. Power= 3.35600670972037
+Peak Power= 13.843728
+------------> Medina 2017 Method <----------
+Avg. Power= 2.754373858632934
+Peak Power= 13.375722
+>>>>>>>>>>>>> ::: DAG 42 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 43 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+Avg. Power= 2.7154523140011704
+Peak Power= 7.0615380000000005
+------------> Classic NMR <----------
+Avg. Power= 3.391662931458704
+Peak Power= 13.497628
+------------> Medina 2017 Method <----------
+Avg. Power= 2.685941883421205
+Peak Power= 13.32812
+>>>>>>>>>>>>> ::: DAG 43 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 44 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+Avg. Power= 2.7578105696457325
+Peak Power= 7.077026
+------------> Classic NMR <----------
+Avg. Power= 3.3678294665861483
+Peak Power= 13.953628
+------------> Medina 2017 Method <----------
+Avg. Power= 2.734815224235105
+Peak Power= 13.691053
+>>>>>>>>>>>>> ::: DAG 44 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 45 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+Avg. Power= 2.846740133405977
+Peak Power= 6.890238
+------------> Classic NMR <----------
+Avg. Power= 3.311090587484426
+Peak Power= 13.94505
+------------> Medina 2017 Method <----------
+Avg. Power= 2.646466922166874
+Peak Power= 13.579381000000001
+>>>>>>>>>>>>> ::: DAG 45 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 46 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+Avg. Power= 2.467324569889504
+Peak Power= 6.9944999999999995
+------------> Classic NMR <----------
+Avg. Power= 2.7699842736187827
+Peak Power= 13.898914
+------------> Medina 2017 Method <----------
+Avg. Power= 2.3701080407458566
+Peak Power= 13.838648000000001
+>>>>>>>>>>>>> ::: DAG 46 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 47 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+Avg. Power= 2.835522697379315
+Peak Power= 6.999366
+------------> Classic NMR <----------
+Avg. Power= 3.539320142068959
+Peak Power= 13.733975000000001
+------------> Medina 2017 Method <----------
+Avg. Power= 2.892483379310346
+Peak Power= 13.197431
+>>>>>>>>>>>>> ::: DAG 47 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 48 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+Avg. Power= 2.6398532496217864
+Peak Power= 6.959944
+------------> Classic NMR <----------
+Avg. Power= 3.1281348720120974
+Peak Power= 13.579542
+------------> Medina 2017 Method <----------
+Avg. Power= 2.5889582316187587
+Peak Power= 13.353277000000002
+>>>>>>>>>>>>> ::: DAG 48 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 49 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+Avg. Power= 2.439079441042549
+Peak Power= 6.983117999999999
+------------> Classic NMR <----------
+Avg. Power= 2.6311953799654555
+Peak Power= 13.907083
+------------> Medina 2017 Method <----------
+Avg. Power= 2.3803048528811432
+Peak Power= 13.67926
+>>>>>>>>>>>>> ::: DAG 49 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 50 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+Avg. Power= 2.4252357709904477
+Peak Power= 7.38554
+------------> Classic NMR <----------
+Avg. Power= 2.563311239567623
+Peak Power= 14.060907
+------------> Medina 2017 Method <----------
+Avg. Power= 2.3582084703368524
+Peak Power= 13.88639
+>>>>>>>>>>>>> ::: DAG 50 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 51 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   51
+------------> Classic NMR <----------
+Avg. Power= 6.294895118911588
+Peak Power= 13.992595
+------------> Medina 2017 Method <----------
+Avg. Power= 4.4716093449304255
+Peak Power= 13.832363
+>>>>>>>>>>>>> ::: DAG 51 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 52 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   52
+------------> Classic NMR <----------
+Avg. Power= 4.863143756806943
+Peak Power= 13.945063000000001
+------------> Medina 2017 Method <----------
+Avg. Power= 3.6146465043316875
+Peak Power= 13.827366000000001
+>>>>>>>>>>>>> ::: DAG 52 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 53 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   53
+------------> Classic NMR <----------
+Avg. Power= 6.075967873753378
+Peak Power= 14.045839999999998
+------------> Medina 2017 Method <----------
+Avg. Power= 4.152200778785139
+Peak Power= 13.665776
+>>>>>>>>>>>>> ::: DAG 53 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 54 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   54
+------------> Classic NMR <----------
+Avg. Power= 4.564335220042941
+Peak Power= 14.06165
+------------> Medina 2017 Method <----------
+Avg. Power= 3.541201047423889
+Peak Power= 13.932419000000001
+>>>>>>>>>>>>> ::: DAG 54 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 55 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   55
+------------> Classic NMR <----------
+Avg. Power= 4.478062227010127
+Peak Power= 13.943101
+------------> Medina 2017 Method <----------
+Avg. Power= 3.314196205344248
+Peak Power= 13.664542
+>>>>>>>>>>>>> ::: DAG 55 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 56 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   56
+------------> Classic NMR <----------
+Avg. Power= 6.521285555870735
+Peak Power= 14.021929
+------------> Medina 2017 Method <----------
+Avg. Power= 4.8468164057005065
+Peak Power= 13.723796
+>>>>>>>>>>>>> ::: DAG 56 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 57 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   57
+------------> Classic NMR <----------
+Avg. Power= 5.641944344290027
+Peak Power= 13.941634
+------------> Medina 2017 Method <----------
+Avg. Power= 4.0190824592145065
+Peak Power= 13.787351999999998
+>>>>>>>>>>>>> ::: DAG 57 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 58 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   58
+------------> Classic NMR <----------
+[ CLASSIC NMR ] Infeasible!   58
+------------> Medina 2017 Method <----------
+Avg. Power= 6.5776377970297135
+Peak Power= 13.707310000000001
+>>>>>>>>>>>>> ::: DAG 58 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 59 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+Avg. Power= 2.727264305700522
+Peak Power= 7.38554
+------------> Classic NMR <----------
+Avg. Power= 3.188009745584112
+Peak Power= 13.959868
+------------> Medina 2017 Method <----------
+Avg. Power= 2.6253964699585186
+Peak Power= 13.710976
+>>>>>>>>>>>>> ::: DAG 59 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 60 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+Avg. Power= 3.028480519695541
+Peak Power= 7.14654
+------------> Classic NMR <----------
+Avg. Power= 3.578215575685917
+Peak Power= 14.137956
+------------> Medina 2017 Method <----------
+Avg. Power= 2.828473310613228
+Peak Power= 13.63801
+>>>>>>>>>>>>> ::: DAG 60 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 61 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   61
+------------> Classic NMR <----------
+Avg. Power= 7.316336737910266
+Peak Power= 14.020689
+------------> Medina 2017 Method <----------
+Avg. Power= 5.270161201352911
+Peak Power= 13.79538
+>>>>>>>>>>>>> ::: DAG 61 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 62 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+Avg. Power= 2.886564807352523
+Peak Power= 7.191848
+------------> Classic NMR <----------
+Avg. Power= 3.358606509017626
+Peak Power= 14.052278000000001
+------------> Medina 2017 Method <----------
+Avg. Power= 2.7827053131132207
+Peak Power= 13.669226000000002
+>>>>>>>>>>>>> ::: DAG 62 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 63 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   63
+------------> Classic NMR <----------
+Avg. Power= 5.840777503023406
+Peak Power= 14.121780000000001
+------------> Medina 2017 Method <----------
+Avg. Power= 4.0385163570683895
+Peak Power= 13.715840000000002
+>>>>>>>>>>>>> ::: DAG 63 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 64 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   64
+------------> Classic NMR <----------
+[ CLASSIC NMR ] Infeasible!   64
+------------> Medina 2017 Method <----------
+Avg. Power= 6.565917339449554
+Peak Power= 13.678692000000002
+>>>>>>>>>>>>> ::: DAG 64 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 65 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+Avg. Power= 3.294711473141239
+Peak Power= 7.44876
+------------> Classic NMR <----------
+Avg. Power= 3.836396759293871
+Peak Power= 14.060578
+------------> Medina 2017 Method <----------
+Avg. Power= 3.070874053984351
+Peak Power= 13.626379
+>>>>>>>>>>>>> ::: DAG 65 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 66 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+Avg. Power= 3.545718576480988
+Peak Power= 7.280029
+------------> Classic NMR <----------
+Avg. Power= 4.426203580901859
+Peak Power= 13.943029
+------------> Medina 2017 Method <----------
+Avg. Power= 3.3234631628352522
+Peak Power= 13.694875000000001
+>>>>>>>>>>>>> ::: DAG 66 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 67 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   67
+------------> Classic NMR <----------
+[ CLASSIC NMR ] Infeasible!   67
+------------> Medina 2017 Method <----------
+Avg. Power= 6.9937052396919945
+Peak Power= 13.642384
+>>>>>>>>>>>>> ::: DAG 67 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 68 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+Avg. Power= 3.520710515664166
+Peak Power= 7.2054480000000005
+------------> Classic NMR <----------
+Avg. Power= 4.436409345238116
+Peak Power= 14.089428000000002
+------------> Medina 2017 Method <----------
+Avg. Power= 3.4556246353383475
+Peak Power= 13.577219
+>>>>>>>>>>>>> ::: DAG 68 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 69 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+Avg. Power= 3.1849444239108817
+Peak Power= 7.1862200000000005
+------------> Classic NMR <----------
+Avg. Power= 3.7993218272382383
+Peak Power= 14.186424
+------------> Medina 2017 Method <----------
+Avg. Power= 2.9263673147981626
+Peak Power= 13.791365
+>>>>>>>>>>>>> ::: DAG 69 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 70 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   70
+------------> Classic NMR <----------
+Avg. Power= 5.2238862845579535
+Peak Power= 14.026898000000001
+------------> Medina 2017 Method <----------
+Avg. Power= 3.6962436999644215
+Peak Power= 13.683498
+>>>>>>>>>>>>> ::: DAG 70 END ::: <<<<<<<<<<<<
+
+
+>>>>>>>>>>>>> SUMMARY OF ALL DAGs <<<<<<<<<<<<
+Proposed Method SCH: 47
+LE-NMR (SALEHI) SCH: 70
+Classic NMR SCH:     64
+Medina 2017 SCH:     70
+Proposed Method Avg. Power= 2.854274311116643
+LE-NMR (SALEHI) Avg. Power= 0.0
+Classic NMR Avg. Power= 3.889264330729933
+Medina 2017 Avg. Power= 3.394862384665864
+Proposed Method Peak Power= 7.10945040425532
+LE-NMR (SALEHI) Peak Power= 0.0
+Classic NMR Peak Power= 13.930358171875
+Medina 2017 Peak Power= 13.617483457142864

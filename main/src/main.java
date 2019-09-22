@@ -27,18 +27,18 @@ public class main {
         //Number Of Overrun
         int n_overrun = 0;
 
-        double overrun_percent = 0.9;
+        double overrun_percent = 0.0;
 
         //Number Of Fault
         int n_fault = 0;
 
 
-        double percent[]={0.0,0.25,0.5,0.75,1.0};
+        double percent[] = {0.0, 0.25, 0.5, 0.75, 1.0};
         double fault_pecent = 0.0;
         //Number of DAG
-        int n_DAGs =70;
+        int n_DAGs = 70;
         McDAG All_DAG[] = new McDAG[n_DAGs + 1];
-        int All_deadline[]=new int [n_DAGs + 1];
+        int All_deadline[] = new int[n_DAGs + 1];
         //Scheduling Results:
         int PR_Sch;
         int NMR_Sch;
@@ -79,21 +79,27 @@ public class main {
             benchmark_mapping.cal_LPL();
             deadline = benchmark_mapping.cal_deadline(n);
             benchmark_mapping.debug();
-            All_deadline[i]=deadline;
+            All_deadline[i] = deadline;
             All_DAG[i] = dag;
         }
 
 //        xml_name = "1";
 //        dag = All_DAG[1];
 //        dag.setHINodes();
-//        fault_pecent=0.3;
+//        fault_pecent=0.1;
 //        n_fault = (int) (dag.getNodes_HI().size() * fault_pecent);
 //        deadline = All_deadline[1];
 //
-        for (int h = 0; h <percent.length  ; h++) {
-                fault_pecent=percent[h];
-            for (int j = 0; j < percent.length; j++) {
-                overrun_percent = percent[j];
+//        try {
+//            Salehi salehi = new Salehi(dag, n_core, deadline, n, xml_name, n_fault, fault_pecent);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+
+        for (int h = 0; h < percent.length; h++) {
+            fault_pecent = percent[h];
+           // for (int j = 0; j < percent.length; j++) {
+             //   overrun_percent = percent[j];
 
                 Pro_power = new double[2];
                 NMR_power = new double[2];
@@ -235,7 +241,7 @@ public class main {
                 System.out.println("Medina 2017 Peak Power= " + (Med_power[1] / Med_Sch));
                 outputWriter.flush();
                 outputWriter.close();
-            }
+           // }
         }
 
 

@@ -149,11 +149,12 @@ public class mainScheduling {
     public void inject_fault(int number_of_fault) throws Exception {
 
         Set<Vertex> nodesHI=new HashSet<Vertex>();
-        for(Vertex a:mcDAG.getVertices()){
-            if (a.getWcet(1)!=0)
-                nodesHI.add(a);
-        }
-        Vertex HIv[] = nodesHI.toArray(new Vertex[0]);
+//        for(Vertex a:mcDAG.getVertices()){
+//            if (a.getWcet(1)!=0)
+//                nodesHI.add(a);
+//        }
+       //Vertex HIv[] = nodesHI.toArray(new Vertex[0]);
+        Vertex HIv[]= mcDAG.getNodes_HI().toArray(new Vertex[0]);
 
         int f=0;
         Random fault= new Random();

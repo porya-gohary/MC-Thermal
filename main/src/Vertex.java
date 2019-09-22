@@ -231,7 +231,7 @@ public abstract class Vertex implements Comparable<Vertex>, Cloneable{
 			int temp1,temp2;
 			temp1=Math.max(this.getWcet(0),this.getWcet(1));
 			temp2=Math.max(obj.getWcet(0),obj.getWcet(1));
-			return (temp1) -( temp2);
+			return (temp1) -(temp2);
 		}
 		// compareTo returns a negative number if this is less than obj,
 		// a positive number if this is greater than obj,
