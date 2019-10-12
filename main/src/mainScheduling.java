@@ -142,6 +142,15 @@ public class mainScheduling {
     public void clean_sch(){
         for(Vertex a: v){
             a.setScheduled(0);
+
+        }
+
+    }
+
+    public void clean_fault(){
+        for(Vertex a: v){
+            a.setInjected_fault(0);
+
         }
     }
 

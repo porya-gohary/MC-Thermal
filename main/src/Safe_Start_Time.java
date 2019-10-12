@@ -127,8 +127,11 @@ public class Safe_Start_Time {
                     cpu.SetTask(i, j - amount, cpu.getRunningTaskWithReplica(i, j));
                 }catch(Exception ex)
                 {
+                    ex.printStackTrace();
                     System.err.println(cpu.getRunningTaskWithReplica(i, j)+"  ⚠ ⚠ Infeasible!");
+
                     throw new Exception("Infeasible!");
+                   // if()
                     //System.exit(1);
                 }
             }

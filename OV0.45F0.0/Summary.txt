@@ -1,0 +1,464 @@
+>>>>>>>>>> ::: DAG 1 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   1
+------------> Classic NMR <----------
+[ CLASSIC NMR ] Infeasible!   1
+------------> Medina 2017 Method <----------
+[ MEDINA 2017 ] Infeasible!   1
+>>>>>>>>>>>>> ::: DAG 1 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 2 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   2
+------------> Classic NMR <----------
+[ CLASSIC NMR ] Infeasible!   2
+------------> Medina 2017 Method <----------
+[ MEDINA 2017 ] Infeasible!   2
+>>>>>>>>>>>>> ::: DAG 2 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 3 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   3
+------------> Classic NMR <----------
+[ CLASSIC NMR ] Infeasible!   3
+------------> Medina 2017 Method <----------
+[ MEDINA 2017 ] Infeasible!   3
+>>>>>>>>>>>>> ::: DAG 3 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 4 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   4
+------------> Classic NMR <----------
+[ CLASSIC NMR ] Infeasible!   4
+------------> Medina 2017 Method <----------
+[ MEDINA 2017 ] Infeasible!   4
+>>>>>>>>>>>>> ::: DAG 4 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 5 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   5
+------------> Classic NMR <----------
+[ CLASSIC NMR ] Infeasible!   5
+------------> Medina 2017 Method <----------
+[ MEDINA 2017 ] Infeasible!   5
+>>>>>>>>>>>>> ::: DAG 5 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 6 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   6
+------------> Classic NMR <----------
+[ CLASSIC NMR ] Infeasible!   6
+------------> Medina 2017 Method <----------
+[ MEDINA 2017 ] Infeasible!   6
+>>>>>>>>>>>>> ::: DAG 6 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 7 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   7
+------------> Classic NMR <----------
+[ CLASSIC NMR ] Infeasible!   7
+------------> Medina 2017 Method <----------
+[ MEDINA 2017 ] Infeasible!   7
+>>>>>>>>>>>>> ::: DAG 7 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 8 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   8
+------------> Classic NMR <----------
+[ CLASSIC NMR ] Infeasible!   8
+------------> Medina 2017 Method <----------
+[ MEDINA 2017 ] Infeasible!   8
+>>>>>>>>>>>>> ::: DAG 8 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 9 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   9
+------------> Classic NMR <----------
+[ CLASSIC NMR ] Infeasible!   9
+------------> Medina 2017 Method <----------
+[ MEDINA 2017 ] Infeasible!   9
+>>>>>>>>>>>>> ::: DAG 9 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 10 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   10
+------------> Classic NMR <----------
+[ CLASSIC NMR ] Infeasible!   10
+------------> Medina 2017 Method <----------
+[ MEDINA 2017 ] Infeasible!   10
+>>>>>>>>>>>>> ::: DAG 10 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 11 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   11
+------------> Classic NMR <----------
+[ CLASSIC NMR ] Infeasible!   11
+------------> Medina 2017 Method <----------
+[ MEDINA 2017 ] Infeasible!   11
+>>>>>>>>>>>>> ::: DAG 11 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 12 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   12
+------------> Classic NMR <----------
+[ CLASSIC NMR ] Infeasible!   12
+------------> Medina 2017 Method <----------
+[ MEDINA 2017 ] Infeasible!   12
+>>>>>>>>>>>>> ::: DAG 12 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 13 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   13
+------------> Classic NMR <----------
+[ CLASSIC NMR ] Infeasible!   13
+------------> Medina 2017 Method <----------
+[ MEDINA 2017 ] Infeasible!   13
+>>>>>>>>>>>>> ::: DAG 13 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 14 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   14
+------------> Classic NMR <----------
+[ CLASSIC NMR ] Infeasible!   14
+------------> Medina 2017 Method <----------
+[ MEDINA 2017 ] Infeasible!   14
+>>>>>>>>>>>>> ::: DAG 14 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 15 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   15
+------------> Classic NMR <----------
+[ CLASSIC NMR ] Infeasible!   15
+------------> Medina 2017 Method <----------
+[ MEDINA 2017 ] Infeasible!   15
+>>>>>>>>>>>>> ::: DAG 15 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 16 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   16
+------------> Classic NMR <----------
+[ CLASSIC NMR ] Infeasible!   16
+------------> Medina 2017 Method <----------
+[ MEDINA 2017 ] Infeasible!   16
+>>>>>>>>>>>>> ::: DAG 16 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 17 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   17
+------------> Classic NMR <----------
+[ CLASSIC NMR ] Infeasible!   17
+------------> Medina 2017 Method <----------
+[ MEDINA 2017 ] Infeasible!   17
+>>>>>>>>>>>>> ::: DAG 17 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 18 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   18
+------------> Classic NMR <----------
+[ CLASSIC NMR ] Infeasible!   18
+------------> Medina 2017 Method <----------
+[ MEDINA 2017 ] Infeasible!   18
+>>>>>>>>>>>>> ::: DAG 18 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 19 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   19
+------------> Classic NMR <----------
+[ CLASSIC NMR ] Infeasible!   19
+------------> Medina 2017 Method <----------
+[ MEDINA 2017 ] Infeasible!   19
+>>>>>>>>>>>>> ::: DAG 19 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 20 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   20
+------------> Classic NMR <----------
+[ CLASSIC NMR ] Infeasible!   20
+------------> Medina 2017 Method <----------
+[ MEDINA 2017 ] Infeasible!   20
+>>>>>>>>>>>>> ::: DAG 20 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 21 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   21
+------------> Classic NMR <----------
+[ CLASSIC NMR ] Infeasible!   21
+------------> Medina 2017 Method <----------
+[ MEDINA 2017 ] Infeasible!   21
+>>>>>>>>>>>>> ::: DAG 21 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 22 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   22
+------------> Classic NMR <----------
+[ CLASSIC NMR ] Infeasible!   22
+------------> Medina 2017 Method <----------
+[ MEDINA 2017 ] Infeasible!   22
+>>>>>>>>>>>>> ::: DAG 22 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 23 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   23
+------------> Classic NMR <----------
+[ CLASSIC NMR ] Infeasible!   23
+------------> Medina 2017 Method <----------
+[ MEDINA 2017 ] Infeasible!   23
+>>>>>>>>>>>>> ::: DAG 23 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 24 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   24
+------------> Classic NMR <----------
+[ CLASSIC NMR ] Infeasible!   24
+------------> Medina 2017 Method <----------
+[ MEDINA 2017 ] Infeasible!   24
+>>>>>>>>>>>>> ::: DAG 24 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 25 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   25
+------------> Classic NMR <----------
+[ CLASSIC NMR ] Infeasible!   25
+------------> Medina 2017 Method <----------
+[ MEDINA 2017 ] Infeasible!   25
+>>>>>>>>>>>>> ::: DAG 25 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 26 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   26
+------------> Classic NMR <----------
+[ CLASSIC NMR ] Infeasible!   26
+------------> Medina 2017 Method <----------
+[ MEDINA 2017 ] Infeasible!   26
+>>>>>>>>>>>>> ::: DAG 26 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 27 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   27
+------------> Classic NMR <----------
+[ CLASSIC NMR ] Infeasible!   27
+------------> Medina 2017 Method <----------
+[ MEDINA 2017 ] Infeasible!   27
+>>>>>>>>>>>>> ::: DAG 27 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 28 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   28
+------------> Classic NMR <----------
+[ CLASSIC NMR ] Infeasible!   28
+------------> Medina 2017 Method <----------
+[ MEDINA 2017 ] Infeasible!   28
+>>>>>>>>>>>>> ::: DAG 28 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 29 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   29
+------------> Classic NMR <----------
+[ CLASSIC NMR ] Infeasible!   29
+------------> Medina 2017 Method <----------
+[ MEDINA 2017 ] Infeasible!   29
+>>>>>>>>>>>>> ::: DAG 29 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 30 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   30
+------------> Classic NMR <----------
+[ CLASSIC NMR ] Infeasible!   30
+------------> Medina 2017 Method <----------
+[ MEDINA 2017 ] Infeasible!   30
+>>>>>>>>>>>>> ::: DAG 30 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 31 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   31
+------------> Classic NMR <----------
+[ CLASSIC NMR ] Infeasible!   31
+------------> Medina 2017 Method <----------
+[ MEDINA 2017 ] Infeasible!   31
+>>>>>>>>>>>>> ::: DAG 31 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 32 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   32
+------------> Classic NMR <----------
+[ CLASSIC NMR ] Infeasible!   32
+------------> Medina 2017 Method <----------
+[ MEDINA 2017 ] Infeasible!   32
+>>>>>>>>>>>>> ::: DAG 32 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 33 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   33
+------------> Classic NMR <----------
+[ CLASSIC NMR ] Infeasible!   33
+------------> Medina 2017 Method <----------
+[ MEDINA 2017 ] Infeasible!   33
+>>>>>>>>>>>>> ::: DAG 33 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 34 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   34
+------------> Classic NMR <----------
+[ CLASSIC NMR ] Infeasible!   34
+------------> Medina 2017 Method <----------
+[ MEDINA 2017 ] Infeasible!   34
+>>>>>>>>>>>>> ::: DAG 34 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 35 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   35
+------------> Classic NMR <----------
+[ CLASSIC NMR ] Infeasible!   35
+------------> Medina 2017 Method <----------
+[ MEDINA 2017 ] Infeasible!   35
+>>>>>>>>>>>>> ::: DAG 35 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 36 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   36
+------------> Classic NMR <----------
+[ CLASSIC NMR ] Infeasible!   36
+------------> Medina 2017 Method <----------
+[ MEDINA 2017 ] Infeasible!   36
+>>>>>>>>>>>>> ::: DAG 36 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 37 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   37
+------------> Classic NMR <----------
+[ CLASSIC NMR ] Infeasible!   37
+------------> Medina 2017 Method <----------
+[ MEDINA 2017 ] Infeasible!   37
+>>>>>>>>>>>>> ::: DAG 37 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 38 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   38
+------------> Classic NMR <----------
+[ CLASSIC NMR ] Infeasible!   38
+------------> Medina 2017 Method <----------
+[ MEDINA 2017 ] Infeasible!   38
+>>>>>>>>>>>>> ::: DAG 38 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 39 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   39
+------------> Classic NMR <----------
+[ CLASSIC NMR ] Infeasible!   39
+------------> Medina 2017 Method <----------
+[ MEDINA 2017 ] Infeasible!   39
+>>>>>>>>>>>>> ::: DAG 39 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 40 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   40
+------------> Classic NMR <----------
+[ CLASSIC NMR ] Infeasible!   40
+------------> Medina 2017 Method <----------
+[ MEDINA 2017 ] Infeasible!   40
+>>>>>>>>>>>>> ::: DAG 40 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 41 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   41
+------------> Classic NMR <----------
+[ CLASSIC NMR ] Infeasible!   41
+------------> Medina 2017 Method <----------
+[ MEDINA 2017 ] Infeasible!   41
+>>>>>>>>>>>>> ::: DAG 41 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 42 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   42
+------------> Classic NMR <----------
+[ CLASSIC NMR ] Infeasible!   42
+------------> Medina 2017 Method <----------
+[ MEDINA 2017 ] Infeasible!   42
+>>>>>>>>>>>>> ::: DAG 42 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 43 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   43
+------------> Classic NMR <----------
+[ CLASSIC NMR ] Infeasible!   43
+------------> Medina 2017 Method <----------
+[ MEDINA 2017 ] Infeasible!   43
+>>>>>>>>>>>>> ::: DAG 43 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 44 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   44
+------------> Classic NMR <----------
+[ CLASSIC NMR ] Infeasible!   44
+------------> Medina 2017 Method <----------
+[ MEDINA 2017 ] Infeasible!   44
+>>>>>>>>>>>>> ::: DAG 44 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 45 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   45
+------------> Classic NMR <----------
+[ CLASSIC NMR ] Infeasible!   45
+------------> Medina 2017 Method <----------
+[ MEDINA 2017 ] Infeasible!   45
+>>>>>>>>>>>>> ::: DAG 45 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 46 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   46
+------------> Classic NMR <----------
+[ CLASSIC NMR ] Infeasible!   46
+------------> Medina 2017 Method <----------
+[ MEDINA 2017 ] Infeasible!   46
+>>>>>>>>>>>>> ::: DAG 46 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 47 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   47
+------------> Classic NMR <----------
+[ CLASSIC NMR ] Infeasible!   47
+------------> Medina 2017 Method <----------
+[ MEDINA 2017 ] Infeasible!   47
+>>>>>>>>>>>>> ::: DAG 47 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 48 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   48
+------------> Classic NMR <----------
+[ CLASSIC NMR ] Infeasible!   48
+------------> Medina 2017 Method <----------
+[ MEDINA 2017 ] Infeasible!   48
+>>>>>>>>>>>>> ::: DAG 48 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 49 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   49
+------------> Classic NMR <----------
+[ CLASSIC NMR ] Infeasible!   49
+------------> Medina 2017 Method <----------
+[ MEDINA 2017 ] Infeasible!   49
+>>>>>>>>>>>>> ::: DAG 49 END ::: <<<<<<<<<<<<
+
+>>>>>>>>>> ::: DAG 50 Start ::: <<<<<<<<<<
+------------> Proposed Method <----------
+[ PROPOSED METHOD ] Infeasible!   50
+------------> Classic NMR <----------
+[ CLASSIC NMR ] Infeasible!   50
+------------> Medina 2017 Method <----------
+[ MEDINA 2017 ] Infeasible!   50
+>>>>>>>>>>>>> ::: DAG 50 END ::: <<<<<<<<<<<<
+
+
+>>>>>>>>>>>>> SUMMARY OF ALL DAGs <<<<<<<<<<<<
+Proposed Method SCH: 0
+LE-NMR (SALEHI) SCH: 50
+Classic NMR SCH:     0
+Medina 2017 SCH:     0
+Proposed Method Avg. Power= NaN
+LE-NMR (SALEHI) Avg. Power= 0.0
+Classic NMR Avg. Power= NaN
+Medina 2017 Avg. Power= NaN
+Proposed Method Peak Power= NaN
+LE-NMR (SALEHI) Peak Power= 0.0
+Classic NMR Peak Power= NaN
+Medina 2017 Peak Power= NaN

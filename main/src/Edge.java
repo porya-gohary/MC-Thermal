@@ -15,12 +15,14 @@
  * limitations under the License.
  *******************************************************************************/
 
+import java.io.Serializable;
+
 /**
  * 
  * @author roberto
  *
  */
-public class Edge {
+public class Edge implements Serializable {
 	
 	// One edge has a src and a destination
 	private Vertex src;

@@ -30,6 +30,8 @@ public class CPU {
     //MC-DAG
     McDAG mcDAG;
 
+
+
     //Max. Freq.
     int max_freq=2000;
 
@@ -362,7 +364,8 @@ public class CPU {
             core[core_number][time]=task;
 
         }catch (Exception e){
-            System.err.println(task+"  ⚠ ⚠ Infeasible!");
+            //System.err.println(task+"  ⚠ ⚠ Infeasible!");
+            e.printStackTrace();
             //System.out.println("Core  "+core_number+"  Time "+time);
             throw new Exception("Infeasible!");
             //System.exit(1);

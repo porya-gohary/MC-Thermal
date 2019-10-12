@@ -44,6 +44,7 @@ public class Salehi {
         sort_vertex();
         clean_sch();
         check_feasible();
+        clean_fault();
         clean_sch();
         mScheduling();
     }
@@ -348,6 +349,13 @@ public class Salehi {
         for (Vertex a : v) {
             a.setScheduled(0);
             a.setInjected_fault(0);
+        }
+    }
+
+    public void clean_fault(){
+        for(Vertex a: v){
+            a.setInjected_fault(0);
+
         }
     }
 }

@@ -15,13 +15,14 @@
  * limitations under the License.
  *******************************************************************************/
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
 import static java.lang.Math.ceil;
 
-public abstract class Vertex implements Comparable<Vertex>, Cloneable{
+public abstract class Vertex implements Comparable<Vertex>, Cloneable, Serializable {
 	
 	public static final short LO = 0;
 	public static final short HI = 1;
@@ -227,7 +228,7 @@ public abstract class Vertex implements Comparable<Vertex>, Cloneable{
 
 
 		if(stackTraceElements[6].getClassName().equals("Salehi")) {
-//			System.out.println("..........SALEHI..........");
+			System.out.println("..........SALEHI..........");
 			int temp1,temp2;
 			temp1=Math.max(this.getWcet(0),this.getWcet(1));
 			temp2=Math.max(obj.getWcet(0),obj.getWcet(1));

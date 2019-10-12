@@ -36,6 +36,7 @@ public class ClassicNMR  {
         this.clean_sch();
         this.check_feasible();
         this.clean_sch();
+        this.clean_fault();
         this.mScheduling();
         //cpu.power_results();
     }
@@ -246,6 +247,12 @@ public class ClassicNMR  {
     public void clean_sch(){
         for(Vertex a: v){
             a.setScheduled(0);
+        }
+    }
+    public void clean_fault(){
+        for(Vertex a: v){
+            a.setInjected_fault(0);
+
         }
     }
 }
