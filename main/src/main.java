@@ -13,6 +13,7 @@ public class main {
         double n = 3;
         int deadline = 900;
         int n_core = 4;
+
         McDAG dag;
 
         //Dag XML Name
@@ -34,8 +35,10 @@ public class main {
         int n_fault = 0;
 
         //Bool For make New DAGS
-        boolean create_dag = false;
+        boolean create_dag =false;
 
+        //number of cores that can work with max freq in same time
+        int max_freq_cores = 1;
 
 //        double percent[] = {0.0, 0.25, 0.5, 0.75, 1.0};
         double percent[] = {0.0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.40, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1.0};
@@ -63,14 +66,12 @@ public class main {
         double Sal_power[] = new double[2];
 
 
-        //number of cores that can work with max freq in same time
-        int max_freq_cores = 1;
 
 
         //double v[]={0.912,0.9125,0.95,0.987,1.025,1.065,1.1,1.13,1.16,1.212,1.26};
-        double v[] = {1.023, 1.062, 1.115, 1.3};
+        double v[] = {0.973,1.023, 1.062, 1.115, 1.3};
         //Possible Frequencies
-        int freq[] = {1200, 1400, 1600, 2000};
+        int freq[] = {1000,1200, 1400, 1600, 2000};
         //Benchmarks Name
         String benchmark[] = {"Basicmath", "Bitcount", "Dijkstra", "FFT", "JPEG", "Patricia", "Qsort", "Sha", "Stringsearch", "Susan"};
         int benchmark_time[] = {156, 25, 33, 160, 28, 87, 25, 13, 8, 20};
@@ -119,13 +120,13 @@ public class main {
 //            e.printStackTrace();
 //        }
 
-        for (int h = 0; h < percent.length; h++) {
-            fault_pecent = percent[h];
+ //       for (int h = 0; h < percent.length; h++) {
+   //         fault_pecent = percent[h];
 //        fault_pecent=0.25;
 //        overrun_percent=0.5;
             // overrun_percent = percent[h];
-            for (int j = 0; j < percent.length; j++) {
-                overrun_percent = percent[j];
+     //       for (int j = 0; j < percent.length; j++) {
+       //         overrun_percent = percent[j];
 
                 Pro_power = new double[2];
                 NMR_power = new double[2];
@@ -286,8 +287,8 @@ public class main {
                 System.out.println("Medina 2017 Peak Power= " + (Med_power[1] / Med_Sch));
                 outputWriter.flush();
                 outputWriter.close();
-            }
-        }
+  //          }
+    //    }
 
 
     }

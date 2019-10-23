@@ -30,6 +30,8 @@ public class CPU {
     //MC-DAG
     McDAG mcDAG;
 
+    //Idle Power
+    double idle_power=0.5;
 
 
     //Max. Freq.
@@ -45,7 +47,7 @@ public class CPU {
         core=new String[n_Cores][deadline];
         power=new double [n_Cores][deadline];
         for (int i = 0; i < n_Cores; i++) {
-            Arrays.fill(power[i], 0.5);
+            Arrays.fill(power[i], idle_power);
         }
     }
     //GET Running Task in specific Time
