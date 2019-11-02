@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
 
+import static java.lang.Math.ceil;
+
 public class Medina {
     McDAG dag;
     int n_core;
@@ -51,6 +53,7 @@ public class Medina {
                     j = 0;
                     for (int i = 0; i < deadline; i++) {
                         if (!a.check_runnable(cpu.get_Running_Tasks(i), 1)) continue;
+
                         boolean CPU_runnable = true;
                         for (Edge e : a.getRcvEdges()) {
                             if (cpu.getEndTimeTask(e.getSrc().getName() + " CR" + (int) (3)) > i) {
@@ -158,6 +161,7 @@ public class Medina {
                         if (!a.check_runnable(cpu.get_Running_Tasks(i), 1)) continue;
                         boolean CPU_runnable = true;
                         for (Edge e : a.getRcvEdges()) {
+                            if (cpu.getEndTimeTask(e.getSrc().getName() + " CR" + (int) (3))== -1) CPU_runnable = false;
                             if (cpu.getEndTimeTask(e.getSrc().getName() + " CR" + (int) (3)) > i) {
                                 CPU_runnable = false;
                             }
@@ -213,6 +217,32 @@ public class Medina {
                     for (int i = 0; i < deadline; i++) {
                         if (!a.check_runnable(cpu.get_Running_Tasks(i), 1)) continue;
 
+                        boolean CPU_runnable = true;
+                        for (Edge e : a.getRcvEdges()) {
+                            if(e.getSrc().isHighCr()) {
+                                if (cpu.getEndTimeTask(e.getSrc().getName() + " CR" + (int) (3)) == -1)  CPU_runnable = false;
+                                //System.out.println("<<<< >>> "+cpu.getEndTimeTask(e.getSrc().getName() + " CR" + (int) (3)));
+                                if (cpu.getEndTimeTask(e.getSrc().getName() + " CR" + (int) (3)) > i) {
+                                    CPU_runnable = false;
+                                }
+
+                                if ((cpu.getEndTimeTask(e.getSrc().getName() + " CO" + (int) (3)) > i) && (cpu.getEndTimeTask(e.getSrc().getName() + " CO" + (int) (3)) != -1)) {
+                                    CPU_runnable = false;
+                                }
+                            }else{
+                                if (cpu.getEndTimeTask(e.getSrc().getName() + " CR" + (int) (0)) == -1)  CPU_runnable = false;
+                                //System.out.println("<<<< >>> "+cpu.getEndTimeTask(e.getSrc().getName() + " CR" + (int) (3)));
+                                if (cpu.getEndTimeTask(e.getSrc().getName() + " CR" + (int) (0)) > i) {
+                                    CPU_runnable = false;
+                                }
+
+                            }
+
+                        }
+                        if (!CPU_runnable) {
+                            //  System.out.println("RUN!");
+                            continue;
+                        }
                         if (cpu.CheckTimeSlot(j, i, i + a.getWcet(0))) {
                             cpu.SetTaskOnCore(a.getName() + " CR0", j, i, i + a.getWcet(0));
                             a.setScheduled(a.getScheduled() + 1);

@@ -12,7 +12,7 @@ public class main {
     public static void main(String args[]) throws IOException, SAXException, ParserConfigurationException {
         double n = 3;
         int deadline = 900;
-        int n_core = 4;
+        int n_core = 36;
 
         McDAG dag;
 
@@ -38,7 +38,7 @@ public class main {
         boolean create_dag =false;
 
         //number of cores that can work with max freq in same time
-        int max_freq_cores = 1;
+        int max_freq_cores = 3;
 
 //        double percent[] = {0.0, 0.25, 0.5, 0.75, 1.0};
         double percent[] = {0.0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.40, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1.0};

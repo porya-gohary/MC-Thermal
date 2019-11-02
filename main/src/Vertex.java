@@ -363,6 +363,7 @@ public abstract class Vertex implements Comparable<Vertex>, Cloneable, Serializa
 					if (e.getSrc().scheduled != n) return false;
 				} else if(stackTraceElements[2].getClassName().equals("Medina")) {
 					if (e.getSrc().scheduled != 1) return false;
+					//if(e.getSrc())
 				}else{
 					if (e.getSrc().scheduled != ceil(n / 2)) return false;
 				}

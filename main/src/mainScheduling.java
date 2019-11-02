@@ -78,6 +78,7 @@ public class mainScheduling {
                             if(!a.check_runnable(cpu.get_Running_Tasks(i),n)) continue;
                             boolean CPU_runnable=true;
                             for(Edge e: a.getRcvEdges()){
+                                if(cpu.getEndTimeTask(e.getSrc().getName()+" R"+(int)(ceil(n/2)-1))==-1)CPU_runnable=false;
                                 if(cpu.getEndTimeTask(e.getSrc().getName()+" R"+(int)(ceil(n/2)-1))>i){
                                     CPU_runnable=false;
                                 }
@@ -109,8 +110,14 @@ public class mainScheduling {
                         if (!a.check_runnable(cpu.get_Running_Tasks(i), n)) continue;
                         boolean CPU_runnable=true;
                         for(Edge e: a.getRcvEdges()){
-                            if(cpu.getEndTimeTask(e.getSrc().getName()+" R"+(int)(ceil(n/2)-1))>i){
-                                CPU_runnable=false;
+                            if(e.getSrc().isHighCr()) {
+                                if(cpu.getEndTimeTask(e.getSrc().getName()+" R"+(int)(ceil(n/2)-1))==-1)CPU_runnable=false;
+                                if (cpu.getEndTimeTask(e.getSrc().getName() + " R" + (int) (ceil(n / 2) - 1)) > i) {
+                                    CPU_runnable = false;
+                                }
+                            }else{
+                                if(cpu.getEndTimeTask(e.getSrc().getName() + " R0")==-1)  CPU_runnable = false;
+                                if(cpu.getEndTimeTask(e.getSrc().getName() + " R0")>i)  CPU_runnable = false;
                             }
                         }
                         if(!CPU_runnable) continue;

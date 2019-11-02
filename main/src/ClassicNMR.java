@@ -56,6 +56,7 @@ public class ClassicNMR  {
                             if(!a.check_runnable(cpu.get_Running_Tasks(i),n)) continue;
                             boolean CPU_runnable=true;
                             for(Edge e: a.getRcvEdges()){
+                                if (cpu.getEndTimeTask(e.getSrc().getName()+" CR"+(int)(n-1)) == -1)  CPU_runnable = false;
                                 if(cpu.getEndTimeTask(e.getSrc().getName()+" CR"+(int)(n-1))>i){
                                     CPU_runnable=false;
                                 }
@@ -155,13 +156,23 @@ public class ClassicNMR  {
                             if(!a.check_runnable(cpu.get_Running_Tasks(i),n)) continue;
                             boolean CPU_runnable=true;
                             for(Edge e: a.getRcvEdges()){
-                                if(cpu.getEndTimeTask(e.getSrc().getName()+" CR"+(int)(n))>i){
-                                    CPU_runnable=false;
-                                }
-                                for (int k = 0; k < n ; k++) {
-                                    if((cpu.getEndTimeTask(e.getSrc().getName()+" CO"+(int)(k))>i) &&(cpu.getEndTimeTask(e.getSrc().getName()+" CO"+(int)(k))!=-1) ){
-                                        CPU_runnable=false;
+                                if(e.getSrc().isHighCr()) {
+                                    if (cpu.getEndTimeTask(e.getSrc().getName() + " CR" + (int) (n - 1)) == -1)
+                                        CPU_runnable = false;
+                                    if (cpu.getEndTimeTask(e.getSrc().getName() + " CR" + (int) (n - 1)) > i) {
+                                        CPU_runnable = false;
                                     }
+                                    for (int k = 0; k < n; k++) {
+                                        if ((cpu.getEndTimeTask(e.getSrc().getName() + " CO" + (int) (k)) > i) && (cpu.getEndTimeTask(e.getSrc().getName() + " CO" + (int) (k)) != -1)) {
+                                            CPU_runnable = false;
+                                        }
+
+                                    }
+                                }else{
+                                    if (cpu.getEndTimeTask(e.getSrc().getName() + " CR" + (int) (0)) == -1) CPU_runnable = false;
+                                        if (cpu.getEndTimeTask(e.getSrc().getName() + " CR" + (int) (0)) > i) {
+                                            CPU_runnable = false;
+                                        }
 
                                 }
 
@@ -212,7 +223,33 @@ public class ClassicNMR  {
                     if(a.getScheduled()==1) continue;
                     for (int i = 0; i < deadline; i++) {
                         if (!a.check_runnable(cpu.get_Running_Tasks(i), n)) continue;
+                        boolean CPU_runnable=true;
+                        for(Edge e: a.getRcvEdges()){
+                            if(e.getSrc().isHighCr()) {
+                                if (cpu.getEndTimeTask(e.getSrc().getName() + " CR" + (int) (n - 1)) == -1)
+                                    CPU_runnable = false;
+                                if (cpu.getEndTimeTask(e.getSrc().getName() + " CR" + (int) (n - 1)) > i) {
+                                    CPU_runnable = false;
+                                }
+                                for (int k = 0; k < n; k++) {
+                                    if ((cpu.getEndTimeTask(e.getSrc().getName() + " CO" + (int) (k)) > i) && (cpu.getEndTimeTask(e.getSrc().getName() + " CO" + (int) (k)) != -1)) {
+                                        CPU_runnable = false;
+                                    }
 
+                                }
+                            }else{
+                                if (cpu.getEndTimeTask(e.getSrc().getName() + " CR" + (int) (0)) == -1) CPU_runnable = false;
+                                if (cpu.getEndTimeTask(e.getSrc().getName() + " CR" + (int) (0)) > i) {
+                                    CPU_runnable = false;
+                                }
+
+                            }
+
+                        }
+                        if(!CPU_runnable) {
+                            //  System.out.println("RUN!");
+                            continue;
+                        }
                         if (cpu.CheckTimeSlot(j, i, i + a.getWcet(0))){
                             cpu.SetTaskOnCore(a.getName() + " CR0", j, i, i + a.getWcet(0));
                             a.setScheduled(a.getScheduled() + 1);
