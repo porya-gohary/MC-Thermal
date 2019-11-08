@@ -2,6 +2,9 @@ import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -13,6 +16,8 @@ public class main {
         double n = 3;
         int deadline = 900;
         int n_core = 4;
+
+        Path temp;
 
         McDAG dag;
 
@@ -44,7 +49,7 @@ public class main {
 //        double percent[] = {0.0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.40, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1.0};
         double fault_pecent = 0.0;
         //Number of DAG
-        int n_DAGs = 20;
+        int n_DAGs = 70;
         McDAG All_DAG[] = new McDAG[n_DAGs + 1];
         int All_deadline[] = new int[n_DAGs + 1];
 
@@ -181,6 +186,20 @@ public class main {
                                 Pro_power[0] += proposedMethod.mainScheduling.cpu.power_results()[0];
                                 Pro_power[1] += proposedMethod.mainScheduling.cpu.power_results()[1];
                                 proposedMethod = null;
+
+                                // Move Scheduling to Correct Folder
+                                temp = Files.move(Paths.get("mainSCH.csv"),
+                                                Paths.get("OV" + overrun_percent + "F" + fault_pecent + "\\"+xml_name+"\\"+"mainSCH.csv"));
+                                temp = Files.move(Paths.get("mainSCH+Fault.csv"),
+                                        Paths.get("OV" + overrun_percent + "F" + fault_pecent + "\\"+xml_name+"\\"+"mainSCH+Fault.csv"));
+                                temp = Files.move(Paths.get("mainSCH+Fault+Overrun.csv"),
+                                        Paths.get("OV" + overrun_percent + "F" + fault_pecent + "\\"+xml_name+"\\"+"mainSCH+Fault+Overrun.csv"));
+                                temp = Files.move(Paths.get("main_SST_SCH.csv"),
+                                        Paths.get("OV" + overrun_percent + "F" + fault_pecent + "\\"+xml_name+"\\"+"main_SST_SCH.csv"));
+                                temp = Files.move(Paths.get("With_Overrun.csv"),
+                                        Paths.get("OV" + overrun_percent + "F" + fault_pecent + "\\"+xml_name+"\\"+"With_Overrun.csv"));
+                                temp = Files.move(Paths.get("With_Fault.csv"),
+                                        Paths.get("OV" + overrun_percent + "F" + fault_pecent + "\\"+xml_name+"\\"+"With_Fault.csv"));
 
                             } catch (Exception e) {
                                 // e.printStackTrace();
