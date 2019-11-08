@@ -38,7 +38,7 @@ public class CPU {
     int max_freq=2000;
 
     //Location of Power Trace
-    String location="C:\\Users\\PC Khafan\\Desktop\\MC-Thermal\\MiBench\\";
+    String location="MiBench\\";
 
     public CPU( int deadline, int n_Cores,McDAG mcDAG) {
         this.deadline = deadline;

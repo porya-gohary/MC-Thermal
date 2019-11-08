@@ -46,6 +46,9 @@ public class mainScheduling {
     CPU cpu;
     String xml_name;
 
+    //Number of low-critical Tasks
+    int low_num=0;
+
     public mainScheduling(Vertex[] v,McDAG mcDAG,double n,int deadline,int n_core,int number_of_overrun,int number_of_fault,double overrun_percent, double fault_percent,double max_voltage, int max_freq, int max_freq_cores,String xml_name) {
         this.deadline = deadline;
         this.n_core = n_core;
@@ -60,7 +63,7 @@ public class mainScheduling {
         this.number_of_overrun=number_of_overrun;
         this.overrun_percent=overrun_percent;
         this.fault_percent=fault_percent;
-
+        this.low_num=mcDAG.getVertices().size()-mcDAG.getNodes_HI().size();
     }
 
     public void mScheduling() throws Exception {
@@ -106,6 +109,7 @@ public class mainScheduling {
                 }else{
                     //One Replica For LO-Critical Tasks
                     if(a.getScheduled()==1) continue;
+                    if(!a.isRun())continue;
                     for (int i = 0; i < deadline; i++) {
                         if (!a.check_runnable(cpu.get_Running_Tasks(i), n)) continue;
                         boolean CPU_runnable=true;
@@ -245,5 +249,24 @@ public class mainScheduling {
     }
     public CPU getCpu(){
         return cpu;
+    }
+
+    public void Drop_task(){
+        for (int i = v.length-1; i >=0 ; i--) {
+            if(!v[i].isHighCr()&& v[i].isRun()) {
+                v[i].setRun(false);
+                System.out.println("■■■  DROP TASK "+v[i].getName());
+                break;
+            }
+        }
+    }
+
+    public double QoS(){
+        double QoS=0;
+        for (int i = 0; i < v.length; i++) {
+            if(!v[i].isHighCr() && v[i].isRun()) QoS++;
+        }
+        QoS=QoS/(v.length-mcDAG.getNodes_HI().size());
+        return QoS;
     }
 }

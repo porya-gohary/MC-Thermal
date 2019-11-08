@@ -64,7 +64,8 @@ public class benchmark_mapping {
         Random rn= new Random();
         int m;
         do {
-            m = rn.nextInt((int) (n *n*1.6));
+           // m = rn.nextInt((int) (n *n*1.6));
+            m = rn.nextInt((int) (n *n*1.1));
         }while(m==0);
         return (v[v.length-1].getLPL()*m);
     }
@@ -109,5 +110,8 @@ public class benchmark_mapping {
 
 
         }
+        System.out.println("---> Number of LO-critical Tasks =  "+(dag.getVertices().size()-dag.getNodes_HI().size()));
+        System.out.println("---> Number of HI-critical Tasks =  "+dag.getNodes_HI().size());
+        System.out.println("---> Total Number of Tasks =  "+dag.getVertices().size());
     }
 }

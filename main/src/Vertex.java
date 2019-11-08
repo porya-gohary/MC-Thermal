@@ -54,6 +54,8 @@ public abstract class Vertex implements Comparable<Vertex>, Cloneable, Serializa
 	private String HI_name;
 	private String LO_name;
 
+	private boolean run =true;
+
 
 	
 	public Vertex (int id, String name, int nbLevels) {
@@ -473,4 +475,12 @@ public abstract class Vertex implements Comparable<Vertex>, Cloneable, Serializa
 
 	public void setWCET_LO(int WCET) {this.wcets[0]=WCET;}
 	public void setWCET_HI(int WCET) {this.wcets[1]=WCET;}
+
+    public boolean isRun() {
+        return run;
+    }
+
+    public void setRun(boolean run) {
+        this.run = run;
+    }
 }

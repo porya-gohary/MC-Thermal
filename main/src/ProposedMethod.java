@@ -91,13 +91,23 @@ public class ProposedMethod {
         //------------> Main Scheduling <----------
 
         mainScheduling=new mainScheduling(dag.getVertices().stream().toArray(Vertex[]::new).clone(),dag,n,deadline,n_core,n_overrun,n_fault,overrun_percent,fault_percent, v[v.length-1],freq[freq.length-1], max_freq_cores,xml_name);
-        mainScheduling.clean_sch();
-        mainScheduling.sort_vertex();
-        mainScheduling.mScheduling();
-        mainScheduling.clean_fault();
-        mainScheduling.inject_fault(n_fault);
-        mainScheduling.overrun(n_overrun);
 
+        mainScheduling.sort_vertex();
+        boolean repeat=true;
+        do {
+            try {
+                System.out.println("═════╣  QoS = "+mainScheduling.QoS());
+                mainScheduling.clean_sch();
+                mainScheduling.mScheduling();
+                mainScheduling.clean_fault();
+                mainScheduling.inject_fault(n_fault);
+                mainScheduling.overrun(n_overrun);
+                repeat=false;
+            } catch (Exception e) {
+
+                mainScheduling.Drop_task();
+            }
+        }while(repeat);
         //mainScheduling.cpu.power_results();
     }
 

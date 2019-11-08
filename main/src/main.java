@@ -12,7 +12,7 @@ public class main {
     public static void main(String args[]) throws IOException, SAXException, ParserConfigurationException {
         double n = 3;
         int deadline = 900;
-        int n_core = 36;
+        int n_core = 4;
 
         McDAG dag;
 
@@ -35,16 +35,16 @@ public class main {
         int n_fault = 0;
 
         //Bool For make New DAGS
-        boolean create_dag =false;
+        boolean create_dag =true;
 
         //number of cores that can work with max freq in same time
-        int max_freq_cores = 3;
+        int max_freq_cores = 1;
 
-//        double percent[] = {0.0, 0.25, 0.5, 0.75, 1.0};
-        double percent[] = {0.0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.40, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1.0};
+        double percent[] = {0.0, 0.25, 0.5, 0.75, 1.0};
+//        double percent[] = {0.0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.40, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1.0};
         double fault_pecent = 0.0;
         //Number of DAG
-        int n_DAGs = 50;
+        int n_DAGs = 20;
         McDAG All_DAG[] = new McDAG[n_DAGs + 1];
         int All_deadline[] = new int[n_DAGs + 1];
 
@@ -64,6 +64,13 @@ public class main {
         double NMR_power[] = new double[2];
         double Med_power[] = new double[2];
         double Sal_power[] = new double[2];
+
+        //Boolean for Run Each Method
+        boolean Pro_run = true;
+        boolean Sal_run = false;
+        boolean NMR_run = false;
+        boolean Med_run = false;
+
 
 
 
@@ -86,6 +93,7 @@ public class main {
                 File file = new File("DAGs\\" + xml_name + ".xml");
                 dag_Reader dr = new dag_Reader(file);
                 dag = dr.getDag();
+                dag.setHINodes();
                 benchmark_mapping benchmark_mapping = new benchmark_mapping(dag, benchmark, benchmark_time);
                 benchmark_mapping.mapping();
                 benchmark_mapping.cal_LPL();
@@ -120,13 +128,13 @@ public class main {
 //            e.printStackTrace();
 //        }
 
- //       for (int h = 0; h < percent.length; h++) {
-   //         fault_pecent = percent[h];
+        for (int h = 0; h < percent.length; h++) {
+            fault_pecent = percent[h];
 //        fault_pecent=0.25;
 //        overrun_percent=0.5;
             // overrun_percent = percent[h];
-     //       for (int j = 0; j < percent.length; j++) {
-       //         overrun_percent = percent[j];
+            for (int j = 0; j < percent.length; j++) {
+                overrun_percent = percent[j];
 
                 Pro_power = new double[2];
                 NMR_power = new double[2];
@@ -147,7 +155,7 @@ public class main {
                     outputWriter.write(">>>>>>>>>> ::: DAG " + xml_name + " Start ::: <<<<<<<<<<" + "\n");
 
                     dag = All_DAG[i];
-                    dag.setHINodes();
+                    //dag.setHINodes();
                     deadline = All_deadline[i];
                     n_overrun = (int) (dag.getNodes_HI().size() * overrun_percent);
                     n_fault = (int) (dag.getNodes_HI().size() * fault_pecent);
@@ -159,96 +167,104 @@ public class main {
                     //deadline=700;
                     System.out.println("Deadline= " + deadline);
                     //   --->>>>  PROPOSED METHOD
-                    System.out.println("------------> Proposed Method <----------");
-                    outputWriter.write("------------> Proposed Method <----------" + "\n");
-                    if (!PR_inf[i]) {
-                        ProposedMethod proposedMethod = new ProposedMethod(landa0, d, v, freq, tsp_name, dag, n_core, deadline, rel_name + i, benchmark,
-                                benchmark_time, max_freq_cores, n_overrun, n_fault, overrun_percent, fault_pecent, n, xml_name);
-                        try {
-                            proposedMethod.start();
-                            outputWriter.write("Avg. Power= " + proposedMethod.mainScheduling.cpu.power_results()[0] + "\n");
-                            outputWriter.write("Peak Power= " + proposedMethod.mainScheduling.cpu.power_results()[1] + "\n");
-                            Pro_power[0] += proposedMethod.mainScheduling.cpu.power_results()[0];
-                            Pro_power[1] += proposedMethod.mainScheduling.cpu.power_results()[1];
-                            proposedMethod = null;
+                    if(Pro_run) {
+                        System.out.println("------------> Proposed Method <----------");
+                        outputWriter.write("------------> Proposed Method <----------" + "\n");
+                        if (!PR_inf[i]) {
+                            ProposedMethod proposedMethod = new ProposedMethod(landa0, d, v, freq, tsp_name, dag, n_core, deadline, rel_name + i, benchmark,
+                                    benchmark_time, max_freq_cores, n_overrun, n_fault, overrun_percent, fault_pecent, n, xml_name);
+                            try {
+                                proposedMethod.start();
+                                outputWriter.write("Avg. Power= " + proposedMethod.mainScheduling.cpu.power_results()[0] + "\n");
+                                outputWriter.write("Peak Power= " + proposedMethod.mainScheduling.cpu.power_results()[1] + "\n");
+                                outputWriter.write("═════╣  QoS = " + proposedMethod.mainScheduling.QoS() + "\n");
+                                Pro_power[0] += proposedMethod.mainScheduling.cpu.power_results()[0];
+                                Pro_power[1] += proposedMethod.mainScheduling.cpu.power_results()[1];
+                                proposedMethod = null;
 
-                        } catch (Exception e) {
-                            // e.printStackTrace();
-                            if (overrun_percent == 0 && fault_pecent == 0) {
-                                PR_inf[i] = true;
+                            } catch (Exception e) {
+                                // e.printStackTrace();
+                                if (overrun_percent == 0 && fault_pecent == 0) {
+                                    PR_inf[i] = true;
+                                }
+                                System.out.println("[ PROPOSED METHOD ] Infeasible!   " + xml_name);
+                                outputWriter.write("[ PROPOSED METHOD ] Infeasible!   " + xml_name + "\n");
+                                PR_Sch--;
+                                e.printStackTrace();
+
+                                if (!Arrays.toString(e.getStackTrace()).contains("Safe_Start_Time"))
+                                    // System.out.println(Arrays.toString(e.getStackTrace()).contains("Safe_Start_Time"));
+                                    System.exit(3);
                             }
+                        } else {
                             System.out.println("[ PROPOSED METHOD ] Infeasible!   " + xml_name);
                             outputWriter.write("[ PROPOSED METHOD ] Infeasible!   " + xml_name + "\n");
                             PR_Sch--;
-                            e.printStackTrace();
-
-                            if (!Arrays.toString(e.getStackTrace()).contains("Safe_Start_Time"))
-                                // System.out.println(Arrays.toString(e.getStackTrace()).contains("Safe_Start_Time"));
-                                System.exit(3);
                         }
-                    } else {
-                        System.out.println("[ PROPOSED METHOD ] Infeasible!   " + xml_name);
-                        outputWriter.write("[ PROPOSED METHOD ] Infeasible!   " + xml_name + "\n");
-                        PR_Sch--;
                     }
 
                     if (overrun_percent == 0) {
-                        System.out.println("------------> LE-NMR (SALEHI) <----------");
-                        outputWriter.write("------------> LE-NMR (SALEHI) <----------" + "\n");
-                        try {
-                            Salehi salehi = new Salehi(dag, n_core, deadline, n, xml_name, n_fault, fault_pecent);
-                            outputWriter.write("Avg. Power= " + salehi.cpu.power_results()[0] + "\n");
-                            outputWriter.write("Peak Power= " + salehi.cpu.power_results()[1] + "\n");
+                        if(Sal_run) {
+                            System.out.println("------------> LE-NMR (SALEHI) <----------");
+                            outputWriter.write("------------> LE-NMR (SALEHI) <----------" + "\n");
+                            try {
+                                Salehi salehi = new Salehi(dag, n_core, deadline, n, xml_name, n_fault, fault_pecent);
+                                outputWriter.write("Avg. Power= " + salehi.cpu.power_results()[0] + "\n");
+                                outputWriter.write("Peak Power= " + salehi.cpu.power_results()[1] + "\n");
 
-                            Sal_power[0] += salehi.cpu.power_results()[0];
-                            Sal_power[1] += salehi.cpu.power_results()[1];
-                            salehi = null;
-                        } catch (Exception e) {
-                            System.out.println("[ LE-NMR (SALEHI) ] Infeasible!   " + xml_name);
-                            outputWriter.write("[ LE-NMR (SALEHI) ] Infeasible!   " + xml_name + "\n");
-                            Sal_Sch--;
-                            e.printStackTrace();
+                                Sal_power[0] += salehi.cpu.power_results()[0];
+                                Sal_power[1] += salehi.cpu.power_results()[1];
+                                salehi = null;
+                            } catch (Exception e) {
+                                System.out.println("[ LE-NMR (SALEHI) ] Infeasible!   " + xml_name);
+                                outputWriter.write("[ LE-NMR (SALEHI) ] Infeasible!   " + xml_name + "\n");
+                                Sal_Sch--;
+                                e.printStackTrace();
+                            }
                         }
                     }
 
 
                     if (fault_pecent == 0) {
-                        System.out.println("------------> Classic NMR <----------");
-                        outputWriter.write("------------> Classic NMR <----------" + "\n");
-                        try {
-                            ClassicNMR NMR = new ClassicNMR(dag, n_core, deadline, benchmark, benchmark_time, n, n_overrun, overrun_percent, xml_name);
-                            outputWriter.write("Avg. Power= " + NMR.cpu.power_results()[0] + "\n");
-                            outputWriter.write("Peak Power= " + NMR.cpu.power_results()[1] + "\n");
+                        if(NMR_run) {
+                            System.out.println("------------> Classic NMR <----------");
+                            outputWriter.write("------------> Classic NMR <----------" + "\n");
+                            try {
+                                ClassicNMR NMR = new ClassicNMR(dag, n_core, deadline, benchmark, benchmark_time, n, n_overrun, overrun_percent, xml_name);
+                                outputWriter.write("Avg. Power= " + NMR.cpu.power_results()[0] + "\n");
+                                outputWriter.write("Peak Power= " + NMR.cpu.power_results()[1] + "\n");
 
-                            NMR_power[0] += NMR.cpu.power_results()[0];
-                            NMR_power[1] += NMR.cpu.power_results()[1];
-                            NMR = null;
-                        } catch (Exception e) {
-                            System.out.println("[ CLASSIC NMR ] Infeasible!   " + xml_name);
-                            outputWriter.write("[ CLASSIC NMR ] Infeasible!   " + xml_name + "\n");
-                            NMR_Sch--;
-                            e.printStackTrace();
+                                NMR_power[0] += NMR.cpu.power_results()[0];
+                                NMR_power[1] += NMR.cpu.power_results()[1];
+                                NMR = null;
+                            } catch (Exception e) {
+                                System.out.println("[ CLASSIC NMR ] Infeasible!   " + xml_name);
+                                outputWriter.write("[ CLASSIC NMR ] Infeasible!   " + xml_name + "\n");
+                                NMR_Sch--;
+                                e.printStackTrace();
+                            }
                         }
 
+                        if(Med_run) {
+                            System.out.println("------------> Medina 2017 Method <----------");
+                            outputWriter.write("------------> Medina 2017 Method <----------" + "\n");
+                            try {
+                                Medina medina = new Medina(dag, n_core, deadline, benchmark, benchmark_time, n_overrun, overrun_percent, xml_name);
+                                outputWriter.write("Avg. Power= " + medina.cpu.power_results()[0] + "\n");
+                                outputWriter.write("Peak Power= " + medina.cpu.power_results()[1] + "\n");
 
-                        System.out.println("------------> Medina 2017 Method <----------");
-                        outputWriter.write("------------> Medina 2017 Method <----------" + "\n");
-                        try {
-                            Medina medina = new Medina(dag, n_core, deadline, benchmark, benchmark_time, n_overrun, overrun_percent, xml_name);
-                            outputWriter.write("Avg. Power= " + medina.cpu.power_results()[0] + "\n");
-                            outputWriter.write("Peak Power= " + medina.cpu.power_results()[1] + "\n");
-
-                            Med_power[0] += medina.cpu.power_results()[0];
-                            Med_power[1] += medina.cpu.power_results()[1];
-                            medina = null;
-                        } catch (Exception e) {
-                            System.out.println("[ MEDINA 2017 ] Infeasible!   " + xml_name);
-                            outputWriter.write("[ MEDINA 2017 ] Infeasible!   " + xml_name + "\n");
-                            Med_Sch--;
-                            e.printStackTrace();
+                                Med_power[0] += medina.cpu.power_results()[0];
+                                Med_power[1] += medina.cpu.power_results()[1];
+                                medina = null;
+                            } catch (Exception e) {
+                                System.out.println("[ MEDINA 2017 ] Infeasible!   " + xml_name);
+                                outputWriter.write("[ MEDINA 2017 ] Infeasible!   " + xml_name + "\n");
+                                Med_Sch--;
+                                e.printStackTrace();
+                            }
+                            System.out.println("------------> ::: DAG " + xml_name + " END ::: <----------");
+                            outputWriter.write(">>>>>>>>>>>>> ::: DAG " + xml_name + " END ::: <<<<<<<<<<<<" + "\n\n");
                         }
-                        System.out.println("------------> ::: DAG " + xml_name + " END ::: <----------");
-                        outputWriter.write(">>>>>>>>>>>>> ::: DAG " + xml_name + " END ::: <<<<<<<<<<<<" + "\n\n");
 
                     }
                 }
@@ -287,8 +303,8 @@ public class main {
                 System.out.println("Medina 2017 Peak Power= " + (Med_power[1] / Med_Sch));
                 outputWriter.flush();
                 outputWriter.close();
-  //          }
-    //    }
+            }
+        }
 
 
     }
