@@ -92,6 +92,8 @@ public class main {
         NMR_Sch = n_DAGs;
         Med_Sch = n_DAGs;
         if (create_dag) {
+            BufferedWriter outputWriter = null;
+            outputWriter = new BufferedWriter(new FileWriter("DAGs_Summary.txt"));
             for (int i = 1; i <= n_DAGs; i++) {
                 xml_name = i + "";
                 System.out.println("Mapping :::> DAG " + xml_name + "");
@@ -103,6 +105,14 @@ public class main {
                 benchmark_mapping.mapping();
                 benchmark_mapping.cal_LPL();
                 deadline = benchmark_mapping.cal_deadline(n);
+
+
+                outputWriter.write(">>>>>>>>>> ::: DAG " + xml_name + " ::: <<<<<<<<<<" + "\n");
+                outputWriter.write("Number Of HI-Critical Tasks = " + dag.getNodes_HI().size() + "\n");
+                outputWriter.write("Number Of LO-Critical Tasks = " + (dag.getVertices().size()-dag.getNodes_HI().size()) + "\n");
+                outputWriter.write("Number Of Tasks = " + (dag.getVertices().size()) + "\n");
+                outputWriter.write("Deadline = " + deadline + "\n");
+
                 benchmark_mapping.debug();
                 All_deadline[i] = deadline;
                 All_DAG[i] = dag;
@@ -112,6 +122,9 @@ public class main {
                     e.printStackTrace();
                 }
             }
+            outputWriter.flush();
+            outputWriter.close();
+
 
             WriteObjectToFile(All_DAG.clone(), "DAGs.txt");
             WriteObjectToFile(All_deadline, "Deadline.txt");
@@ -194,12 +207,14 @@ public class main {
                                         Paths.get("OV" + overrun_percent + "F" + fault_pecent + "\\"+xml_name+"\\"+"mainSCH+Fault.csv"));
                                 temp = Files.move(Paths.get("mainSCH+Fault+Overrun.csv"),
                                         Paths.get("OV" + overrun_percent + "F" + fault_pecent + "\\"+xml_name+"\\"+"mainSCH+Fault+Overrun.csv"));
-                                temp = Files.move(Paths.get("main_SST_SCH.csv"),
-                                        Paths.get("OV" + overrun_percent + "F" + fault_pecent + "\\"+xml_name+"\\"+"main_SST_SCH.csv"));
-                                temp = Files.move(Paths.get("With_Overrun.csv"),
-                                        Paths.get("OV" + overrun_percent + "F" + fault_pecent + "\\"+xml_name+"\\"+"With_Overrun.csv"));
-                                temp = Files.move(Paths.get("With_Fault.csv"),
-                                        Paths.get("OV" + overrun_percent + "F" + fault_pecent + "\\"+xml_name+"\\"+"With_Fault.csv"));
+                                if (fault_pecent == 0 && overrun_percent==0) {
+                                    temp = Files.move(Paths.get("main_SST_SCH.csv"),
+                                            Paths.get("OV" + overrun_percent + "F" + fault_pecent + "\\" + xml_name + "\\" + "main_SST_SCH.csv"));
+                                    temp = Files.move(Paths.get("With_Overrun.csv"),
+                                            Paths.get("OV" + overrun_percent + "F" + fault_pecent + "\\" + xml_name + "\\" + "With_Overrun.csv"));
+                                    temp = Files.move(Paths.get("With_Fault.csv"),
+                                            Paths.get("OV" + overrun_percent + "F" + fault_pecent + "\\" + xml_name + "\\" + "With_Fault.csv"));
+                                }
 
                             } catch (Exception e) {
                                 // e.printStackTrace();
