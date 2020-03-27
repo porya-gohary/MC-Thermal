@@ -452,6 +452,18 @@ public class CPU {
         return max;
     }
 
+    //delete a specefic task from scheduling
+    public void remove_task(String task){
+        for (int i = 0; i < deadline; i++) {
+            for (int j = 0; j < n_Cores; j++) {
+               if (core[j][i].contains(task)){
+                   core[j][i]=null;
+                   power[j][i]=idle_power;
+               }
+            }
+        }
+    }
+
 
 
 }
