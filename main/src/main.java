@@ -28,7 +28,7 @@ public class main {
         //Reliability File Name
         String rel_name = "rel";
 
-        double landa0 = 0.000001;
+        double landa0 = 0.000000001;
         int d = 3;
 
         //Number Of Overrun

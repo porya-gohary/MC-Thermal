@@ -14,6 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
+import com.sun.xml.internal.ws.api.model.wsdl.WSDLOutput;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -37,6 +39,8 @@ public class Reliability_cal {
     double rou;
     //ratio of v_min / v_max
     double rou_min;
+    //All possible Freq
+    int [] freq;
     //Execution Time
     double t_i;
     //minimum Reliability For each Task
@@ -56,6 +60,8 @@ public class Reliability_cal {
     //Reliability In Faulty case
     double R_2;
 
+    //Reliability
+    double R_3;
     //Number Of Copy For Each Task
     double n;
     McDAG dag;
@@ -64,7 +70,7 @@ public class Reliability_cal {
 
 
 
-    public Reliability_cal(double n,double landa0, double d,  double v_max, double v_min, File rel, double [] v,McDAG dag) {
+    public Reliability_cal(double n,double landa0, double d,  double v_max, double v_min, File rel, double [] v, int [] freq,McDAG dag) {
         this.n=n;
         this.landa0 = landa0;
         this.d = d;
@@ -74,6 +80,7 @@ public class Reliability_cal {
 
         Rel = rel;
         this.v=v;
+        this.freq=freq;
         this.dag=dag;
         //cal();
         Read_file();
@@ -111,13 +118,22 @@ public class Reliability_cal {
     public void cal() throws Exception {
         rou_min=v_min/v_max;
 
-        for(double v_i:v){
+        for (int i = 0; i < v.length ; i++) {
+            v_i=v[i];
+
             rou=v_i/v_max;
-            t_i=t_min/rou;
+            t_i=t_min*freq[freq.length-1]/freq[i];
             landa=(landa0*pow(10, ((d*(1-rou))/(1-rou_min))));
             landa=(-1)*landa;
             double r=exp((landa*t_i));
+
             R_1=pow(r,(ceil(n/2)));
+            landa=(landa0*pow(10, ((d*(1-1))/(1-rou_min))));
+//            System.out.println("landa0 = "+landa0 );
+            landa=(-1)*landa;
+            r=exp((landa*t_min));
+//            System.out.println("LANDA="+ landa+" t_min= "+t_min+"  ************* "+r);
+            R_3=pow(r,(floor(n/2)));
 //            for (int l = 1; l <= (floor(n/2)); l++) {
 //                R_2+=combinations((int) n,l)*(pow((1-r),l))*(pow(r,(n-l)));
 //            }
@@ -131,6 +147,18 @@ public class Reliability_cal {
             if((R_1+R_2)>= dag.getNodebyName(v_name).getReliability()){
                 dag.getNodebyName(v_name).setMin_voltage(v_i);
 //                System.out.println("Task "+ v_name +" Voltage= " + v_i + " v  and R =  "+(R_1+R_2)+" ");
+//                System.out.println(R_2);
+//                System.out.println("---------- ALL in one phase ------------");
+//                System.out.println("Task "+ v_name +" Voltage= " + v_i + " v  and R =  "+(R_1*R_3)+" ");
+//                System.out.println(R_3);
+//                System.out.println("---------------------------");
+//                System.out.println("RESULT");
+//                if((R_1+R_2) > (R_1*R_3) ){
+//                    System.out.println("Salehi");
+//                }
+//                else{
+//                    System.out.println("All in one Phase");
+//                }
 //                System.out.println("---------------------------");
                 R_1=0;
                 R_2=0;

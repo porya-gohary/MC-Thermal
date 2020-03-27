@@ -57,7 +57,7 @@ public class ProposedMethod {
     public void start() throws Exception {
 
         File rel= new File(rel_name+".txt");
-        Reliability_cal rc=new Reliability_cal(n,landa0,d,v[v.length-1],v[0],rel,v,dag);
+        Reliability_cal rc=new Reliability_cal(n,landa0,d,v[v.length-1],v[0],rel,v,freq,dag);
 
         File tsp_input=new File(tsp_name+".txt");
         TSP tsp=new TSP(tsp_input,n_core,v,freq,dag);
