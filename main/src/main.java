@@ -40,16 +40,18 @@ public class main {
         int n_fault = 0;
 
         //Bool For make New DAGS
-        boolean create_dag =true;
+        boolean create_dag = false;
+
+        //Number of DAG
+        int n_DAGs = 1;
 
         //number of cores that can work with max freq in same time
-        int max_freq_cores = 1;
+        int max_freq_cores = 2;
 
-        double percent[] = {0.0, 0.25, 0.5, 0.75, 1.0};
+        //double percent[] = {0.0, 0.25, 0.5, 0.75, 1.0};
+        double percent[] = {0.0};
 //        double percent[] = {0.0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.40, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1.0};
         double fault_pecent = 0.0;
-        //Number of DAG
-        int n_DAGs = 70;
         McDAG All_DAG[] = new McDAG[n_DAGs + 1];
         int All_deadline[] = new int[n_DAGs + 1];
 
@@ -71,19 +73,16 @@ public class main {
         double Sal_power[] = new double[2];
 
         //Boolean for Run Each Method
-        boolean Pro_run = true;
+        boolean Pro_run = false;
         boolean Sal_run = false;
         boolean NMR_run = false;
         boolean Med_run = false;
 
 
-
-
-
         //double v[]={0.912,0.9125,0.95,0.987,1.025,1.065,1.1,1.13,1.16,1.212,1.26};
-        double v[] = {0.973,1.023, 1.062, 1.115, 1.3};
+        double v[] = {0.973, 1.023, 1.062, 1.115, 1.3};
         //Possible Frequencies
-        int freq[] = {1000,1200, 1400, 1600, 2000};
+        int freq[] = {1000, 1200, 1400, 1600, 2000};
         //Benchmarks Name
         String benchmark[] = {"Basicmath", "Bitcount", "Dijkstra", "FFT", "JPEG", "Patricia", "Qsort", "Sha", "Stringsearch", "Susan"};
         int benchmark_time[] = {156, 25, 33, 160, 28, 87, 25, 13, 8, 20};
@@ -109,7 +108,7 @@ public class main {
 
                 outputWriter.write(">>>>>>>>>> ::: DAG " + xml_name + " ::: <<<<<<<<<<" + "\n");
                 outputWriter.write("Number Of HI-Critical Tasks = " + dag.getNodes_HI().size() + "\n");
-                outputWriter.write("Number Of LO-Critical Tasks = " + (dag.getVertices().size()-dag.getNodes_HI().size()) + "\n");
+                outputWriter.write("Number Of LO-Critical Tasks = " + (dag.getVertices().size() - dag.getNodes_HI().size()) + "\n");
                 outputWriter.write("Number Of Tasks = " + (dag.getVertices().size()) + "\n");
                 outputWriter.write("Deadline = " + deadline + "\n");
 
@@ -146,6 +145,7 @@ public class main {
 //            e.printStackTrace();
 //        }
 
+
         for (int h = 0; h < percent.length; h++) {
             fault_pecent = percent[h];
 //        fault_pecent=0.25;
@@ -166,10 +166,16 @@ public class main {
 
                 File newFolder2 = new File("OV" + overrun_percent + "F" + fault_pecent);
                 newFolder2.mkdir();
+
+
                 BufferedWriter outputWriter = null;
                 outputWriter = new BufferedWriter(new FileWriter("OV" + overrun_percent + "F" + fault_pecent + "\\" + "Summary.txt"));
                 for (int i = 1; i <= n_DAGs; i++) {
                     xml_name = i + "";
+
+                    File newFolder = new File("OV" + overrun_percent + "F" + fault_pecent+"\\"+xml_name);
+                    newFolder.mkdir();
+
                     outputWriter.write(">>>>>>>>>> ::: DAG " + xml_name + " Start ::: <<<<<<<<<<" + "\n");
 
                     dag = All_DAG[i];
@@ -184,8 +190,24 @@ public class main {
 
                     //deadline=700;
                     System.out.println("Deadline= " + deadline);
+
+                    //Make Faulty window
+                    faulty_window fw = new faulty_window(dag, n_core, n, freq[freq.length - 1], max_freq_cores);
+                    try {
+                        fw.make_faulty_window();
+                        fw.debug("Faulty Window");
+                        // Move Scheduling to Correct Folder
+                        for (int k = 0; k < fw.block.size(); k++) {
+                            temp = Files.move(Paths.get("Faulty Window "+k+".csv"),
+                                    Paths.get("OV" + overrun_percent + "F" + fault_pecent + "\\" + xml_name + "\\" + "Faulty Window "+k+".csv"));
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
                     //   --->>>>  PROPOSED METHOD
-                    if(Pro_run) {
+                    if (Pro_run) {
                         System.out.println("------------> Proposed Method <----------");
                         outputWriter.write("------------> Proposed Method <----------" + "\n");
                         if (!PR_inf[i]) {
@@ -202,12 +224,12 @@ public class main {
 
                                 // Move Scheduling to Correct Folder
                                 temp = Files.move(Paths.get("mainSCH.csv"),
-                                                Paths.get("OV" + overrun_percent + "F" + fault_pecent + "\\"+xml_name+"\\"+"mainSCH.csv"));
+                                        Paths.get("OV" + overrun_percent + "F" + fault_pecent + "\\" + xml_name + "\\" + "mainSCH.csv"));
                                 temp = Files.move(Paths.get("mainSCH+Fault.csv"),
-                                        Paths.get("OV" + overrun_percent + "F" + fault_pecent + "\\"+xml_name+"\\"+"mainSCH+Fault.csv"));
+                                        Paths.get("OV" + overrun_percent + "F" + fault_pecent + "\\" + xml_name + "\\" + "mainSCH+Fault.csv"));
                                 temp = Files.move(Paths.get("mainSCH+Fault+Overrun.csv"),
-                                        Paths.get("OV" + overrun_percent + "F" + fault_pecent + "\\"+xml_name+"\\"+"mainSCH+Fault+Overrun.csv"));
-                                if (fault_pecent == 0 && overrun_percent==0) {
+                                        Paths.get("OV" + overrun_percent + "F" + fault_pecent + "\\" + xml_name + "\\" + "mainSCH+Fault+Overrun.csv"));
+                                if (fault_pecent == 0 && overrun_percent == 0) {
                                     temp = Files.move(Paths.get("main_SST_SCH.csv"),
                                             Paths.get("OV" + overrun_percent + "F" + fault_pecent + "\\" + xml_name + "\\" + "main_SST_SCH.csv"));
                                     temp = Files.move(Paths.get("With_Overrun.csv"),
@@ -238,7 +260,7 @@ public class main {
                     }
 
                     if (overrun_percent == 0) {
-                        if(Sal_run) {
+                        if (Sal_run) {
                             System.out.println("------------> LE-NMR (SALEHI) <----------");
                             outputWriter.write("------------> LE-NMR (SALEHI) <----------" + "\n");
                             try {
@@ -260,7 +282,7 @@ public class main {
 
 
                     if (fault_pecent == 0) {
-                        if(NMR_run) {
+                        if (NMR_run) {
                             System.out.println("------------> Classic NMR <----------");
                             outputWriter.write("------------> Classic NMR <----------" + "\n");
                             try {
@@ -279,7 +301,7 @@ public class main {
                             }
                         }
 
-                        if(Med_run) {
+                        if (Med_run) {
                             System.out.println("------------> Medina 2017 Method <----------");
                             outputWriter.write("------------> Medina 2017 Method <----------" + "\n");
                             try {

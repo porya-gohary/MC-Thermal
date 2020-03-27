@@ -1,3 +1,4 @@
+import java.util.HashSet;
 import java.util.Set;
 
 public class window {
@@ -16,6 +17,8 @@ public class window {
         this.size = size;
         this.n_core = n_core;
         this.mcDAG = mcDAG;
+        tasks =new HashSet<Vertex>();
+        cpu=new CPU(size,n_core,mcDAG);
     }
 
     public boolean isExist(Vertex v){
@@ -30,7 +33,7 @@ public class window {
     }
 
     public void addTask(Vertex task) {
-        this.tasks.add(task);
+        tasks.add(task);
     }
 
     public int getSize() {

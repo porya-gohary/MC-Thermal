@@ -65,11 +65,12 @@ public class CPU {
 
     //If Time slot was free return true;
     public boolean CheckTimeSlot(int Core,int Start,int End){
+//        System.out.println("Check Time: "+Core+"  "+Start+"    "+End);
         if(Core>(n_Cores-1)) return false;
         if(Start > End) return false;
         if(Start<0 || End >=deadline || Start >=deadline) return false;
         for (int i = Start; i <= End ; i++) {
-//            System.out.println("Check Time: "+Core+"  "+i);
+//           System.out.println("Check Time: "+Core+"  "+i);
             if(core[Core][i]!=null) return false;
         }
         return true;
@@ -390,7 +391,7 @@ public class CPU {
     //Return End Time of a Specific Replica of Tasks
     public int getEndTimeTask(String Task){
         int e=-1;
-        //System.out.println(Task);
+//        System.out.println(Task);
         for (int i = 0; i < n_Cores; i++) {
             if(Arrays.asList(core[i]).lastIndexOf(Task) != -1) {
                 if (Arrays.asList(core[i]).lastIndexOf(Task) > e) {
@@ -456,10 +457,12 @@ public class CPU {
     public void remove_task(String task){
         for (int i = 0; i < deadline; i++) {
             for (int j = 0; j < n_Cores; j++) {
-               if (core[j][i].contains(task)){
-                   core[j][i]=null;
-                   power[j][i]=idle_power;
-               }
+                if (core[j][i]!=null) {
+                    if (core[j][i].contains(task)) {
+                        core[j][i] = null;
+                        power[j][i] = idle_power;
+                    }
+                }
             }
         }
     }
