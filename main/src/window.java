@@ -1,8 +1,9 @@
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
 public class window {
-    private Set<Vertex> tasks;
+    private ArrayList<Vertex> tasks;
     //Size of window
     private int size=0;
     private int n_task=0;
@@ -17,7 +18,7 @@ public class window {
         this.size = size;
         this.n_core = n_core;
         this.mcDAG = mcDAG;
-        tasks =new HashSet<Vertex>();
+        tasks =new ArrayList<Vertex>();
         cpu=new CPU(size,n_core,mcDAG);
     }
 
@@ -28,7 +29,7 @@ public class window {
         }
         return false;
     }
-    public Set<Vertex> getTasks() {
+    public ArrayList<Vertex> getTasks() {
         return tasks;
     }
 

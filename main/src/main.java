@@ -40,10 +40,10 @@ public class main {
         int n_fault = 0;
 
         //Bool For make New DAGS
-        boolean create_dag = false;
+        boolean create_dag = true;
 
         //Number of DAG
-        int n_DAGs = 1;
+        int n_DAGs = 50;
 
         //number of cores that can work with max freq in same time
         int max_freq_cores = 2;
@@ -56,12 +56,14 @@ public class main {
         int All_deadline[] = new int[n_DAGs + 1];
 
         boolean PR_inf[] = new boolean[n_DAGs + 1];
+        boolean HEBA_inf[] = new boolean[n_DAGs + 1];
         boolean NMR_inf[] = new boolean[n_DAGs + 1];
         boolean Med_inf[] = new boolean[n_DAGs + 1];
         boolean Sal_inf[] = new boolean[n_DAGs + 1];
         ;
         //Scheduling Results:
         int PR_Sch;
+        int HEBA_Sch;
         int NMR_Sch;
         int Med_Sch;
         int Sal_Sch;
@@ -73,7 +75,8 @@ public class main {
         double Sal_power[] = new double[2];
 
         //Boolean for Run Each Method
-        boolean Pro_run = false;
+        boolean Pro_run = true;
+        boolean HEBA_run = true;
         boolean Sal_run = false;
         boolean NMR_run = false;
         boolean Med_run = false;
@@ -88,6 +91,7 @@ public class main {
         int benchmark_time[] = {156, 25, 33, 160, 28, 87, 25, 13, 8, 20};
 
         PR_Sch = n_DAGs;
+        HEBA_Sch = n_DAGs;
         NMR_Sch = n_DAGs;
         Med_Sch = n_DAGs;
         if (create_dag) {
@@ -191,7 +195,7 @@ public class main {
                     //deadline=700;
                     System.out.println("Deadline= " + deadline);
 
-                    //Make Faulty window
+                    // Make Faulty window //
                     faulty_window fw = new faulty_window(dag, n_core, n, freq[freq.length - 1], max_freq_cores);
                     try {
                         fw.make_faulty_window();
@@ -205,6 +209,7 @@ public class main {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
+
 
                     //   --->>>>  PROPOSED METHOD
                     if (Pro_run) {
@@ -257,6 +262,28 @@ public class main {
                             outputWriter.write("[ PROPOSED METHOD ] Infeasible!   " + xml_name + "\n");
                             PR_Sch--;
                         }
+                    }
+
+
+                    //   --->>>>  HEBA METHOD
+                    if(HEBA_run) {
+                        System.out.println("------------> HEBA Method <----------");
+                        outputWriter.write("------------> HEBA Method <----------" + "\n");
+                        if (!PR_inf[i]) {
+                            Heba heba =new Heba(fw.block,deadline,n_core,n,dag,xml_name,freq[freq.length - 1]);
+                            try {
+                                heba.scheduling();
+                                heba.cpu.debug("Heba-SCH");
+                                temp = Files.move(Paths.get("Heba-SCH.csv"),
+                                        Paths.get("OV" + overrun_percent + "F" + fault_pecent + "\\" + xml_name + "\\" + "Heba-SCH.csv"));
+                            }catch (Exception e) {
+                               // e.printStackTrace();
+                                System.out.println("[ HEBA ] Infeasible!   " + xml_name);
+                                outputWriter.write("[ HEBA ] Infeasible!   " + xml_name + "\n");
+                                HEBA_Sch--;
+                            }
+                        }
+
                     }
 
                     if (overrun_percent == 0) {
@@ -327,12 +354,14 @@ public class main {
                 outputWriter.write("\n");
                 outputWriter.write(">>>>>>>>>>>>> SUMMARY OF ALL DAGs <<<<<<<<<<<<" + "\n");
                 outputWriter.write("Proposed Method SCH: " + PR_Sch + "\n");
+                outputWriter.write("HEBA SCH: " + HEBA_Sch + "\n");
                 outputWriter.write("LE-NMR (SALEHI) SCH: " + Sal_Sch + "\n");
                 outputWriter.write("Classic NMR SCH:     " + NMR_Sch + "\n");
                 outputWriter.write("Medina 2017 SCH:     " + Med_Sch + "\n");
 
                 System.out.println(">>>>>>>>>>>>> SUMMARY OF ALL DAGs [Fault: " + (fault_pecent * 100) + "% Overrun: " + (overrun_percent * 100) + "%] <<<<<<<<<<<<");
                 System.out.println("Proposed Method SCH: " + PR_Sch);
+                System.out.println("HEBA SCH: " + HEBA_Sch);
                 System.out.println("LE-NMR (SALEHI) SCH: " + Sal_Sch);
                 System.out.println("Classic NMR SCH:     " + NMR_Sch);
                 System.out.println("Medina 2017 SCH:     " + Med_Sch);
