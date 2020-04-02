@@ -43,26 +43,32 @@ public class main {
         boolean create_dag = true;
 
         //Number of DAG
-        int n_DAGs = 50;
+        int n_DAGs = 100;
 
         //number of cores that can work with max freq in same time
-        int max_freq_cores = 2;
+        int max_freq_cores = 1;
 
         //double percent[] = {0.0, 0.25, 0.5, 0.75, 1.0};
-        double percent[] = {0.0};
-//        double percent[] = {0.0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.40, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1.0};
+//        double percent[] = {0.0};
+        double percent[] = {0.0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.40, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1.0};
         double fault_pecent = 0.0;
         McDAG All_DAG[] = new McDAG[n_DAGs + 1];
         int All_deadline[] = new int[n_DAGs + 1];
 
         boolean PR_inf[] = new boolean[n_DAGs + 1];
+        boolean Sc_inf[] = new boolean[n_DAGs + 1];
         boolean HEBA_inf[] = new boolean[n_DAGs + 1];
         boolean NMR_inf[] = new boolean[n_DAGs + 1];
         boolean Med_inf[] = new boolean[n_DAGs + 1];
         boolean Sal_inf[] = new boolean[n_DAGs + 1];
+
+        // QoS Var
+        double Sc_QoS = 0;
         ;
+
         //Scheduling Results:
         int PR_Sch;
+        int Sc_Sch;
         int HEBA_Sch;
         int NMR_Sch;
         int Med_Sch;
@@ -70,16 +76,18 @@ public class main {
 
         //without overrun Power Results
         double Pro_power[] = new double[2];
+        double Sc_power[] = new double[2];
         double NMR_power[] = new double[2];
         double Med_power[] = new double[2];
         double Sal_power[] = new double[2];
 
         //Boolean for Run Each Method
-        boolean Pro_run = true;
-        boolean HEBA_run = true;
-        boolean Sal_run = false;
-        boolean NMR_run = false;
-        boolean Med_run = false;
+        boolean Pro_run = false;
+        boolean Sc_run = true;
+        boolean HEBA_run = false;
+        boolean Sal_run = true;
+        boolean NMR_run = true;
+        boolean Med_run = true;
 
 
         //double v[]={0.912,0.9125,0.95,0.987,1.025,1.065,1.1,1.13,1.16,1.212,1.26};
@@ -91,9 +99,11 @@ public class main {
         int benchmark_time[] = {156, 25, 33, 160, 28, 87, 25, 13, 8, 20};
 
         PR_Sch = n_DAGs;
+        Sc_Sch = n_DAGs;
         HEBA_Sch = n_DAGs;
         NMR_Sch = n_DAGs;
         Med_Sch = n_DAGs;
+
         if (create_dag) {
             BufferedWriter outputWriter = null;
             outputWriter = new BufferedWriter(new FileWriter("DAGs_Summary.txt"));
@@ -116,7 +126,7 @@ public class main {
                 outputWriter.write("Number Of Tasks = " + (dag.getVertices().size()) + "\n");
                 outputWriter.write("Deadline = " + deadline + "\n");
 
-                benchmark_mapping.debug();
+//                benchmark_mapping.debug();
                 All_deadline[i] = deadline;
                 All_DAG[i] = dag;
                 try {
@@ -136,19 +146,6 @@ public class main {
             All_deadline = (int[]) ReadObjectFromFile("Deadline.txt");
         }
 
-//        xml_name = "1";
-//        dag = All_DAG[1];
-//        dag.setHINodes();
-//        fault_pecent=0.1;
-//        n_fault = (int) (dag.getNodes_HI().size() * fault_pecent);
-//        deadline = All_deadline[1];
-//
-//        try {
-//            Salehi salehi = new Salehi(dag, n_core, deadline, n, xml_name, n_fault, fault_pecent);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-
 
         for (int h = 0; h < percent.length; h++) {
             fault_pecent = percent[h];
@@ -159,11 +156,13 @@ public class main {
                 overrun_percent = percent[j];
 
                 Pro_power = new double[2];
+                Sc_power = new double[2];
                 NMR_power = new double[2];
                 Med_power = new double[2];
                 Sal_power = new double[2];
 
                 PR_Sch = n_DAGs;
+                Sc_Sch = n_DAGs;
                 NMR_Sch = n_DAGs;
                 Med_Sch = n_DAGs;
                 Sal_Sch = n_DAGs;
@@ -177,7 +176,7 @@ public class main {
                 for (int i = 1; i <= n_DAGs; i++) {
                     xml_name = i + "";
 
-                    File newFolder = new File("OV" + overrun_percent + "F" + fault_pecent+"\\"+xml_name);
+                    File newFolder = new File("OV" + overrun_percent + "F" + fault_pecent + "\\" + xml_name);
                     newFolder.mkdir();
 
                     outputWriter.write(">>>>>>>>>> ::: DAG " + xml_name + " Start ::: <<<<<<<<<<" + "\n");
@@ -196,18 +195,21 @@ public class main {
                     System.out.println("Deadline= " + deadline);
 
                     // Make Faulty window //
-                    faulty_window fw = new faulty_window(dag, n_core, n, freq[freq.length - 1], max_freq_cores);
-                    try {
-                        fw.make_faulty_window();
-                        fw.debug("Faulty Window");
-                        // Move Scheduling to Correct Folder
-                        for (int k = 0; k < fw.block.size(); k++) {
-                            temp = Files.move(Paths.get("Faulty Window "+k+".csv"),
-                                    Paths.get("OV" + overrun_percent + "F" + fault_pecent + "\\" + xml_name + "\\" + "Faulty Window "+k+".csv"));
-                        }
+                    faulty_window fw = null;
+                    if (HEBA_run) {
+                        fw = new faulty_window(dag, n_core, n, freq[freq.length - 1], max_freq_cores);
+                        try {
+                            fw.make_faulty_window();
+                            fw.debug("Faulty Window");
+                            // Move Scheduling to Correct Folder
+                            for (int k = 0; k < fw.block.size(); k++) {
+                                temp = Files.move(Paths.get("Faulty Window " + k + ".csv"),
+                                        Paths.get("OV" + overrun_percent + "F" + fault_pecent + "\\" + xml_name + "\\" + "Faulty Window " + k + ".csv"));
+                            }
 
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
 
 
@@ -220,28 +222,28 @@ public class main {
                                     benchmark_time, max_freq_cores, n_overrun, n_fault, overrun_percent, fault_pecent, n, xml_name);
                             try {
                                 proposedMethod.start();
-                                outputWriter.write("Avg. Power= " + proposedMethod.mainScheduling.cpu.power_results()[0] + "\n");
-                                outputWriter.write("Peak Power= " + proposedMethod.mainScheduling.cpu.power_results()[1] + "\n");
-                                outputWriter.write("═════╣  QoS = " + proposedMethod.mainScheduling.QoS() + "\n");
-                                Pro_power[0] += proposedMethod.mainScheduling.cpu.power_results()[0];
-                                Pro_power[1] += proposedMethod.mainScheduling.cpu.power_results()[1];
+//                                outputWriter.write("Avg. Power= " + proposedMethod.mainScheduling.cpu.power_results()[0] + "\n");
+//                                outputWriter.write("Peak Power= " + proposedMethod.mainScheduling.cpu.power_results()[1] + "\n");
+//                                outputWriter.write("═════╣  QoS = " + proposedMethod.mainScheduling.QoS() + "\n");
+//                                Pro_power[0] += proposedMethod.mainScheduling.cpu.power_results()[0];
+//                                Pro_power[1] += proposedMethod.mainScheduling.cpu.power_results()[1];
                                 proposedMethod = null;
 
                                 // Move Scheduling to Correct Folder
-                                temp = Files.move(Paths.get("mainSCH.csv"),
-                                        Paths.get("OV" + overrun_percent + "F" + fault_pecent + "\\" + xml_name + "\\" + "mainSCH.csv"));
-                                temp = Files.move(Paths.get("mainSCH+Fault.csv"),
-                                        Paths.get("OV" + overrun_percent + "F" + fault_pecent + "\\" + xml_name + "\\" + "mainSCH+Fault.csv"));
-                                temp = Files.move(Paths.get("mainSCH+Fault+Overrun.csv"),
-                                        Paths.get("OV" + overrun_percent + "F" + fault_pecent + "\\" + xml_name + "\\" + "mainSCH+Fault+Overrun.csv"));
-                                if (fault_pecent == 0 && overrun_percent == 0) {
-                                    temp = Files.move(Paths.get("main_SST_SCH.csv"),
-                                            Paths.get("OV" + overrun_percent + "F" + fault_pecent + "\\" + xml_name + "\\" + "main_SST_SCH.csv"));
-                                    temp = Files.move(Paths.get("With_Overrun.csv"),
-                                            Paths.get("OV" + overrun_percent + "F" + fault_pecent + "\\" + xml_name + "\\" + "With_Overrun.csv"));
-                                    temp = Files.move(Paths.get("With_Fault.csv"),
-                                            Paths.get("OV" + overrun_percent + "F" + fault_pecent + "\\" + xml_name + "\\" + "With_Fault.csv"));
-                                }
+//                                temp = Files.move(Paths.get("mainSCH.csv"),
+//                                        Paths.get("OV" + overrun_percent + "F" + fault_pecent + "//" + xml_name + "//" + "mainSCH.csv"));
+//                                temp = Files.move(Paths.get("mainSCH+Fault.csv"),
+//                                        Paths.get("OV" + overrun_percent + "F" + fault_pecent + "//" + xml_name + "//" + "mainSCH+Fault.csv"));
+//                                temp = Files.move(Paths.get("mainSCH+Fault+Overrun.csv"),
+//                                        Paths.get("OV" + overrun_percent + "F" + fault_pecent + "//" + xml_name + "//" + "mainSCH+Fault+Overrun.csv"));
+//                                if (fault_pecent == 0 && overrun_percent == 0) {
+//                                    temp = Files.move(Paths.get("main_SST_SCH.csv"),
+//                                            Paths.get("OV" + overrun_percent + "F" + fault_pecent + "//" + xml_name + "//" + "main_SST_SCH.csv"));
+//                                    temp = Files.move(Paths.get("With_Overrun.csv"),
+//                                            Paths.get("OV" + overrun_percent + "F" + fault_pecent + "//" + xml_name + "//" + "With_Overrun.csv"));
+//                                    temp = Files.move(Paths.get("With_Fault.csv"),
+//                                            Paths.get("OV" + overrun_percent + "F" + fault_pecent + "//" + xml_name + "//" + "With_Fault.csv"));
+//                                }
 
                             } catch (Exception e) {
                                 // e.printStackTrace();
@@ -264,25 +266,53 @@ public class main {
                         }
                     }
 
+                    //   --->>>>  Second METHOD
+                    if (Sc_run) {
+                        if (fault_pecent == 0) {
+                            System.out.println("------------> Second Method <----------");
+                            outputWriter.write("------------> Second Method <----------" + "\n");
 
-                    //   --->>>>  HEBA METHOD
-                    if(HEBA_run) {
-                        System.out.println("------------> HEBA Method <----------");
-                        outputWriter.write("------------> HEBA Method <----------" + "\n");
-                        if (!PR_inf[i]) {
-                            Heba heba =new Heba(fw.block,deadline,n_core,n,dag,xml_name,freq[freq.length - 1]);
+                            secondApproach secondApproach = new secondApproach(deadline, n_core, n, dag, xml_name, landa0, d, v, freq,
+                                    tsp_name, rel_name, benchmark, benchmark_time, overrun_percent, freq[freq.length - 1]);
                             try {
-                                heba.scheduling();
-                                heba.cpu.debug("Heba-SCH");
-                                temp = Files.move(Paths.get("Heba-SCH.csv"),
-                                        Paths.get("OV" + overrun_percent + "F" + fault_pecent + "\\" + xml_name + "\\" + "Heba-SCH.csv"));
-                            }catch (Exception e) {
-                               // e.printStackTrace();
-                                System.out.println("[ HEBA ] Infeasible!   " + xml_name);
-                                outputWriter.write("[ HEBA ] Infeasible!   " + xml_name + "\n");
-                                HEBA_Sch--;
+                                secondApproach.start();
+                                temp = Files.move(Paths.get("Sc_mainSCH.csv"),
+                                        Paths.get("OV" + overrun_percent + "F" + fault_pecent + "\\" + xml_name + "\\" + "Sc_mainSCH.csv"));
+                                outputWriter.write("Avg. Power= " + secondApproach.cpu.power_results()[0] + "\n");
+                                outputWriter.write("Peak Power= " + secondApproach.cpu.power_results()[1] + "\n");
+                                outputWriter.write("═════╣  QoS = " + secondApproach.QoS() + "\n");
+                                Sc_QoS += secondApproach.QoS();
+                                Sc_power[0] += secondApproach.cpu.power_results()[0];
+                                Sc_power[1] += secondApproach.cpu.power_results()[1];
+
+                            } catch (Exception e) {
+                                System.out.println("[ Second METHOD ] Infeasible!   " + xml_name);
+                                outputWriter.write("[ Second METHOD ] Infeasible!   " + xml_name + "\n");
+                                Sc_Sch--;
+                                e.printStackTrace();
                             }
                         }
+                    }
+
+
+                    //   --->>>>  HEBA METHOD
+                    if (HEBA_run) {
+                        System.out.println("------------> HEBA Method <----------");
+                        outputWriter.write("------------> HEBA Method <----------" + "\n");
+
+                        Heba heba = new Heba(fw.block, deadline, n_core, n, dag, xml_name, freq[freq.length - 1]);
+                        try {
+                            heba.scheduling();
+                            temp = Files.move(Paths.get("Heba-SCH.csv"),
+                                    Paths.get("OV" + overrun_percent + "F" + fault_pecent + "\\" + xml_name + "\\" + "Heba-SCH.csv"));
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            System.out.println("[ HEBA ] Infeasible!   " + xml_name);
+                            outputWriter.write("[ HEBA ] Infeasible!   " + xml_name + "\n");
+                            HEBA_Sch--;
+                        }
+
 
                     }
 
@@ -354,6 +384,7 @@ public class main {
                 outputWriter.write("\n");
                 outputWriter.write(">>>>>>>>>>>>> SUMMARY OF ALL DAGs <<<<<<<<<<<<" + "\n");
                 outputWriter.write("Proposed Method SCH: " + PR_Sch + "\n");
+                outputWriter.write("Second Approach SCH: " + Sc_Sch + "\n");
                 outputWriter.write("HEBA SCH: " + HEBA_Sch + "\n");
                 outputWriter.write("LE-NMR (SALEHI) SCH: " + Sal_Sch + "\n");
                 outputWriter.write("Classic NMR SCH:     " + NMR_Sch + "\n");
@@ -361,6 +392,7 @@ public class main {
 
                 System.out.println(">>>>>>>>>>>>> SUMMARY OF ALL DAGs [Fault: " + (fault_pecent * 100) + "% Overrun: " + (overrun_percent * 100) + "%] <<<<<<<<<<<<");
                 System.out.println("Proposed Method SCH: " + PR_Sch);
+                System.out.println("Second Approach SCH: " + Sc_Sch);
                 System.out.println("HEBA SCH: " + HEBA_Sch);
                 System.out.println("LE-NMR (SALEHI) SCH: " + Sal_Sch);
                 System.out.println("Classic NMR SCH:     " + NMR_Sch);
@@ -368,24 +400,33 @@ public class main {
 
 
                 outputWriter.write("Proposed Method Avg. Power= " + (Pro_power[0] / PR_Sch) + "\n");
+                outputWriter.write("Second Approach Avg. Power= " + (Sc_power[0] / Sc_Sch) + "\n");
                 outputWriter.write("LE-NMR (SALEHI) Avg. Power= " + (Sal_power[0] / Sal_Sch) + "\n");
                 outputWriter.write("Classic NMR Avg. Power= " + (NMR_power[0] / NMR_Sch) + "\n");
                 outputWriter.write("Medina 2017 Avg. Power= " + (Med_power[0] / Med_Sch) + "\n");
 
                 System.out.println("Proposed Method Avg. Power= " + (Pro_power[0] / PR_Sch));
+                System.out.println("Second Approach Avg. Power= " + (Sc_power[0] / Sc_Sch));
                 System.out.println("LE-NMR (SALEHI) Avg. Power= " + (Sal_power[0] / Sal_Sch));
                 System.out.println("Classic NMR Avg. Power= " + (NMR_power[0] / NMR_Sch));
                 System.out.println("Medina 2017 Avg. Power= " + (Med_power[0] / Med_Sch));
 
                 outputWriter.write("Proposed Method Peak Power= " + (Pro_power[1] / PR_Sch) + "\n");
+                outputWriter.write("Second Approach Peak Power= " + (Sc_power[1] / Sc_Sch) + "\n");
                 outputWriter.write("LE-NMR (SALEHI) Peak Power= " + (Sal_power[1] / Sal_Sch) + "\n");
                 outputWriter.write("Classic NMR Peak Power= " + (NMR_power[1] / NMR_Sch) + "\n");
                 outputWriter.write("Medina 2017 Peak Power= " + (Med_power[1] / Med_Sch) + "\n");
 
                 System.out.println("Proposed Method Peak Power= " + (Pro_power[1] / PR_Sch));
+                System.out.println("Second Approach Peak Power= " + (Sc_power[1] / Sc_Sch));
                 System.out.println("LE-NMR (SALEHI) Peak Power= " + (Sal_power[1] / Sal_Sch));
                 System.out.println("Classic NMR Peak Power= " + (NMR_power[1] / NMR_Sch));
                 System.out.println("Medina 2017 Peak Power= " + (Med_power[1] / Med_Sch));
+
+                outputWriter.write("Second Approach QoS= " + (Sc_QoS / Sc_Sch) + "\n");
+
+                System.out.println("Second Approach QoS= " + (Sc_QoS / Sc_Sch));
+
                 outputWriter.flush();
                 outputWriter.close();
             }
@@ -402,7 +443,7 @@ public class main {
             int a = rnd.nextInt(3);
             if (a == 0) t = 0.8;
             else t = 0.9;
-            a = rnd.nextInt((int) n + 2);
+            a = rnd.nextInt((int) n + 3);
             for (int j = 2; j < a + 1; j++) {
                 t += pow(0.1, j) * 9;
             }

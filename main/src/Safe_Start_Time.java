@@ -123,7 +123,7 @@ public class Safe_Start_Time {
             if(starttime(i)==-1)continue;
             for (int j = starttime(i); j < shiftTime ; j++) {
                 try {
-                    //System.out.println("Shift::: "+shiftTime+"   ///  "+amount+" \\\\  "+ starttime(i));
+                    //System.out.println("Shift::: "+shiftTime+"   ///  "+amount+" ////  "+ starttime(i));
                     cpu.SetTask(i, j - amount, cpu.getRunningTaskWithReplica(i, j));
                 }catch(Exception ex)
                 {

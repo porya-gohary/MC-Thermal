@@ -108,6 +108,8 @@ public class ProposedMethod {
                 mainScheduling.Drop_task();
             }
         }while(repeat);
+
+
         //mainScheduling.cpu.power_results();
     }
 

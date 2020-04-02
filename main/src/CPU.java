@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
+
 import java.io.*;
 import java.util.Arrays;
 
@@ -22,7 +23,7 @@ public class CPU {
     //Core of CPU   [#Core] [#Time]
     private String[][] core;
     //Power Trace of Cores
-    private double [][] power;
+    private double[][] power;
     //Deadline of System
     private int deadline;
     //Number of Core in CPU
@@ -31,60 +32,68 @@ public class CPU {
     McDAG mcDAG;
 
     //Idle Power
-    double idle_power=0.5;
+    double idle_power = 0.5;
 
 
     //Max. Freq.
-    int max_freq=2000;
+    int max_freq = 2000;
 
     //Location of Power Trace
-    String location="MiBench\\";
+    String location = "MiBench\\";
 
-    public CPU( int deadline, int n_Cores,McDAG mcDAG) {
+    public CPU(int deadline, int n_Cores, McDAG mcDAG) {
         this.deadline = deadline;
         this.n_Cores = n_Cores;
-        this.mcDAG=mcDAG;
-        core=new String[n_Cores][deadline];
-        power=new double [n_Cores][deadline];
+        this.mcDAG = mcDAG;
+        core = new String[n_Cores][deadline];
+        power = new double[n_Cores][deadline];
         for (int i = 0; i < n_Cores; i++) {
             Arrays.fill(power[i], idle_power);
         }
     }
+
     //GET Running Task in specific Time
-    public String getRunningTask(int Core,int Time){
-        return (core[Core][Time] == null) ? null : core[Core][Time].split(" R")[0];
+    public String getRunningTask(int Core, int Time) {
+        if (core[Core][Time] != null){
+            if(core[Core][Time].contains(" R")){
+                return core[Core][Time].split(" R")[0];
+            }else{
+                return core[Core][Time].split(" OV")[0];
+            }
+        }else return null;
+//        return (core[Core][Time] == null) ? null : core[Core][Time].split(" R")[0];
 //        System.out.println(core[Core][Time].split(" R")[0]);
 //        return core[Core][Time];
     }
 
     //GET Running Task in specific Time
-    public String getRunningTaskWithReplica(int Core,int Time){
-       // System.out.println("GET Running Task in specific Time "+Core + "   "+ Time);
+    public String getRunningTaskWithReplica(int Core, int Time) {
+        // System.out.println("GET Running Task in specific Time "+Core + "   "+ Time);
         return core[Core][Time];
     }
 
     //If Time slot was free return true;
-    public boolean CheckTimeSlot(int Core,int Start,int End){
+    public boolean CheckTimeSlot(int Core, int Start, int End) {
 //        System.out.println("Check Time: "+Core+"  "+Start+"    "+End);
-        if(Core>(n_Cores-1)) return false;
-        if(Start > End) return false;
-        if(Start<0 || End >=deadline || Start >=deadline) return false;
-        for (int i = Start; i <= End ; i++) {
+        if (Core > (n_Cores - 1)) return false;
+        if (Start > End) return false;
+        if (Start < 0 || End >= deadline || Start >= deadline) return false;
+        for (int i = Start; i <= End; i++) {
 //           System.out.println("Check Time: "+Core+"  "+i);
-            if(core[Core][i]!=null) return false;
+            if (core[Core][i] != null) return false;
         }
         return true;
     }
 
     //Set Task to Core
-    public void SetTaskOnCore(String Task,int Core,int Start,int End) throws Exception {
-       // System.out.println(Task+"  "+ Start+"  "+End);
+    public void SetTaskOnCore(String Task, int Core, int Start, int End) throws Exception {
+        // System.out.println(Task+"  "+ Start+"  "+End);
         try {
             for (int i = Start; i <= End; i++) {
                 core[Core][i] = Task;
             }
-        }catch(Exception e){
-            System.err.println(Task+"  ⚠ ⚠ Infeasible!");
+        } catch (Exception e) {
+            System.err.println(Task + "  ⚠ ⚠ Infeasible!");
             e.printStackTrace();
             throw new Exception("Infeasible!");
             //System.exit(1);
@@ -93,7 +102,10 @@ public class CPU {
         // For Not Mapping Power for Safe Start Time Class
         StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
         //System.out.println(stackTraceElements[2].getClassName());
-        if(!stackTraceElements[2].getClassName().equals("Safe_Start_Time")) {
+//        for (StackTraceElement s : stackTraceElements) {
+//            System.out.println(s.getMethodName());
+//        }
+        if (!stackTraceElements[2].getClassName().equals("Safe_Start_Time") && !stackTraceElements[2].getMethodName().equals("feasibility") ) {
             try {
                 this.setPower(Task, Start, Core);
             } catch (IOException e) {
@@ -104,64 +116,64 @@ public class CPU {
 
     // A function For Mapping Power Of Benchmarks
     public void setPower(String Task, int Start, int Core) throws IOException {
-        String t=Task.split(" ")[0];
-        Vertex v=mcDAG.getNodebyName(t);
-        if(Task.contains("CR")){
-            String LO=v.getLO_name();
-            Double r[]=new Double[v.getWcet(0)];
+        String t = Task.split(" ")[0];
+        Vertex v = mcDAG.getNodebyName(t);
+        if (Task.contains("CR")) {
+            String LO = v.getLO_name();
+            Double r[] = new Double[v.getWcet(0)];
             BufferedReader reader;
-            File file=new File(location+max_freq+"\\"+LO+".txt");
-            reader=new BufferedReader(new FileReader(file));
-            int i=0;
+            File file = new File(location + max_freq + "\\" + LO + ".txt");
+            reader = new BufferedReader(new FileReader(file));
+            int i = 0;
             String line = reader.readLine();
             while (line != null) {
-                r[i]=Double.parseDouble(line);
+                r[i] = Double.parseDouble(line);
                 line = reader.readLine();
                 i++;
             }
-            int l=0;
-            for (int k = Start; k < Start+r.length; k++) {
+            int l = 0;
+            for (int k = Start; k < Start + r.length; k++) {
                 power[Core][k] = r[l];
                 l++;
             }
-        }else if(Task.contains("CO")){
-            String HI=v.getHI_name();
+        } else if (Task.contains("CO")) {
+            String HI = v.getHI_name();
             //System.out.println(v.getWcet(1)-v.getWcet(0));
-            Double r[]=new Double[v.getWcet(1)-v.getWcet(0)];
+            Double r[] = new Double[v.getWcet(1) - v.getWcet(0)];
             BufferedReader reader;
-            File file=new File(location+max_freq+"\\"+HI+".txt");
-            reader=new BufferedReader(new FileReader(file));
-            int i=0;
+            File file = new File(location + max_freq + "\\" + HI + ".txt");
+            reader = new BufferedReader(new FileReader(file));
+            int i = 0;
             String line = reader.readLine();
             while (line != null) {
-                r[i]=Double.parseDouble(line);
+                r[i] = Double.parseDouble(line);
                 line = reader.readLine();
                 i++;
             }
-            int l=0;
-            for (int k = Start; k < Start+r.length; k++) {
+            int l = 0;
+            for (int k = Start; k < Start + r.length; k++) {
                 power[Core][k] = r[l];
                 l++;
             }
 
-        }else if(Task.contains("F")||Task.contains("O")){
+        } else if (Task.contains("F") || Task.contains("O")) {
             //Faulty Task Power
-            if(Task.contains("F")){
-                String LO=v.getLO_name();
-                Double r[]=new Double[v.getWcet(0)];
+            if (Task.contains("F")) {
+                String LO = v.getLO_name();
+                Double r[] = new Double[v.getWcet(0)];
 
                 BufferedReader reader;
-                File file=new File(location+max_freq+"\\"+LO+".txt");
-                reader=new BufferedReader(new FileReader(file));
-                int i=0;
+                File file = new File(location + max_freq + "\\" + LO + ".txt");
+                reader = new BufferedReader(new FileReader(file));
+                int i = 0;
                 String line = reader.readLine();
                 while (line != null) {
-                    r[i]=Double.parseDouble(line);
+                    r[i] = Double.parseDouble(line);
                     line = reader.readLine();
                     i++;
                 }
-                int l=0;
-                for (int k = Start; k < Start+r.length; k++) {
+                int l = 0;
+                for (int k = Start; k < Start + r.length; k++) {
                     power[Core][k] = r[l];
                     l++;
                 }
@@ -172,52 +184,75 @@ public class CPU {
 //                }
 //                System.out.println();
                 //Overrun Power
-            }else if(Task.contains("O")){
-                String HI=v.getHI_name();
-                //System.out.println(v.getName()+" <> "+HI+"    ### "+(v.getWcet(1)-v.getWcet(0)));
-                Double r[]=new Double[v.getWcet(1)-v.getWcet(0)];
-                BufferedReader reader;
-                File file=new File(location+max_freq+"\\"+HI+".txt");
-                reader=new BufferedReader(new FileReader(file));
-                int i=0;
-                String line = reader.readLine();
-                while (line != null) {
-                    r[i]=Double.parseDouble(line);
-                    line = reader.readLine();
-                    i++;
-                }
-                int l=0;
-                for (int k = Start; k < Start+r.length; k++) {
-                    power[Core][k] = r[l];
-                    l++;
+            } else if (Task.contains("O")) {
+                // For Not Mapping Power for Safe Start Time Class
+                String HI = v.getHI_name();
+                StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
+                //System.out.println(stackTraceElements[2].getClassName());
+                if (!stackTraceElements[2].getClassName().equals("secondApproach")) {
+                    Double r[] = new Double[v.getRunningTimeHI(max_freq, v.getMin_freq()) - v.getRunningTimeLO(max_freq, v.getMin_freq())];
+                    BufferedReader reader;
+                    File file = new File(location + v.getMin_freq() + "\\" + HI + ".txt");
+                    reader = new BufferedReader(new FileReader(file));
+                    int i = 0;
+                    String line = reader.readLine();
+                    while (line != null) {
+                        r[i] = Double.parseDouble(line);
+                        line = reader.readLine();
+                        i++;
+                    }
+                    int l = 0;
+                    for (int k = Start; k < Start + r.length; k++) {
+                        power[Core][k] = r[l];
+                        l++;
+                    }
+
+                } else {
+                    //System.out.println(v.getName()+" <> "+HI+"    ### "+(v.getWcet(1)-v.getWcet(0)));
+                    Double r[] = new Double[v.getWcet(1) - v.getWcet(0)];
+                    BufferedReader reader;
+                    File file = new File(location + max_freq + "\\" + HI + ".txt");
+                    reader = new BufferedReader(new FileReader(file));
+                    int i = 0;
+                    String line = reader.readLine();
+                    while (line != null) {
+                        r[i] = Double.parseDouble(line);
+                        line = reader.readLine();
+                        i++;
+                    }
+                    int l = 0;
+                    for (int k = Start; k < Start + r.length; k++) {
+                        power[Core][k] = r[l];
+                        l++;
+                    }
                 }
 //                System.out.println("P START  :: "+Start+"   "+(Start+r.length));
 //                System.out.println("<POWER> "+v.getName()+"  "+v.getHI_name()+"   "+(v.getWcet(1)-v.getWcet(0)));
 //                for (int j = 0; j < r.length ; j++) {
 //                    System.out.print(r[j]+",");
 //                }
-               // System.out.println();
+                // System.out.println();
 
 
             }
 
-        }else{
-            String LO=v.getLO_name();
-            Double r[]=new Double[(v.getWcet(0)*max_freq/v.getMin_freq())];
+        } else {
+            String LO = v.getLO_name();
+            Double r[] = new Double[(v.getWcet(0) * max_freq / v.getMin_freq())];
             BufferedReader reader;
-            File file=new File(location+v.getMin_freq()+"\\"+LO+".txt");
-            reader=new BufferedReader(new FileReader(file));
-            int i=0;
+            File file = new File(location + v.getMin_freq() + "\\" + LO + ".txt");
+            reader = new BufferedReader(new FileReader(file));
+            int i = 0;
             String line = reader.readLine();
 //            System.out.println("P START  :: "+Start+"   "+(Start+r.length));
 //            System.out.println("<POWER> "+v.getName()+"  "+v.getLO_name()+"   "+v.getWcet(0)+"    "+v.getMin_freq());
             while (line != null) {
-                r[i]=Double.parseDouble(line);
+                r[i] = Double.parseDouble(line);
                 line = reader.readLine();
                 i++;
             }
-            int l=0;
-            for (int k = Start; k < Start+r.length; k++) {
+            int l = 0;
+            for (int k = Start; k < Start + r.length; k++) {
                 power[Core][k] = r[l];
                 l++;
             }
@@ -226,12 +261,13 @@ public class CPU {
     }
 
     //Return Max. Core Can Use in specific Time
-    public int max_core(int Time){
+    public int max_core(int Time) {
         String t;
-        int max=n_Cores;
+        int max = n_Cores;
         for (int i = 0; i < n_Cores; i++) {
-            if (getRunningTask(i,Time)!=null) {
+            if (getRunningTask(i, Time) != null) {
                 t = getRunningTask(i, Time);
+//                System.out.println(mcDAG.getNodebyName(t).getTSP_Active());
                 if (mcDAG.getNodebyName(t).getTSP_Active() < max) max = mcDAG.getNodebyName(t).getTSP_Active();
             }
         }
@@ -255,58 +291,60 @@ public class CPU {
         return deadline;
     }
 
-    public void instatiate_power(double min_power){
+    public void instatiate_power(double min_power) {
         for (int i = 0; i < deadline; i++) {
             for (int j = 0; j < n_Cores; j++) {
-                power[j][i]=min_power;
+                power[j][i] = min_power;
             }
 
         }
     }
+
     //Return Running Tasks
-    public String[] get_Running_Tasks(int Time){
-        String[] a=new String[n_Cores];
+    public String[] get_Running_Tasks(int Time) {
+        String[] a = new String[n_Cores];
         for (int i = 0; i < n_Cores; i++) {
-            if(core[i][Time]!=null)
-                a[i]=core[i][Time].split(" ")[0];
+            if (core[i][Time] != null)
+                a[i] = core[i][Time].split(" ")[0];
         }
         return a;
     }
+
     //Return Number Of Running Tasks
-    public int numberOfRunningTasks(int Time){
-        int r=0;
+    public int numberOfRunningTasks(int Time) {
+        int r = 0;
         for (int i = 0; i < n_Cores; i++) {
-            if(core[i][Time]!=null) r++;
+            if (core[i][Time] != null) r++;
         }
         return r;
     }
 
     //Return Number Of Running Tasks
-    public int numberOfRunningTasksInterval(int Start, int End){
-        int r=0;
-        for (int i = Start; i <= End ; i++) {
-            if(this.numberOfRunningTasks(i)>r) r=this.numberOfRunningTasks(i);
+    public int numberOfRunningTasksInterval(int Start, int End) {
+        int r = 0;
+        for (int i = Start; i <= End; i++) {
+            if (this.numberOfRunningTasks(i) > r) r = this.numberOfRunningTasks(i);
         }
         return r;
     }
 
     //Return Max Core Can Use in specific Interval  [Start Time , End Time]
-    public int maxCoreInterval(int Start,int End){
+    public int maxCoreInterval(int Start, int End) {
         int max = n_Cores;
-        for (int i = Start; i <= End ; i++) {
-            if(this.max_core(i)<max) max =this.max_core(i);
+        for (int i = Start; i <= End; i++) {
+            if (this.max_core(i) < max) max = this.max_core(i);
         }
 
         return max;
     }
 
-    public int getSafeTime(String task){
-        int SST=deadline;
+    public int getSafeTime(String task) {
+        int SST = deadline;
 //        System.out.println("++++>>"+task);
-        for (int i = 0; i < n_Cores ; i++) {
+        for (int i = 0; i < n_Cores; i++) {
             for (int j = 0; j < deadline; j++) {
-               // System.out.println(i+"   "+j+"  "+core[i][j]);
-                if(core[i][j]!=null) {
+                // System.out.println(i+"   "+j+"  "+core[i][j]);
+                if (core[i][j] != null) {
                     if (core[i][j].startsWith(task) && j < SST) {
                         SST = j;
                     }
@@ -320,53 +358,52 @@ public class CPU {
     //Write Scheduling In File for Debugging
     public void debug(String Filename) throws IOException {
         BufferedWriter outputWriter = null;
-        outputWriter = new BufferedWriter(new FileWriter(Filename+".csv"));
+        outputWriter = new BufferedWriter(new FileWriter(Filename + ".csv"));
         for (int i = 0; i < getN_Cores(); i++) {
             for (int j = 0; j < getDeadline(); j++) {
-                outputWriter.write(core[i][j]+",");
-            };
+                outputWriter.write(core[i][j] + ",");
+            }
             outputWriter.write("\n");
         }
         outputWriter.flush();
         outputWriter.close();
     }
 
-    public void Task_Shifter(int shiftTime ,int amount ) throws Exception {
-       // System.out.println("TASK SHIFTER  "+ shiftTime+"  > > "+amount);
+    public void Task_Shifter(int shiftTime, int amount) throws Exception {
+        // System.out.println("TASK SHIFTER  "+ shiftTime+"  > > "+amount);
         for (int i = 0; i < n_Cores; i++) {
-            for (int j = Endtime(i); j > (shiftTime) ; j--) {
+            for (int j = Endtime(i); j > (shiftTime); j--) {
                 try {
                     this.SetTask(i, j + amount, this.getRunningTaskWithReplica(i, j));
-                    power[i][j + amount]=power[i][j];
-                }catch(Exception ex)
-                {
-                    System.err.println(this.getRunningTaskWithReplica(i, j)+"  ⚠ ⚠ Infeasible!");
+                    power[i][j + amount] = power[i][j];
+                } catch (Exception ex) {
+                    System.err.println(this.getRunningTaskWithReplica(i, j) + "  ⚠ ⚠ Infeasible!");
                     throw new Exception("Infeasible!");
-                   // System.exit(1);
+                    // System.exit(1);
                 }
             }
-            for (int j = shiftTime+1 ; j < shiftTime+amount+1; j++) {
-                this.SetTask(i, j , null);
-                power[i][j]=0.5;
+            for (int j = shiftTime + 1; j < shiftTime + amount + 1; j++) {
+                this.SetTask(i, j, null);
+                power[i][j] = 0.5;
             }
         }
     }
 
     //a function for determine end time in each core
-    public int Endtime(int core){
-        for (int i = deadline-1; i >= 0; i--) {
-            if(this.getRunningTask(core,i)!=null){
+    public int Endtime(int core) {
+        for (int i = deadline - 1; i >= 0; i--) {
+            if (this.getRunningTask(core, i) != null) {
                 return i;
             }
         }
         return 0;
     }
 
-    public void SetTask(int core_number , int time ,String task) throws Exception {
+    public void SetTask(int core_number, int time, String task) throws Exception {
         try {
-            core[core_number][time]=task;
+            core[core_number][time] = task;
 
-        }catch (Exception e){
+        } catch (Exception e) {
             //System.err.println(task+"  ⚠ ⚠ Infeasible!");
             e.printStackTrace();
             //System.out.println("Core  "+core_number+"  Time "+time);
@@ -376,12 +413,12 @@ public class CPU {
     }
 
     //Return Start Time of a Specific Replica of Tasks
-    public int getStartTime(String Task){
-        int s=deadline;
+    public int getStartTime(String Task) {
+        int s = deadline;
         for (int i = 0; i < n_Cores; i++) {
-            if(Arrays.asList(core[i]).indexOf(Task)!= -1)
-                if(Arrays.asList(core[i]).indexOf(Task)<s)
-                    s=Arrays.asList(core[i]).indexOf(Task);
+            if (Arrays.asList(core[i]).indexOf(Task) != -1)
+                if (Arrays.asList(core[i]).indexOf(Task) < s)
+                    s = Arrays.asList(core[i]).indexOf(Task);
         }
         return s;
 
@@ -389,75 +426,77 @@ public class CPU {
 
 
     //Return End Time of a Specific Replica of Tasks
-    public int getEndTimeTask(String Task){
-        int e=-1;
+    public int getEndTimeTask(String Task) {
+        int e = -1;
 //        System.out.println(Task);
         for (int i = 0; i < n_Cores; i++) {
-            if(Arrays.asList(core[i]).lastIndexOf(Task) != -1) {
+            if (Arrays.asList(core[i]).lastIndexOf(Task) != -1) {
                 if (Arrays.asList(core[i]).lastIndexOf(Task) > e) {
                     e = Arrays.asList(core[i]).lastIndexOf(Task);
                 }
             }
         }
-     //   System.out.println("   >>> "+e);
+        //   System.out.println("   >>> "+e);
         return e;
     }
 
-    public void Save_Power(String mFolder,String Folder,String Filename) throws IOException {
+    public void Save_Power(String mFolder, String Folder, String Filename) throws IOException {
         BufferedWriter outputWriter = null;
         File newFolder2 = new File(mFolder);
         newFolder2.mkdir();
-        File newFolder = new File(mFolder+"\\"+Folder);
+        File newFolder = new File(mFolder + "\\" + Folder);
         newFolder.mkdir();
         for (int i = 0; i < getN_Cores(); i++) {
-            outputWriter = new BufferedWriter(new FileWriter(mFolder+"\\"+Folder+"\\"+Filename+"_Core_"+i+".txt"));
+            outputWriter = new BufferedWriter(new FileWriter(mFolder + "\\" + Folder + "\\" + Filename + "_Core_" + i + ".txt"));
             for (int j = 0; j < getDeadline(); j++) {
-                outputWriter.write(power[i][j]+"\n");
-            };
+                outputWriter.write(power[i][j] + "\n");
+            }
+            ;
             outputWriter.flush();
             outputWriter.close();
 
         }
     }
 
-    public double[] power_results(){
-        double p[]=new double[2];
-        p[0]=Avg_power();
-        p[1]=Peak_power();
-        System.out.println("Avg. Power= "+ Avg_power());
-        System.out.println("Peak Power= "+Peak_power());
+    public double[] power_results() {
+        double p[] = new double[2];
+        p[0] = Avg_power();
+        p[1] = Peak_power();
+        System.out.println("Avg. Power= " + Avg_power());
+        System.out.println("Peak Power= " + Peak_power());
         return p;
     }
+
     //Calculate Average Power Consumption of CPU
-    public double Avg_power(){
-        double p=0;
+    public double Avg_power() {
+        double p = 0;
         for (int i = 0; i < deadline; i++) {
             for (int j = 0; j < n_Cores; j++) {
-                p+=power[j][i];
+                p += power[j][i];
             }
         }
-        return (p/deadline);
+        return (p / deadline);
     }
 
     //Calculate Peak Power of CPU
-    public double Peak_power(){
-        double max=0;
-        double p=0;
+    public double Peak_power() {
+        double max = 0;
+        double p = 0;
         for (int i = 0; i < deadline; i++) {
-            p=0;
+            p = 0;
             for (int j = 0; j < n_Cores; j++) {
-                p+=power[j][i];
+                p += power[j][i];
             }
-            if(p>max) max=p;
+            if (p > max) max = p;
         }
         return max;
     }
 
     //delete a specefic task from scheduling
-    public void remove_task(String task){
+    public void remove_task(String task) {
         for (int i = 0; i < deadline; i++) {
             for (int j = 0; j < n_Cores; j++) {
-                if (core[j][i]!=null) {
+                if (core[j][i] != null) {
                     if (core[j][i].contains(task)) {
                         core[j][i] = null;
                         power[j][i] = idle_power;
@@ -466,7 +505,6 @@ public class CPU {
             }
         }
     }
-
 
 
 }

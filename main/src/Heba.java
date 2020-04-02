@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.ArrayList;
 
 import static java.lang.Math.ceil;
@@ -26,18 +27,18 @@ public class Heba {
         this.mcDAG = mcDAG;
         this.xml_name = xml_name;
         this.max_freq = max_freq;
+        cpu = new CPU(deadline, n_core, mcDAG);
     }
 
     public void scheduling() throws Exception {
-        cpu = new CPU(deadline, n_core, mcDAG);
         for (window w : block) {
             int k = 0;
             for (Vertex a : w.getTasks()) {
                 System.out.println(".... " + a.getName());
                 for (Edge e : a.getRcvEdges()) {
                     if (cpu.getEndTimeTask(e.getSrc().getName() + " F" + (int) (floor(n / 2) - 1)) == -1) {
-                        System.out.println("HEBA ---> Task: " + a.getName());
-                        cpu.debug(xml_name);
+//                        System.out.println("HEBA ---> Task: " + a.getName());
+//                        cpu.debug(xml_name);
                         throw new Exception("Infeasible!");
                     } else {
                         if (cpu.getEndTimeTask(e.getSrc().getName() + " F" + (int) (floor(n / 2) - 1)) > k) {
@@ -45,7 +46,7 @@ public class Heba {
                         }
                     }
                 }
-                System.out.println("TSP Task: " + a.getName()+" = "+a.getTSP_Active());
+                System.out.println("TSP Task: " + a.getName() + " = " + a.getTSP_Active());
                 for (int l = 0; l < ceil(n / 2); l++) {
                     boolean exitFlag = false;
                     for (int j = 0; j < n_core; j++) {
@@ -55,7 +56,7 @@ public class Heba {
                                     (cpu.numberOfRunningTasksInterval(i, i + a.getRunningTimeLO(max_freq, a.getMin_freq()) - 1) < a.getTSP_Active())) {
                                 cpu.SetTaskOnCore(a.getName() + " R" + l, j, i, i + a.getRunningTimeLO(max_freq, a.getMin_freq()) - 1);
                                 System.out.println("SCH --> Task: " + a.getName());
-                                a.setScheduled(a.getScheduled() + 1);
+                                //a.setScheduled(a.getScheduled() + 1);
                                 exitFlag = true;
                                 break;
                             }
@@ -63,8 +64,8 @@ public class Heba {
                         if (exitFlag) break;
                     }
                 }
-                 if(a.getScheduled()!=(int)(ceil(n/2))) throw new Exception("Infeasible!");
-
+                if (cpu.getEndTimeTask(a.getName() + " R" + (int) (ceil(n / 2) - 1)) == -1)
+                    throw new Exception("Infeasible!");
 
             }
 
@@ -84,5 +85,13 @@ public class Heba {
             }
 
         }
+        try {
+//            Save Scheduling for Debugging
+            cpu.debug("Heba-SCH");
+//            cpu.Save_Power("OV" + "0.0" + "F" + 0.0, xml_name, "Heba-SCH");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
 }
