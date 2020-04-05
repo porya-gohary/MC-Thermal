@@ -15,7 +15,7 @@ public class main {
     public static void main(String args[]) throws IOException, SAXException, ParserConfigurationException {
         double n = 3;
         int deadline = 900;
-        int n_core = 4;
+        int n_core = 9;
 
         Path temp;
 
@@ -40,17 +40,17 @@ public class main {
         int n_fault = 0;
 
         //Bool For make New DAGS
-        boolean create_dag = true;
+        boolean create_dag = false;
 
         //Number of DAG
         int n_DAGs = 100;
 
         //number of cores that can work with max freq in same time
-        int max_freq_cores = 1;
+        int max_freq_cores =3;
 
-        //double percent[] = {0.0, 0.25, 0.5, 0.75, 1.0};
+        double percent[] = {0.0, 0.25, 0.5, 0.75, 1.0};
 //        double percent[] = {0.0};
-        double percent[] = {0.0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.40, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1.0};
+//        double percent[] = {0.0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.40, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1.0};
         double fault_pecent = 0.0;
         McDAG All_DAG[] = new McDAG[n_DAGs + 1];
         int All_deadline[] = new int[n_DAGs + 1];
@@ -85,9 +85,9 @@ public class main {
         boolean Pro_run = false;
         boolean Sc_run = true;
         boolean HEBA_run = false;
-        boolean Sal_run = true;
-        boolean NMR_run = true;
-        boolean Med_run = true;
+        boolean Sal_run = false;
+        boolean NMR_run = false;
+        boolean Med_run = false;
 
 
         //double v[]={0.912,0.9125,0.95,0.987,1.025,1.065,1.1,1.13,1.16,1.212,1.26};
@@ -110,7 +110,7 @@ public class main {
             for (int i = 1; i <= n_DAGs; i++) {
                 xml_name = i + "";
                 System.out.println("Mapping :::> DAG " + xml_name + "");
-                File file = new File("DAGs\\" + xml_name + ".xml");
+                File file = new File("DAGs//" + xml_name + ".xml");
                 dag_Reader dr = new dag_Reader(file);
                 dag = dr.getDag();
                 dag.setHINodes();
@@ -172,11 +172,11 @@ public class main {
 
 
                 BufferedWriter outputWriter = null;
-                outputWriter = new BufferedWriter(new FileWriter("OV" + overrun_percent + "F" + fault_pecent + "\\" + "Summary.txt"));
+                outputWriter = new BufferedWriter(new FileWriter("OV" + overrun_percent + "F" + fault_pecent + "//" + "Summary.txt"));
                 for (int i = 1; i <= n_DAGs; i++) {
                     xml_name = i + "";
 
-                    File newFolder = new File("OV" + overrun_percent + "F" + fault_pecent + "\\" + xml_name);
+                    File newFolder = new File("OV" + overrun_percent + "F" + fault_pecent + "//" + xml_name);
                     newFolder.mkdir();
 
                     outputWriter.write(">>>>>>>>>> ::: DAG " + xml_name + " Start ::: <<<<<<<<<<" + "\n");
@@ -204,7 +204,7 @@ public class main {
                             // Move Scheduling to Correct Folder
                             for (int k = 0; k < fw.block.size(); k++) {
                                 temp = Files.move(Paths.get("Faulty Window " + k + ".csv"),
-                                        Paths.get("OV" + overrun_percent + "F" + fault_pecent + "\\" + xml_name + "\\" + "Faulty Window " + k + ".csv"));
+                                        Paths.get("OV" + overrun_percent + "F" + fault_pecent + "//" + xml_name + "//" + "Faulty Window " + k + ".csv"));
                             }
 
                         } catch (Exception e) {
@@ -273,11 +273,11 @@ public class main {
                             outputWriter.write("------------> Second Method <----------" + "\n");
 
                             secondApproach secondApproach = new secondApproach(deadline, n_core, n, dag, xml_name, landa0, d, v, freq,
-                                    tsp_name, rel_name, benchmark, benchmark_time, overrun_percent, freq[freq.length - 1]);
+                                    tsp_name, rel_name, benchmark, benchmark_time, overrun_percent, freq[freq.length - 1],max_freq_cores);
                             try {
                                 secondApproach.start();
                                 temp = Files.move(Paths.get("Sc_mainSCH.csv"),
-                                        Paths.get("OV" + overrun_percent + "F" + fault_pecent + "\\" + xml_name + "\\" + "Sc_mainSCH.csv"));
+                                        Paths.get("OV" + overrun_percent + "F" + fault_pecent + "//" + xml_name + "//" + "Sc_mainSCH.csv"));
                                 outputWriter.write("Avg. Power= " + secondApproach.cpu.power_results()[0] + "\n");
                                 outputWriter.write("Peak Power= " + secondApproach.cpu.power_results()[1] + "\n");
                                 outputWriter.write("═════╣  QoS = " + secondApproach.QoS() + "\n");
@@ -304,7 +304,7 @@ public class main {
                         try {
                             heba.scheduling();
                             temp = Files.move(Paths.get("Heba-SCH.csv"),
-                                    Paths.get("OV" + overrun_percent + "F" + fault_pecent + "\\" + xml_name + "\\" + "Heba-SCH.csv"));
+                                    Paths.get("OV" + overrun_percent + "F" + fault_pecent + "//" + xml_name + "//" + "Heba-SCH.csv"));
 
                         } catch (Exception e) {
                             e.printStackTrace();

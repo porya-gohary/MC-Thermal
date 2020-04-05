@@ -18,6 +18,7 @@
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+import static java.lang.Math.ceil;
 
 public class secondApproach {
     //Deadline
@@ -45,9 +46,10 @@ public class secondApproach {
     int n_overrun;
 
     int max_freq;
+    int max_freq_cores;
 
     public secondApproach(int deadline, int n_core, double n, McDAG dag, String xml_name, double landa0, int d, double[] v,
-                          int[] freq, String tsp_name, String rel_name, String[] benchmark, int[] benchmark_time, double overrun_percent, int max_freq) {
+                          int[] freq, String tsp_name, String rel_name, String[] benchmark, int[] benchmark_time, double overrun_percent, int max_freq, int max_freq_cores) {
         this.deadline = deadline;
         this.n_core = n_core;
         this.n = n;
@@ -63,6 +65,7 @@ public class secondApproach {
         this.benchmark_time = benchmark_time;
         this.overrun_percent = overrun_percent;
         this.max_freq = max_freq;
+        this.max_freq_cores = max_freq_cores;
     }
 
     public void start() throws Exception {
@@ -78,7 +81,7 @@ public class secondApproach {
             } catch (Exception e) {
                 e.printStackTrace();
                 boolean x = drop_task();
-                if(!x) {
+                if (!x) {
                     System.out.println("HERE");
                     System.exit(0);
                 }
@@ -126,7 +129,7 @@ public class secondApproach {
     public void feasibility() throws Exception {
 
         //Check Feasibility
-        CPU cpu1 = new CPU(deadline, n_core, dag);
+        CPU cpu1 = new CPU(deadline, n_core, dag, n, max_freq_cores);
         Vertex sorted_HI[] = sort_vertex(dag.getNodes_HI().toArray(new Vertex[0]).clone());
         for (Vertex a : sorted_HI) {
 
@@ -142,20 +145,39 @@ public class secondApproach {
                 }
             }
             for (int l = 0; l < n; l++) {
-                boolean exitFlag = false;
-                for (int i = (k == 0 ? 0 : k + 1); i < deadline - a.getRunningTimeLO(max_freq, a.getMin_freq())
-                        - a.getRunningTimeHI(max_freq, a.getMin_freq()) + 1; i++) {
-                    for (int j = 0; j < n_core; j++) {
-                        if (cpu1.CheckTimeSlot(j, i, i + a.getRunningTimeLO(max_freq, a.getMin_freq()) + a.getRunningTimeHI(max_freq, a.getMin_freq()) - 1) &&
-                                (cpu1.maxCoreInterval(i, i + a.getRunningTimeLO(max_freq, a.getMin_freq()) + a.getRunningTimeHI(max_freq, a.getMin_freq()) - 1) >= a.getTSP_Active()) &&
-                                (cpu1.numberOfRunningTasksInterval(i, i + a.getRunningTimeLO(max_freq, a.getMin_freq()) + a.getRunningTimeHI(max_freq, a.getMin_freq()) - 1) < a.getTSP_Active())) {
-                            cpu1.SetTaskOnCore(a.getName() + " R" + l, j, i, i + a.getRunningTimeLO(max_freq, a.getMin_freq()) - 1);
-                            cpu1.SetTaskOnCore(a.getName() + " OV" + l, j, i + a.getRunningTimeLO(max_freq, a.getMin_freq()), i + a.getRunningTimeLO(max_freq, a.getMin_freq()) + a.getRunningTimeHI(max_freq, a.getMin_freq()) - 1);
-                            exitFlag = true;
-                            break;
+                if (l <= (ceil(n / 2) - 1)) {
+                    boolean exitFlag = false;
+//                    System.out.println("~~~~~~ "+k);
+                    for (int i = (k == 0 ? 0 : k + 1); i < deadline - a.getRunningTimeLO(max_freq, a.getMin_freq())
+                            - a.getRunningTimeHI(max_freq, a.getMin_freq()) + 1; i++) {
+                        for (int j = 0; j < n_core; j++) {
+                            if (cpu1.CheckTimeSlot(j, i, i + a.getRunningTimeLO(max_freq, a.getMin_freq()) + a.getRunningTimeHI(max_freq, a.getMin_freq()) - 1) &&
+                                    (cpu1.maxCoreInterval(i, i + a.getRunningTimeLO(max_freq, a.getMin_freq()) + a.getRunningTimeHI(max_freq, a.getMin_freq()) - 1) >= a.getTSP_Active()) &&
+                                    (cpu1.numberOfRunningTasksInterval(i, i + a.getRunningTimeLO(max_freq, a.getMin_freq()) + a.getRunningTimeHI(max_freq, a.getMin_freq()) - 1) < a.getTSP_Active())) {
+                                cpu1.SetTaskOnCore(a.getName() + " R" + l, j, i, i + a.getRunningTimeLO(max_freq, a.getMin_freq()) - 1);
+                                cpu1.SetTaskOnCore(a.getName() + " OV" + l, j, i + a.getRunningTimeLO(max_freq, a.getMin_freq()), i + a.getRunningTimeLO(max_freq, a.getMin_freq()) + a.getRunningTimeHI(max_freq, a.getMin_freq()) - 1);
+                                exitFlag = true;
+                                break;
+                            }
                         }
+                        if (exitFlag) break;
                     }
-                    if (exitFlag) break;
+                } else {
+                    boolean exitFlag = false;
+                    for (int i = (k == 0 ? 0 : k + 1); i < deadline - a.getRunningTimeLO(max_freq, max_freq)
+                            - a.getRunningTimeHI(max_freq, max_freq) + 1; i++) {
+                        for (int j = 0; j < n_core; j++) {
+                            if (cpu1.CheckTimeSlot(j, i, i + a.getRunningTimeLO(max_freq, max_freq) + a.getRunningTimeHI(max_freq, max_freq) - 1) &&
+                                    (cpu1.maxCoreInterval(i, i + a.getRunningTimeLO(max_freq, max_freq) + a.getRunningTimeHI(max_freq, max_freq) - 1) >= max_freq_cores) &&
+                                    (cpu1.numberOfRunningTasksInterval(i, i + a.getRunningTimeLO(max_freq, max_freq) + a.getRunningTimeHI(max_freq, max_freq) - 1) < max_freq_cores)) {
+                                cpu1.SetTaskOnCore(a.getName() + " R" + l, j, i, i + a.getRunningTimeLO(max_freq, max_freq) - 1);
+                                cpu1.SetTaskOnCore(a.getName() + " OV" + l, j, i + a.getRunningTimeLO(max_freq, max_freq), i + a.getRunningTimeLO(max_freq, max_freq) + a.getRunningTimeHI(max_freq, max_freq) - 1);
+                                exitFlag = true;
+                                break;
+                            }
+                        }
+                        if (exitFlag) break;
+                    }
                 }
                 if (cpu1.getEndTimeTask(a.getName() + " R" + l) == -1) {
                     cpu1.debug("TEST");
@@ -176,7 +198,7 @@ public class secondApproach {
 
         //------------> Main Scheduling <----------
         cpu = null;
-        cpu = new CPU(deadline, n_core, dag);
+        cpu = new CPU(deadline, n_core, dag, n, max_freq_cores);
         for (Vertex a : sorted_tasks) {
             System.out.println(a.getName());
             int k = 0;
@@ -224,47 +246,80 @@ public class secondApproach {
                     boolean exitFlag = false;
 
                     if (ov_tasks.contains(a.getName() + " R" + l)) {
+                        if (l <= (ceil(n / 2) - 1)) {
 //                            if Task is in HI Mode
-                        for (int i = (k == 0 ? 0 : k + 1); i < deadline - a.getRunningTimeLO(max_freq, a.getMin_freq())
-                                - a.getRunningTimeHI(max_freq, a.getMin_freq()) + 1; i++) {
-                            for (int j = 0; j < n_core; j++) {
-                                if (cpu.CheckTimeSlot(j, i, i + a.getRunningTimeLO(max_freq, a.getMin_freq()) + a.getRunningTimeHI(max_freq, a.getMin_freq()) - 1) &&
-                                        (cpu.maxCoreInterval(i, i + a.getRunningTimeLO(max_freq, a.getMin_freq()) + a.getRunningTimeHI(max_freq, a.getMin_freq()) - 1) >= a.getTSP_Active()) &&
-                                        (cpu.numberOfRunningTasksInterval(i, i + a.getRunningTimeLO(max_freq, a.getMin_freq()) + a.getRunningTimeHI(max_freq, a.getMin_freq()) - 1) < a.getTSP_Active())) {
-                                    cpu.SetTaskOnCore(a.getName() + " R" + l, j, i, i + a.getRunningTimeLO(max_freq, a.getMin_freq()) - 1);
-                                    cpu.SetTaskOnCore(a.getName() + " OV" + l, j, i + a.getRunningTimeLO(max_freq, a.getMin_freq()), i + a.getRunningTimeLO(max_freq, a.getMin_freq()) + a.getRunningTimeHI(max_freq, a.getMin_freq()) - 1);
-                                    exitFlag = true;
-                                    break;
+                            for (int i = (k == 0 ? 0 : k + 1); i < deadline - a.getRunningTimeLO(max_freq, a.getMin_freq())
+                                    - a.getRunningTimeHI(max_freq, a.getMin_freq()) + 1; i++) {
+                                for (int j = 0; j < n_core; j++) {
+                                    if (cpu.CheckTimeSlot(j, i, i + a.getRunningTimeLO(max_freq, a.getMin_freq()) + a.getRunningTimeHI(max_freq, a.getMin_freq()) - 1) &&
+                                            (cpu.maxCoreInterval(i, i + a.getRunningTimeLO(max_freq, a.getMin_freq()) + a.getRunningTimeHI(max_freq, a.getMin_freq()) - 1) >= a.getTSP_Active()) &&
+                                            (cpu.numberOfRunningTasksInterval(i, i + a.getRunningTimeLO(max_freq, a.getMin_freq()) + a.getRunningTimeHI(max_freq, a.getMin_freq()) - 1) < a.getTSP_Active())) {
+                                        cpu.SetTaskOnCore(a.getName() + " R" + l, j, i, i + a.getRunningTimeLO(max_freq, a.getMin_freq()) - 1);
+                                        cpu.SetTaskOnCore(a.getName() + " OV" + l, j, i + a.getRunningTimeLO(max_freq, a.getMin_freq()), i + a.getRunningTimeLO(max_freq, a.getMin_freq()) + a.getRunningTimeHI(max_freq, a.getMin_freq()) - 1);
+                                        exitFlag = true;
+                                        break;
+                                    }
                                 }
+                                if (exitFlag) break;
                             }
-                            if (exitFlag) break;
+                        } else {
+                            for (int i = (k == 0 ? 0 : k + 1); i < deadline - a.getRunningTimeLO(max_freq, max_freq)
+                                    - a.getRunningTimeHI(max_freq, max_freq) + 1; i++) {
+                                for (int j = 0; j < n_core; j++) {
+                                    if (cpu.CheckTimeSlot(j, i, i + a.getRunningTimeLO(max_freq, max_freq) + a.getRunningTimeHI(max_freq, max_freq) - 1) &&
+                                            (cpu.maxCoreInterval(i, i + a.getRunningTimeLO(max_freq, max_freq) + a.getRunningTimeHI(max_freq, max_freq) - 1) >= max_freq_cores) &&
+                                            (cpu.numberOfRunningTasksInterval(i, i + a.getRunningTimeLO(max_freq, max_freq) + a.getRunningTimeHI(max_freq, max_freq) - 1) < max_freq_cores)) {
+                                        cpu.SetTaskOnCore(a.getName() + " R" + l, j, i, i + a.getRunningTimeLO(max_freq, max_freq) - 1);
+                                        cpu.SetTaskOnCore(a.getName() + " OV" + l, j, i + a.getRunningTimeLO(max_freq, max_freq), i + a.getRunningTimeLO(max_freq, max_freq) + a.getRunningTimeHI(max_freq, max_freq) - 1);
+                                        exitFlag = true;
+                                        break;
+                                    }
+                                }
+                                if (exitFlag) break;
+                            }
                         }
                         if (cpu.getEndTimeTask(a.getName() + " OV" + l) == -1)
                             throw new Exception("Infeasible!");
 
                     } else {
 //                            if Task is in LO Mode
-                        for (int i = (k == 0 ? 0 : k + 1); i < deadline - a.getRunningTimeLO(max_freq, a.getMin_freq()) + 1; i++) {
-                            for (int j = 0; j < n_core; j++) {
-                                if (cpu.CheckTimeSlot(j, i, i + a.getRunningTimeLO(max_freq, a.getMin_freq()) - 1) &&
-                                        (cpu.maxCoreInterval(i, i + a.getRunningTimeLO(max_freq, a.getMin_freq()) - 1) >= a.getTSP_Active()) &&
-                                        (cpu.numberOfRunningTasksInterval(i, i + a.getRunningTimeLO(max_freq, a.getMin_freq()) - 1) < a.getTSP_Active())) {
-                                    cpu.SetTaskOnCore(a.getName() + " R" + l, j, i, i + a.getRunningTimeLO(max_freq, a.getMin_freq()) - 1);
+                        if (l <= (ceil(n / 2) - 1)) {
+                            for (int i = (k == 0 ? 0 : k + 1); i < deadline - a.getRunningTimeLO(max_freq, a.getMin_freq()) + 1; i++) {
+                                for (int j = 0; j < n_core; j++) {
+                                    if (cpu.CheckTimeSlot(j, i, i + a.getRunningTimeLO(max_freq, a.getMin_freq()) - 1) &&
+                                            (cpu.maxCoreInterval(i, i + a.getRunningTimeLO(max_freq, a.getMin_freq()) - 1) >= a.getTSP_Active()) &&
+                                            (cpu.numberOfRunningTasksInterval(i, i + a.getRunningTimeLO(max_freq, a.getMin_freq()) - 1) < a.getTSP_Active())) {
+                                        cpu.SetTaskOnCore(a.getName() + " R" + l, j, i, i + a.getRunningTimeLO(max_freq, a.getMin_freq()) - 1);
 
-                                    exitFlag = true;
-                                    break;
+                                        exitFlag = true;
+                                        break;
+                                    }
                                 }
+                                if (exitFlag) break;
                             }
-                            if (exitFlag) break;
+                        } else {
+                            for (int i = (k == 0 ? 0 : k + 1); i < deadline - a.getRunningTimeLO(max_freq, max_freq) + 1; i++) {
+                                for (int j = 0; j < n_core; j++) {
+                                    if (cpu.CheckTimeSlot(j, i, i + a.getRunningTimeLO(max_freq, max_freq) - 1) &&
+                                            (cpu.maxCoreInterval(i, i + a.getRunningTimeLO(max_freq, max_freq) - 1) >= max_freq_cores) &&
+                                            (cpu.numberOfRunningTasksInterval(i, i + a.getRunningTimeLO(max_freq, max_freq) - 1) < max_freq_cores)) {
+                                        cpu.SetTaskOnCore(a.getName() + " R" + l, j, i, i + a.getRunningTimeLO(max_freq, max_freq) - 1);
+
+                                        exitFlag = true;
+                                        break;
+                                    }
+                                }
+                                if (exitFlag) break;
+                            }
                         }
                         if (cpu.getEndTimeTask(a.getName() + " R" + l) == -1)
                             throw new Exception("Infeasible!");
                     }
 
                 }
-            }else{
+            } else {
                 //For LO-Critical Tasks
-                if(a.isRun()){
+                if (a.isRun()) {
                     boolean exitFlag = false;
                     for (int i = (k == 0 ? 0 : k + 1); i < deadline - a.getRunningTimeLO(max_freq, a.getMin_freq()) + 1; i++) {
                         for (int j = 0; j < n_core; j++) {

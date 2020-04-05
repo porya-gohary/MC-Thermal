@@ -18,6 +18,8 @@
 import java.io.*;
 import java.util.Arrays;
 
+import static java.lang.Math.ceil;
+
 @SuppressWarnings("ALL")
 public class CPU {
     //Core of CPU   [#Core] [#Time]
@@ -39,7 +41,11 @@ public class CPU {
     int max_freq = 2000;
 
     //Location of Power Trace
-    String location = "MiBench\\";
+    String location = "MiBench//";
+    //Number of Redundancy
+    double n = 3;
+
+    int max_freq_cores = 1;
 
     public CPU(int deadline, int n_Cores, McDAG mcDAG) {
         this.deadline = deadline;
@@ -52,15 +58,28 @@ public class CPU {
         }
     }
 
+    public CPU(int deadline, int n_Cores, McDAG mcDAG, double n, int max_freq_cores) {
+        this.deadline = deadline;
+        this.n_Cores = n_Cores;
+        this.mcDAG = mcDAG;
+        this.n = n;
+        this.max_freq_cores = max_freq_cores;
+        core = new String[n_Cores][deadline];
+        power = new double[n_Cores][deadline];
+        for (int i = 0; i < n_Cores; i++) {
+            Arrays.fill(power[i], idle_power);
+        }
+    }
+
     //GET Running Task in specific Time
     public String getRunningTask(int Core, int Time) {
-        if (core[Core][Time] != null){
-            if(core[Core][Time].contains(" R")){
+        if (core[Core][Time] != null) {
+            if (core[Core][Time].contains(" R")) {
                 return core[Core][Time].split(" R")[0];
-            }else{
+            } else {
                 return core[Core][Time].split(" OV")[0];
             }
-        }else return null;
+        } else return null;
 //        return (core[Core][Time] == null) ? null : core[Core][Time].split(" R")[0];
 //        System.out.println(core[Core][Time].split(" R")[0]);
 //        return core[Core][Time];
@@ -105,7 +124,7 @@ public class CPU {
 //        for (StackTraceElement s : stackTraceElements) {
 //            System.out.println(s.getMethodName());
 //        }
-        if (!stackTraceElements[2].getClassName().equals("Safe_Start_Time") && !stackTraceElements[2].getMethodName().equals("feasibility") ) {
+        if (!stackTraceElements[2].getClassName().equals("Safe_Start_Time") && !stackTraceElements[2].getMethodName().equals("feasibility")) {
             try {
                 this.setPower(Task, Start, Core);
             } catch (IOException e) {
@@ -117,12 +136,14 @@ public class CPU {
     // A function For Mapping Power Of Benchmarks
     public void setPower(String Task, int Start, int Core) throws IOException {
         String t = Task.split(" ")[0];
+
+        int m = Integer.parseInt(Task.split(" ")[1].replaceAll("\\D", ""));
         Vertex v = mcDAG.getNodebyName(t);
         if (Task.contains("CR")) {
             String LO = v.getLO_name();
             Double r[] = new Double[v.getWcet(0)];
             BufferedReader reader;
-            File file = new File(location + max_freq + "\\" + LO + ".txt");
+            File file = new File(location + max_freq + "//" + LO + ".txt");
             reader = new BufferedReader(new FileReader(file));
             int i = 0;
             String line = reader.readLine();
@@ -141,7 +162,7 @@ public class CPU {
             //System.out.println(v.getWcet(1)-v.getWcet(0));
             Double r[] = new Double[v.getWcet(1) - v.getWcet(0)];
             BufferedReader reader;
-            File file = new File(location + max_freq + "\\" + HI + ".txt");
+            File file = new File(location + max_freq + "//" + HI + ".txt");
             reader = new BufferedReader(new FileReader(file));
             int i = 0;
             String line = reader.readLine();
@@ -163,7 +184,7 @@ public class CPU {
                 Double r[] = new Double[v.getWcet(0)];
 
                 BufferedReader reader;
-                File file = new File(location + max_freq + "\\" + LO + ".txt");
+                File file = new File(location + max_freq + "//" + LO + ".txt");
                 reader = new BufferedReader(new FileReader(file));
                 int i = 0;
                 String line = reader.readLine();
@@ -189,29 +210,48 @@ public class CPU {
                 String HI = v.getHI_name();
                 StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
                 //System.out.println(stackTraceElements[2].getClassName());
-                if (!stackTraceElements[2].getClassName().equals("secondApproach")) {
-                    Double r[] = new Double[v.getRunningTimeHI(max_freq, v.getMin_freq()) - v.getRunningTimeLO(max_freq, v.getMin_freq())];
-                    BufferedReader reader;
-                    File file = new File(location + v.getMin_freq() + "\\" + HI + ".txt");
-                    reader = new BufferedReader(new FileReader(file));
-                    int i = 0;
-                    String line = reader.readLine();
-                    while (line != null) {
-                        r[i] = Double.parseDouble(line);
-                        line = reader.readLine();
-                        i++;
-                    }
-                    int l = 0;
-                    for (int k = Start; k < Start + r.length; k++) {
-                        power[Core][k] = r[l];
-                        l++;
+                if (stackTraceElements[2].getClassName().equals("secondApproach")) {
+                    if (m <= (ceil(n / 2) - 1)) {
+                        Double r[] = new Double[v.getRunningTimeHI(max_freq, v.getMin_freq()) - v.getRunningTimeLO(max_freq, v.getMin_freq())];
+                        BufferedReader reader;
+                        File file = new File(location + v.getMin_freq() + "//" + HI + ".txt");
+                        reader = new BufferedReader(new FileReader(file));
+                        int i = 0;
+                        String line = reader.readLine();
+                        while (line != null) {
+                            r[i] = Double.parseDouble(line);
+                            line = reader.readLine();
+                            i++;
+                        }
+                        int l = 0;
+                        for (int k = Start; k < Start + r.length; k++) {
+                            power[Core][k] = r[l];
+                            l++;
+                        }
+                    } else {
+                        Double r[] = new Double[v.getRunningTimeHI(max_freq, max_freq) - v.getRunningTimeLO(max_freq, max_freq)];
+                        BufferedReader reader;
+                        File file = new File(location + max_freq + "//" + HI + ".txt");
+                        reader = new BufferedReader(new FileReader(file));
+                        int i = 0;
+                        String line = reader.readLine();
+                        while (line != null) {
+                            r[i] = Double.parseDouble(line);
+                            line = reader.readLine();
+                            i++;
+                        }
+                        int l = 0;
+                        for (int k = Start; k < Start + r.length; k++) {
+                            power[Core][k] = r[l];
+                            l++;
+                        }
                     }
 
                 } else {
                     //System.out.println(v.getName()+" <> "+HI+"    ### "+(v.getWcet(1)-v.getWcet(0)));
                     Double r[] = new Double[v.getWcet(1) - v.getWcet(0)];
                     BufferedReader reader;
-                    File file = new File(location + max_freq + "\\" + HI + ".txt");
+                    File file = new File(location + max_freq + "//" + HI + ".txt");
                     reader = new BufferedReader(new FileReader(file));
                     int i = 0;
                     String line = reader.readLine();
@@ -237,24 +277,44 @@ public class CPU {
             }
 
         } else {
-            String LO = v.getLO_name();
-            Double r[] = new Double[(v.getWcet(0) * max_freq / v.getMin_freq())];
-            BufferedReader reader;
-            File file = new File(location + v.getMin_freq() + "\\" + LO + ".txt");
-            reader = new BufferedReader(new FileReader(file));
-            int i = 0;
-            String line = reader.readLine();
+            if (m <= (ceil(n / 2) - 1)) {
+                String LO = v.getLO_name();
+                Double r[] = new Double[(v.getWcet(0) * max_freq / v.getMin_freq())];
+                BufferedReader reader;
+                File file = new File(location + v.getMin_freq() + "//" + LO + ".txt");
+                reader = new BufferedReader(new FileReader(file));
+                int i = 0;
+                String line = reader.readLine();
 //            System.out.println("P START  :: "+Start+"   "+(Start+r.length));
 //            System.out.println("<POWER> "+v.getName()+"  "+v.getLO_name()+"   "+v.getWcet(0)+"    "+v.getMin_freq());
-            while (line != null) {
-                r[i] = Double.parseDouble(line);
-                line = reader.readLine();
-                i++;
-            }
-            int l = 0;
-            for (int k = Start; k < Start + r.length; k++) {
-                power[Core][k] = r[l];
-                l++;
+                while (line != null) {
+                    r[i] = Double.parseDouble(line);
+                    line = reader.readLine();
+                    i++;
+                }
+                int l = 0;
+                for (int k = Start; k < Start + r.length; k++) {
+                    power[Core][k] = r[l];
+                    l++;
+                }
+            } else {
+                String LO = v.getLO_name();
+                Double r[] = new Double[v.getWcet(0)];
+                BufferedReader reader;
+                File file = new File(location + max_freq + "//" + LO + ".txt");
+                reader = new BufferedReader(new FileReader(file));
+                int i = 0;
+                String line = reader.readLine();
+                while (line != null) {
+                    r[i] = Double.parseDouble(line);
+                    line = reader.readLine();
+                    i++;
+                }
+                int l = 0;
+                for (int k = Start; k < Start + r.length; k++) {
+                    power[Core][k] = r[l];
+                    l++;
+                }
             }
 
         }
@@ -266,9 +326,14 @@ public class CPU {
         int max = n_Cores;
         for (int i = 0; i < n_Cores; i++) {
             if (getRunningTask(i, Time) != null) {
-                t = getRunningTask(i, Time);
+                int m = Integer.parseInt(core[i][Time].split(" ")[1].replaceAll("\\D", ""));
+                if (m <= (ceil(n / 2) - 1)) {
+                    t = getRunningTask(i, Time);
 //                System.out.println(mcDAG.getNodebyName(t).getTSP_Active());
-                if (mcDAG.getNodebyName(t).getTSP_Active() < max) max = mcDAG.getNodebyName(t).getTSP_Active();
+                    if (mcDAG.getNodebyName(t).getTSP_Active() < max) max = mcDAG.getNodebyName(t).getTSP_Active();
+                } else {
+                    if (max_freq_cores < max) max = max_freq_cores;
+                }
             }
         }
         return max;
@@ -444,10 +509,10 @@ public class CPU {
         BufferedWriter outputWriter = null;
         File newFolder2 = new File(mFolder);
         newFolder2.mkdir();
-        File newFolder = new File(mFolder + "\\" + Folder);
+        File newFolder = new File(mFolder + "//" + Folder);
         newFolder.mkdir();
         for (int i = 0; i < getN_Cores(); i++) {
-            outputWriter = new BufferedWriter(new FileWriter(mFolder + "\\" + Folder + "\\" + Filename + "_Core_" + i + ".txt"));
+            outputWriter = new BufferedWriter(new FileWriter(mFolder + "//" + Folder + "//" + Filename + "_Core_" + i + ".txt"));
             for (int j = 0; j < getDeadline(); j++) {
                 outputWriter.write(power[i][j] + "\n");
             }
