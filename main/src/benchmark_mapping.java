@@ -64,9 +64,9 @@ public class benchmark_mapping {
         Random rn= new Random();
         int m;
         do {
-           // m = rn.nextInt((int) (n *n*1.6));
-            m = rn.nextInt((int) (n *n*1.1));
-        }while(m==0);
+            m = rn.nextInt((int) (n *n*1.6));
+//            m = rn.nextInt((int) (n *n*0.4));
+        }while(m<n);
         return (v[v.length-1].getLPL()*m);
     }
 

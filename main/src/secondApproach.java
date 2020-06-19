@@ -16,6 +16,7 @@
  *******************************************************************************/
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
 import static java.lang.Math.ceil;
@@ -40,13 +41,28 @@ public class secondApproach {
     String benchmark[];
     int benchmark_time[];
 
-    double overrun_percent;
+    boolean VERBOSE = false;
+    String pathSeparator = File.separator;
+
+    //HotSpot location and information
+    String hotspot_path = "HotSpot" + pathSeparator + "hotspot";
+    String hotspot_config = "HotSpot" + pathSeparator + "configs" + pathSeparator;
+    String floorplan = "HotSpot" + pathSeparator + "floorplans" + pathSeparator;
+    String powertrace = "HotSpot" + pathSeparator + "powertrace" + pathSeparator;
+    String thermaltrace = "HotSpot" + pathSeparator + "thermaltrace" + pathSeparator + "thermal.ttrace";
+
 
     Vertex sorted_tasks[];
+    double overrun_percent;
     int n_overrun;
 
     int max_freq;
     int max_freq_cores;
+    Set<String> ov_tasks;
+
+    //Applivation Reliability
+    double R_app_medina=1;
+    double R_app_CNMR=1;
 
     public secondApproach(int deadline, int n_core, double n, McDAG dag, String xml_name, double landa0, int d, double[] v,
                           int[] freq, String tsp_name, String rel_name, String[] benchmark, int[] benchmark_time, double overrun_percent, int max_freq, int max_freq_cores) {
@@ -73,6 +89,7 @@ public class secondApproach {
         reliability();
         feasibility();
         sorted_tasks = sort_vertex(dag.getVertices().toArray(new Vertex[0]).clone());
+        ov_tasks = SelectOverrunTasks(dag.getNodes_HI().toArray(new Vertex[0]).clone());
         boolean finish = false;
         while (!finish) {
             boolean f = true;
@@ -82,7 +99,7 @@ public class secondApproach {
                 e.printStackTrace();
                 boolean x = drop_task();
                 if (!x) {
-                    System.out.println("HERE");
+//                    System.out.println("HERE");
                     System.exit(0);
                 }
                 f = false;
@@ -117,7 +134,16 @@ public class secondApproach {
             rc.setT_min(WCET);
             rc.setV_name(a.getName());
             rc.cal();
+            if(a.isHighCr()) {
+                R_app_CNMR *=rc.R_CNMR;
+                R_app_medina *=rc.R_MEDINA;
+//                System.out.println(rc.R_MEDINA);
+            }
         }
+//        System.out.println("----------------------");
+//        System.out.println("APPLICATION PoF CTMR = "+ (1.0-R_app_CNMR));
+//        System.out.println("APPLICATION Reliability MEDINA= "+ (R_app_medina));
+//        System.out.println("APPLICATION PoF MEDINA= "+ (1-R_app_medina));
         //------------> SET MAX ACTIVE CORE FOR EACH TASKS <----------
         tsp.read_TSP_file();
         tsp.cal_TSP_core();
@@ -193,13 +219,14 @@ public class secondApproach {
     }
 
     public void mainScheduling() throws Exception {
-        Set<String> ov_tasks = SelectOverrunTasks(dag.getNodes_HI().toArray(new Vertex[0]).clone());
+
 
 
         //------------> Main Scheduling <----------
         cpu = null;
         cpu = new CPU(deadline, n_core, dag, n, max_freq_cores);
         for (Vertex a : sorted_tasks) {
+            if(!a.isRun()) continue;
             System.out.println(a.getName());
             int k = 0;
             for (Edge e : a.getRcvEdges()) {
@@ -341,6 +368,8 @@ public class secondApproach {
 
 
         }
+        System.out.println("Overrun Task Set ==> " + ov_tasks);
+        System.out.println("<><><><><><><><><>");
     }
 
 
@@ -361,7 +390,7 @@ public class secondApproach {
             }
         }
 
-        n_overrun = (int) overrun_percent * temp.size();
+        n_overrun = (int) (overrun_percent * temp.size());
         String[] temp2 = temp.stream().toArray(String[]::new).clone();
 
         //Select Tasks
@@ -394,5 +423,105 @@ public class secondApproach {
         }
         QoS = QoS / (sorted_tasks.length - dag.getNodes_HI().size());
         return QoS;
+    }
+
+    public double[] balanceCalculator() {
+        //Temperature Results [0] Avg. Diff. [1] Max. Diff. [2] Max. Temp. [3] Avg. Temp.
+        double temp[]= new double[4];
+        double Max=0;
+        double Avg=0;
+
+        hotspot_config = "HotSpot" + pathSeparator + "configs" + pathSeparator;
+        floorplan = "HotSpot" + pathSeparator + "floorplans" + pathSeparator;
+        powertrace = "HotSpot" + pathSeparator + "powertrace" + pathSeparator;
+        HotSpot hotSpot = new HotSpot(hotspot_path, VERBOSE);
+        HS_input_creator hs_input_creator = new HS_input_creator(cpu);
+        try {
+            hs_input_creator.Save("HotSpot", "powertrace", "A15_" + cpu.getN_Cores() + ".ptrace", cpu.Endtime(-1));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        hotspot_config += "hotspot_" + cpu.getN_Cores() + ".config";
+        floorplan += "A15_" + cpu.getN_Cores() + ".flp";
+        powertrace += "A15_" + cpu.getN_Cores() + ".ptrace";
+        hotSpot.run(hotspot_config, floorplan, powertrace, thermaltrace);
+
+        String mFolder = "HotSpot";
+        String sFolder = "thermaltrace";
+        String filename = "thermal.ttrace";
+        File thermalFile = null;
+        double MaxDiff=0;
+        try {
+            thermalFile = new File(mFolder + pathSeparator + sFolder + pathSeparator + filename);
+            Scanner Reader = new Scanner(thermalFile);
+            //Reader.hasNextLine()
+            double diff = 0;
+            Reader.nextLine();
+            for (int j = 0; j < cpu.Endtime(-1); j++) {
+                String data = Reader.nextLine();
+                String Sdatavalue[] = data.split("\t");
+                double value[] = new double[cpu.getN_Cores()];
+                for (int i = 0; i < cpu.getN_Cores(); i++) {
+                    value[i] = Double.parseDouble(Sdatavalue[i]);
+                }
+
+                if(getMax(value)>Max) Max = getMax(value);
+                Avg+=getMax(value);
+
+                diff += getMax(value) - getMin(value);
+                if(getMax(value) - getMin(value)>MaxDiff) MaxDiff =getMax(value) - getMin(value);
+
+            }
+            Reader.close();
+            if (VERBOSE) {
+                System.out.println("Max. Different= " + MaxDiff);
+                System.out.println("Avg. Different= " + (diff / cpu.Endtime(-1)));
+            }
+            //Temperature Results [0] Avg. Diff. [1] Max. Diff. [2] Max. Temp. [3] Avg. Temp.
+            temp[0]=(diff / cpu.Endtime(-1));
+            temp[1]=MaxDiff;
+            temp[2]= Max;
+            temp[3]=Avg/ cpu.Endtime(-1);
+        } catch (FileNotFoundException e) {
+            if (VERBOSE) {
+                System.out.println("An error occurred in Reading Thermal Trace File.");
+                System.out.println("Path: " + thermalFile.getAbsolutePath());
+                e.printStackTrace();
+            }
+        }
+        return temp;
+    }
+
+
+    // Method for getting the minimum value
+    public double getMin(double[] inputArray) {
+        double minValue = inputArray[0];
+        for (int i = 1; i < inputArray.length; i++) {
+            if (inputArray[i] < minValue) {
+                minValue = inputArray[i];
+            }
+        }
+        return minValue;
+    }
+
+    //Method for getting the maximum value
+    public double getMax(double[] inputArray) {
+        double maxValue = inputArray[0];
+        for (int i = 1; i < inputArray.length; i++) {
+            if (inputArray[i] > maxValue) {
+                maxValue = inputArray[i];
+            }
+        }
+        return maxValue;
+    }
+
+    public CPU getCpu() {
+        return cpu;
+    }
+
+
+    public McDAG getDag() {
+        return dag;
     }
 }

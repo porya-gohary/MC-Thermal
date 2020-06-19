@@ -47,6 +47,7 @@ public class CPU {
 
     int max_freq_cores = 1;
 
+
     public CPU(int deadline, int n_Cores, McDAG mcDAG) {
         this.deadline = deadline;
         this.n_Cores = n_Cores;
@@ -455,10 +456,24 @@ public class CPU {
     }
 
     //a function for determine end time in each core
+    // if core == -1 then it get biggest end time of cores
     public int Endtime(int core) {
-        for (int i = deadline - 1; i >= 0; i--) {
-            if (this.getRunningTask(core, i) != null) {
-                return i;
+        if (core == -1) {
+            int temp = 0;
+            for (int i = 0; i < n_Cores; i++) {
+                for (int j = deadline - 1; j >= 0; j--) {
+                    if (this.getRunningTask(i, j) != null) {
+                        if (j > temp) temp = j;
+                    }
+                }
+            }
+            return temp;
+
+        } else {
+            for (int i = deadline - 1; i >= 0; i--) {
+                if (this.getRunningTask(core, i) != null) {
+                    return i;
+                }
             }
         }
         return 0;
@@ -540,7 +555,7 @@ public class CPU {
                 p += power[j][i];
             }
         }
-        return (p / deadline);
+        return (p / (deadline * n_Cores));
     }
 
     //Calculate Peak Power of CPU
@@ -569,6 +584,11 @@ public class CPU {
                 }
             }
         }
+    }
+
+    //Get power consumption of a specific core in a time
+    public double get_power(int core, int time) {
+        return power[core][time];
     }
 
 

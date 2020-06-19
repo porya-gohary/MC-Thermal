@@ -14,12 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
-import com.sun.xml.internal.ws.api.model.wsdl.WSDLOutput;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import static java.lang.Math.*;
@@ -40,7 +40,7 @@ public class Reliability_cal {
     //ratio of v_min / v_max
     double rou_min;
     //All possible Freq
-    int [] freq;
+    int[] freq;
     //Execution Time
     double t_i;
     //minimum Reliability For each Task
@@ -53,7 +53,7 @@ public class Reliability_cal {
     double t_min;
 
     // All possible Voltage
-    double [] v;
+    double[] v;
 
     //Reliability In Fault Free case
     double R_1;
@@ -68,10 +68,12 @@ public class Reliability_cal {
 
     String v_name;
 
+    double R_CNMR = 0;
+    double R_MEDINA = 0;
 
 
-    public Reliability_cal(double n,double landa0, double d,  double v_max, double v_min, File rel, double [] v, int [] freq,McDAG dag) {
-        this.n=n;
+    public Reliability_cal(double n, double landa0, double d, double v_max, double v_min, File rel, double[] v, int[] freq, McDAG dag) {
+        this.n = n;
         this.landa0 = landa0;
         this.d = d;
 
@@ -79,29 +81,29 @@ public class Reliability_cal {
         this.v_min = v_min;
 
         Rel = rel;
-        this.v=v;
-        this.freq=freq;
-        this.dag=dag;
+        this.v = v;
+        this.freq = freq;
+        this.dag = dag;
         //cal();
         Read_file();
     }
 
 
     //Read Reliability From File And Set it on Every Vertices
-    public void Read_file (){
+    public void Read_file() {
 
-        rel_f=new ArrayList<>();
+        rel_f = new ArrayList<>();
         BufferedReader reader;
         try {
 
-            reader=new BufferedReader(new FileReader(Rel));
+            reader = new BufferedReader(new FileReader(Rel));
 
             String line = reader.readLine();
-            int i=0;
-            while (dag.getVertices().size()!= i) {
+            int i = 0;
+            while (dag.getVertices().size() != i) {
                 rel_f.add(Double.parseDouble(line));
 //                System.out.println(line);
-                String s="D0N"+i;
+                String s = "D0N" + i;
                 dag.getNodebyName(s).setReliability(Double.parseDouble(line));
 
                 i++;
@@ -116,40 +118,49 @@ public class Reliability_cal {
     }
 
     public void cal() throws Exception {
-        rou_min=v_min/v_max;
+        rou_min = v_min / v_max;
 
-        for (int i = 0; i < v.length ; i++) {
-            v_i=v[i];
+        for (int i = 0; i < v.length; i++) {
+            v_i = v[i];
 
-            rou=v_i/v_max;
-            t_i=t_min*freq[freq.length-1]/freq[i];
-            landa=(landa0*pow(10, ((d*(1-rou))/(1-rou_min))));
-            landa=(-1)*landa;
-            double r=exp((landa*t_i));
+            rou = v_i / v_max;
+            t_i = t_min * freq[freq.length - 1] / freq[i];
+            landa = (landa0 * pow(10, ((d * (1 - rou)) / (1 - rou_min))));
+            landa = (-1) * landa;
+            double r = exp((landa * t_i));
 
-            R_1=pow(r,(ceil(n/2)));
-            landa=(landa0*pow(10, ((d*(1-1))/(1-rou_min))));
+            R_1 = pow(r, (ceil(n / 2)));
+            landa = (landa0 * pow(10, ((d * (1 - 1)) / (1 - rou_min))));
 //            System.out.println("landa0 = "+landa0 );
-            landa=(-1)*landa;
-            r=exp((landa*t_min));
-//            System.out.println("LANDA="+ landa+" t_min= "+t_min+"  ************* "+r);
-            R_3=pow(r,(floor(n/2)));
+            landa = (-1) * landa;
+            r = exp((landa * t_min));
+
+            R_3 = pow(r, (floor(n / 2)));
 //            for (int l = 1; l <= (floor(n/2)); l++) {
 //                R_2+=combinations((int) n,l)*(pow((1-r),l))*(pow(r,(n-l)));
 //            }
-            double r_max=exp(-landa0*t_min);
-            for (int k = 1; k <= (floor(n/2)); k++) {
+            double r_max = exp(-landa0 * t_min);
+            for (int k = 1; k <= (floor(n / 2)); k++) {
                 for (int j = 1; j <= k; j++) {
-                    R_2+=combinations(((int) ceil(n/2)),j) * (pow((1-r),j))*(pow(r,(ceil(n/2)-j)))*combinations((int) floor(n/2),k-j)
-                    *(pow((1-r_max),(k-j)))*(pow(r_max,(floor(n/2)-(k-j))));
+                    R_2 += combinations(((int) ceil(n / 2)), j) * (pow((1 - r), j)) * (pow(r, (ceil(n / 2) - j))) * combinations((int) floor(n / 2), k - j)
+                            * (pow((1 - r_max), (k - j))) * (pow(r_max, (floor(n / 2) - (k - j))));
                 }
             }
-            if((R_1+R_2)>= dag.getNodebyName(v_name).getReliability()){
+            if ((R_1 + R_2) >= dag.getNodebyName(v_name).getReliability()) {
                 dag.getNodebyName(v_name).setMin_voltage(v_i);
+                R_CNMR = 0;
+                for (int j = (int) ceil(n / 2); j <= n; j++) {
+                    R_CNMR += combinations((int) n, j) * pow(r, j) * (pow((1 - r), n - j));
+//                    R_CNMR =BigDecimal.valueOf(R_CNMR) + BigDecimal.valueOf(combinations((int) n, j) * pow(r, j) * (pow((1 - r), n - j)));
+//                    System.out.println(">>> " + combinations((int) n, j));
+                }
+                R_MEDINA = r;
+//                System.out.println("----------------------");
+//                System.out.println("PoF Medina=" + (1 - R_MEDINA) + "  *************  " + R_MEDINA);
 //                System.out.println("Task "+ v_name +" Voltage= " + v_i + " v  and R =  "+(R_1+R_2)+" ");
 //                System.out.println(R_2);
-//                System.out.println("---------- ALL in one phase ------------");
-//                System.out.println("Task "+ v_name +" Voltage= " + v_i + " v  and R =  "+(R_1*R_3)+" ");
+//                System.out.println("----------------------");
+//                System.out.println("Task " + v_name + " PoF = " + (1 - (R_CNMR)) + "  *************  " + (R_CNMR));
 //                System.out.println(R_3);
 //                System.out.println("---------------------------");
 //                System.out.println("RESULT");
@@ -160,34 +171,35 @@ public class Reliability_cal {
 //                    System.out.println("All in one Phase");
 //                }
 //                System.out.println("---------------------------");
-                R_1=0;
-                R_2=0;
+                R_1 = 0;
+                R_2 = 0;
                 return;
             }
-            R_1=0;
-            R_2=0;
+            R_1 = 0;
+            R_2 = 0;
 //            System.out.println("Task "+ v_name +" Voltage=" + v_i + " v  and R =  "+(R_1+R_2)+" ");
 //           System.out.println("Reliability [R(1)] For " + v_i + " v =  "+(R_1)+" ");
 //           System.out.println("Reliability [R(2)] For " + v_i + " v =  "+(R_2)+" ");
 
 
         }
-        System.err.println(v_name+" Reliability ⚠ ⚠ Infeasible!");
+        System.err.println(v_name + " Reliability ⚠ ⚠ Infeasible!");
         //System.out.println("Core  "+core_number+"  Time "+time);
         throw new Exception("Infeasible!");
 
     }
 
     //Simple Function For Calculating Combination of Two Number
-    private int combinations(int n, int k){
-        return (factorial(n) / (factorial (k) * factorial (n-k)));
+    private int combinations(int n, int k) {
+        return (factorial(n) / (factorial(k) * factorial(n - k)));
     }
+
     //Function For Calculating Factorial
-    private int factorial(int n){
+    private int factorial(int n) {
         if (n == 0)
             return 1;
         else
-            return(n * factorial(n-1));
+            return (n * factorial(n - 1));
     }
 
     public void setV_name(String v_name) {
