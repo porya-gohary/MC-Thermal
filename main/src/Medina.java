@@ -236,9 +236,9 @@ public class Medina {
 
     public double[] balanceCalculator() {
         //Temperature Results [0] Avg. Diff. [1] Max. Diff. [2] Max. Temp. [3] Avg. Temp.
-        double temp[] = new double[4];
-        double Max = 0;
-        double Avg = 0;
+        double temp[]= new double[4];
+        double Max=0;
+        double Avg=0;
 
         hotspot_config = "HotSpot" + pathSeparator + "configs" + pathSeparator;
         floorplan = "HotSpot" + pathSeparator + "floorplans" + pathSeparator;
@@ -246,21 +246,16 @@ public class Medina {
         HotSpot hotSpot = new HotSpot(hotspot_path, VERBOSE);
         HS_input_creator hs_input_creator = new HS_input_creator(cpu);
         try {
-            hs_input_creator.Save("HotSpot", "powertrace", "A15_" + cpu.getN_Cores() + ".ptrace", cpu.Endtime(-1));
+            hs_input_creator.run_steady("HotSpot", "powertrace", "A15_" + cpu.getN_Cores() + ".ptrace", cpu.Endtime(-1));
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        hotspot_config += "hotspot_" + cpu.getN_Cores() + ".config";
-        floorplan += "A15_" + cpu.getN_Cores() + ".flp";
-        powertrace += "A15_" + cpu.getN_Cores() + ".ptrace";
-        hotSpot.run(hotspot_config, floorplan, powertrace, thermaltrace);
 
         String mFolder = "HotSpot";
         String sFolder = "thermaltrace";
         String filename = "thermal.ttrace";
         File thermalFile = null;
-        double MaxDiff = 0;
+        double MaxDiff=0;
         try {
             thermalFile = new File(mFolder + pathSeparator + sFolder + pathSeparator + filename);
             Scanner Reader = new Scanner(thermalFile);
@@ -275,11 +270,11 @@ public class Medina {
                     value[i] = Double.parseDouble(Sdatavalue[i]);
                 }
 
-                if (getMax(value) > Max) Max = getMax(value);
-                Avg += getMax(value);
+                if(getMax(value)>Max) Max = getMax(value);
+                Avg+=getMax(value);
 
                 diff += getMax(value) - getMin(value);
-                if (getMax(value) - getMin(value) > MaxDiff) MaxDiff = getMax(value) - getMin(value);
+                if(getMax(value) - getMin(value)>MaxDiff) MaxDiff =getMax(value) - getMin(value);
 
             }
             Reader.close();
@@ -288,10 +283,10 @@ public class Medina {
                 System.out.println("Avg. Different= " + (diff / cpu.Endtime(-1)));
             }
             //Temperature Results [0] Avg. Diff. [1] Max. Diff. [2] Max. Temp. [3] Avg. Temp.
-            temp[0] = (diff / cpu.Endtime(-1));
-            temp[1] = MaxDiff;
-            temp[2] = Max;
-            temp[3] = Avg / cpu.Endtime(-1);
+            temp[0]=(diff / cpu.Endtime(-1));
+            temp[1]=MaxDiff;
+            temp[2]= Max;
+            temp[3]=Avg/ cpu.Endtime(-1);
         } catch (FileNotFoundException e) {
             if (VERBOSE) {
                 System.out.println("An error occurred in Reading Thermal Trace File.");

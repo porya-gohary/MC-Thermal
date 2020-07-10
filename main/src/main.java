@@ -15,16 +15,17 @@ public class main {
     public static void main(String args[]) throws IOException, SAXException, ParserConfigurationException {
         double n = 3;
         int deadline = 900;
-        int n_core = 4;
+        int n_core = 9;
 
         //Bool For make New DAGS
         boolean create_dag = true;
 
         //Number of DAG
-        int n_DAGs = 1;
+        int n_DAGs = 80;
 
         //number of cores that can work with max freq in same time
-        int max_freq_cores =1;
+        int max_freq_cores =3;
+        double max_temp=60;
 
         Path temp;
 
@@ -102,8 +103,8 @@ public class main {
 
         double temp_Sec[] = new double[4];
         double temp_Sal[] = new double[4];
+        double temp_NMR[] = new double[4];
         double temp_Med[] = new double[4];
-        double temp_MedR[] = new double[4];
 
 
         //double v[]={0.912,0.9125,0.95,0.987,1.025,1.065,1.1,1.13,1.16,1.212,1.26};
@@ -303,12 +304,22 @@ public class main {
                                 Sc_power[1] += secondApproach.cpu.power_results()[1];
 
                                 temp_Sec = secondApproach.balanceCalculator();
-                                outputWriter.write("═══════════════════  Second Method   ════════════════════════ " + "\n");
+                                outputWriter.write("═══════════════════  Temp.   ════════════════════════ " + "\n");
                                 //Temperature Results [0] Avg. Diff. [1] Max. Diff. [2] Max. Temp. [3] Avg. Temp.
                                 outputWriter.write("Avg. Diff. = " + temp_Sec[0] + "\n");
                                 outputWriter.write("Max. Diff. = " + temp_Sec[1] + "\n");
                                 outputWriter.write("Max. Temp. = " + temp_Sec[2] + "\n");
                                 outputWriter.write("Avg. Temp. = " + temp_Sec[3] + "\n");
+
+
+                                //Heba Factor
+                                if(secondApproach.QoS() < 1){
+
+                                }
+
+                                temp = Files.move(Paths.get("HotSpot" + pathSeparator + "thermaltrace"+ pathSeparator +"thermal.ttrace"),
+                                        Paths.get("OV" + overrun_percent + "F" + fault_pecent + pathSeparator + xml_name + pathSeparator + "Sec_thermal.txt"));
+
 
                             } catch (Exception e) {
                                 System.out.println("[ Second METHOD ] Infeasible!   " + xml_name);
@@ -353,6 +364,18 @@ public class main {
 
                                 Sal_power[0] += salehi.getCpu().power_results()[0];
                                 Sal_power[1] += salehi.getCpu().power_results()[1];
+
+                                temp_Sal = salehi.balanceCalculator();
+                                outputWriter.write("═══════════════════  Temp.   ════════════════════════ " + "\n");
+                                //Temperature Results [0] Avg. Diff. [1] Max. Diff. [2] Max. Temp. [3] Avg. Temp.
+                                outputWriter.write("Avg. Diff. = " + temp_Sal[0] + "\n");
+                                outputWriter.write("Max. Diff. = " + temp_Sal[1] + "\n");
+                                outputWriter.write("Max. Temp. = " + temp_Sal[2] + "\n");
+                                outputWriter.write("Avg. Temp. = " + temp_Sal[3] + "\n");
+                                temp = Files.move(Paths.get("HotSpot" + pathSeparator + "thermaltrace"+ pathSeparator +"thermal.ttrace"),
+                                        Paths.get("OV" + overrun_percent + "F" + fault_pecent + pathSeparator + xml_name + pathSeparator + "Salehi_thermal.txt"));
+
+
                                 salehi = null;
                             } catch (Exception e) {
                                 System.out.println("[ LE-NMR (SALEHI) ] Infeasible!   " + xml_name);
@@ -375,6 +398,17 @@ public class main {
 
                                 NMR_power[0] += NMR.cpu.power_results()[0];
                                 NMR_power[1] += NMR.cpu.power_results()[1];
+
+                                temp_NMR = NMR.balanceCalculator();
+                                outputWriter.write("═══════════════════  Temp.   ════════════════════════ " + "\n");
+                                //Temperature Results [0] Avg. Diff. [1] Max. Diff. [2] Max. Temp. [3] Avg. Temp.
+                                outputWriter.write("Avg. Diff. = " + temp_NMR[0] + "\n");
+                                outputWriter.write("Max. Diff. = " + temp_NMR[1] + "\n");
+                                outputWriter.write("Max. Temp. = " + temp_NMR[2] + "\n");
+                                outputWriter.write("Avg. Temp. = " + temp_NMR[3] + "\n");
+                                temp = Files.move(Paths.get("HotSpot" + pathSeparator + "thermaltrace"+ pathSeparator +"thermal.ttrace"),
+                                        Paths.get("OV" + overrun_percent + "F" + fault_pecent + pathSeparator + xml_name + pathSeparator + "NMR_thermal.txt"));
+
                                 NMR = null;
                             } catch (Exception e) {
                                 System.out.println("[ CLASSIC NMR ] Infeasible!   " + xml_name);
@@ -395,6 +429,17 @@ public class main {
 
                                 Med_power[0] += medina.getCpu().power_results()[0];
                                 Med_power[1] += medina.getCpu().power_results()[1];
+
+                                temp_Med = medina.balanceCalculator();
+                                outputWriter.write("═══════════════════  Temp.   ════════════════════════ " + "\n");
+                                //Temperature Results [0] Avg. Diff. [1] Max. Diff. [2] Max. Temp. [3] Avg. Temp.
+                                outputWriter.write("Avg. Diff. = " + temp_Med[0] + "\n");
+                                outputWriter.write("Max. Diff. = " + temp_Med[1] + "\n");
+                                outputWriter.write("Max. Temp. = " + temp_Med[2] + "\n");
+                                outputWriter.write("Avg. Temp. = " + temp_Med[3] + "\n");
+                                temp = Files.move(Paths.get("HotSpot" + pathSeparator + "thermaltrace"+ pathSeparator +"thermal.ttrace"),
+                                        Paths.get("OV" + overrun_percent + "F" + fault_pecent + pathSeparator + xml_name + pathSeparator + "Med_thermal.txt"));
+
                                 medina = null;
                             } catch (Exception e) {
                                 System.out.println("[ MEDINA 2017 ] Infeasible!   " + xml_name);

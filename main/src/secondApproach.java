@@ -437,15 +437,10 @@ public class secondApproach {
         HotSpot hotSpot = new HotSpot(hotspot_path, VERBOSE);
         HS_input_creator hs_input_creator = new HS_input_creator(cpu);
         try {
-            hs_input_creator.Save("HotSpot", "powertrace", "A15_" + cpu.getN_Cores() + ".ptrace", cpu.Endtime(-1));
+            hs_input_creator.run_steady("HotSpot", "powertrace", "A15_" + cpu.getN_Cores() + ".ptrace", cpu.Endtime(-1));
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        hotspot_config += "hotspot_" + cpu.getN_Cores() + ".config";
-        floorplan += "A15_" + cpu.getN_Cores() + ".flp";
-        powertrace += "A15_" + cpu.getN_Cores() + ".ptrace";
-        hotSpot.run(hotspot_config, floorplan, powertrace, thermaltrace);
 
         String mFolder = "HotSpot";
         String sFolder = "thermaltrace";
