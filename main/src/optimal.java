@@ -129,8 +129,14 @@ public class optimal {
                 for (int k = 0; k < n; k++) {
                     startTime = 0;
                     for (Edge e : t.getRcvEdges()) {
-                        if (cpu.getEndTimeTask(e.getSrc().getName() + " OV" + (int) (n - 1)) > startTime) {
-                            startTime = cpu.getEndTimeTask(e.getSrc().getName() + " OV" + (int) (n - 1)) + 1;
+                        int ed=0;
+                        for (int i = 0; i < n; i++) {
+                            if(cpu.getEndTimeTask(e.getSrc().getName() + " OV" + i)> ed){
+                                ed=cpu.getEndTimeTask(e.getSrc().getName() + " OV" + i);
+                            }
+                        }
+                        if (ed > startTime) {
+                            startTime = ed;
                         }
                     }
                     if (t == optTask && k == n_rep) {
@@ -168,8 +174,14 @@ public class optimal {
                 startTime = 0;
                 for (Edge e : t.getRcvEdges()) {
                     if (e.getSrc().isHighCr()) {
-                        if (cpu.getEndTimeTask(e.getSrc().getName() + " OV" + (int) (n - 1)) > startTime) {
-                            startTime = cpu.getEndTimeTask(e.getSrc().getName() + " OV" + (int) (n - 1)) + 1;
+                        int ed=0;
+                        for (int i = 0; i < n; i++) {
+                            if(cpu.getEndTimeTask(e.getSrc().getName() + " OV" + i)> ed){
+                                ed=cpu.getEndTimeTask(e.getSrc().getName() + " OV" + i);
+                            }
+                        }
+                        if ( ed > startTime) {
+                            startTime = ed;
                         }
                     } else {
                         if (cpu.getEndTimeTask(e.getSrc().getName() + " R" + 1) > startTime) {
