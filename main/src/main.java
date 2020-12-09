@@ -15,16 +15,16 @@ public class main {
     public static void main(String args[]) throws IOException, SAXException, ParserConfigurationException {
         double n = 3;
         int deadline = 900;
-        int n_core = 9;
+        int n_core = 4;
 
         //Bool For make New DAGS
         boolean create_dag = true;
 
         //Number of DAG
-        int n_DAGs = 80;
+        int n_DAGs = 1;
 
         //number of cores that can work with max freq in same time
-        int max_freq_cores =3;
+        int max_freq_cores =1;
         double max_temp=60;
 
         Path temp;
@@ -59,8 +59,8 @@ public class main {
 
 
 
-        double percent[] = {0.0, 0.20, 0.40, 0.60, 0.80, 1.0};
-//        double percent[] = {0.2};
+//        double percent[] = {0.0, 0.20, 0.40, 0.60, 0.80, 1.0};
+        double percent[] = {0.0};
 //        double percent[] = {0.0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.40, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1.0};
         double fault_pecent = 0.0;
         double fault_pecents[] = {0.0};
@@ -97,9 +97,10 @@ public class main {
         boolean Pro_run = false;
         boolean Sc_run = true;
         boolean HEBA_run = false;
-        boolean Sal_run = true;
-        boolean NMR_run = true;
-        boolean Med_run = true;
+        boolean Sal_run = false;
+        boolean NMR_run = false;
+        boolean Med_run = false;
+        boolean optimal_run = true;
 
         double temp_Sec[] = new double[4];
         double temp_Sal[] = new double[4];
@@ -327,6 +328,16 @@ public class main {
                                 Sc_Sch--;
                                 e.printStackTrace();
                             }
+                        }
+                    }
+
+                    if (optimal_run){
+                        optimal optimal = new optimal(deadline,n_core,n,dag,xml_name,fault_pecent,true);
+                        try {
+                            optimal.start();
+                        } catch (Exception e) {
+                            //e.printStackTrace();
+                            System.out.println("Optimal Not Scheduled!");
                         }
                     }
 
